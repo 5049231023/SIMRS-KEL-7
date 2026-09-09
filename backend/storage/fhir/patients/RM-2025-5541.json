@@ -1,0 +1,40 @@
+{
+    "resourceType": "Patient",
+    "id": "RM-2025-5541",
+    "identifier": [
+        {
+            "system": "http:\/\/simrs-kel7.local\/norm",
+            "value": "RM-2025-5541"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
+            "value": "351501"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
+            "value": "P00098234112"
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "official",
+            "text": "Budi Santoso"
+        }
+    ],
+    "gender": "male",
+    "birthDate": "1995-05-12",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "081234567890",
+            "use": "mobile"
+        }
+    ],
+    "address": [
+        {
+            "use": "home",
+            "text": "Jl. Ketintang No. 15, Surabaya"
+        }
+    ]
+}

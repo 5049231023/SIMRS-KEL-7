@@ -1,0 +1,34 @@
+{
+    "resourceType": "Practitioner",
+    "id": "pract-101",
+    "identifier": [
+        {
+            "system": "http:\/\/simrs-kel7.local\/nip",
+            "value": "101"
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "official",
+            "text": "Admin Rekam Medis"
+        }
+    ],
+    "qualification": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http:\/\/simrs-kel7.local\/unit",
+                        "code": "rekam-medis",
+                        "display": "Rekam Medis"
+                    }
+                ]
+            }
+        }
+    ],
+    "_auth": {
+        "password_hash": "$2y$12$H1O2owjM0GmbV86j3YbxsuZf0vSo5Gjhf8UWRikeXe2H8qNcnT2T.",
+        "api_token": null
+    }
+}

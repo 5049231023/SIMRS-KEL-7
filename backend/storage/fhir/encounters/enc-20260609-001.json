@@ -1,0 +1,37 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260609-001",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2025-5541",
+        "display": "Budi Santoso"
+    },
+    "period": {
+        "start": "2026-06-09"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-umum",
+                "display": "Poli Umum"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Demam tinggi dan sakit kepala."
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "BPJS Kesehatan"
+        }
+    ]
+}

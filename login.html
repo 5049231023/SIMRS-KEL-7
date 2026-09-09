@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal SIM RS - Login Petugas</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+
+        .login-card { background: white; width: 100%; max-width: 420px; padding: 35px 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; }
+        .login-icon { font-size: 45px; margin-bottom: 8px; background: #e0f2fe; width: 70px; height: 70px; line-height: 70px; border-radius: 50%; margin-left: auto; margin-right: auto; }
+        .login-card h2 { color: #1e3c72; font-size: 1.4rem; margin-bottom: 5px; }
+        .login-card p { color: #666; font-size: 0.85rem; margin-bottom: 20px; }
+
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; font-size: 0.85rem; }
+        .form-control { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; transition: 0.2s; background: #f8fafc; }
+        .form-control:focus { border-color: #2a5298; background: white; box-shadow: 0 0 0 3px rgba(42,82,152,0.15); }
+
+        .btn-main { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; border: none; padding: 12px; width: 100%; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; margin-top: 5px; box-shadow: 0 4px 10px rgba(30,60,114,0.3); }
+        .btn-main:hover { opacity: 0.9; }
+
+        .toggle-link { margin-top: 15px; font-size: 0.85rem; color: #666; }
+        .toggle-link a { color: #1e3c72; font-weight: bold; text-decoration: none; cursor: pointer; }
+        .toggle-link a:hover { text-decoration: underline; }
+
+        #registerSection { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="login-icon">🩺</div>
+        
+        <!-- BAGIAN FORM LOGIN -->
+        <div id="loginSection">
+            <h2>Portal Masuk SIM RS</h2>
+            <p>Masukkan NIP dan Kata Sandi Anda</p>
+
+            <form onsubmit="prosesLogin(event)" autocomplete="off">
+                <div class="form-group">
+                    <label>Nomor Induk Pegawai (NIP)</label>
+                    <input type="text" id="loginNip" class="form-control" placeholder="Contoh: 101" required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label>Kata Sandi (Password)</label>
+                    <input type="password" id="loginPass" class="form-control" placeholder="Masukkan kata sandi..." required autocomplete="new-password">
+                </div>
+
+                <button type="submit" class="btn-main">Masuk ke Sistem</button>
+            </form>
+
+            <div class="toggle-link">
+                Belum punya akun petugas? <a onclick="tukarForm('daftar')">Daftar Akun Baru</a>
+            </div>
+        </div>
+
+        <!-- BAGIAN FORM PENDAFTARAN PETUGAS BARU -->
+        <div id="registerSection">
+            <h2>Pendaftaran Petugas / Nakes</h2>
+            <p>Buat akun akses baru ke sistem rumah sakit</p>
+
+            <form id="formRegister" onsubmit="prosesDaftar(event)" autocomplete="off">
+                <div class="form-group">
+                    <label>Nomor Induk Pegawai (NIP Otomatis)</label>
+                    <input type="text" id="regNip" class="form-control" readonly style="font-weight: bold; color: #1e3c72;">
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Lengkap & Gelar</label>
+                    <input type="text" id="regNama" class="form-control" placeholder="Masukkan nama lengkap..." required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label>Pilih Unit / Tugas</label>
+                    <select id="regUnit" class="form-control" required>
+                        <option value="">-- Pilih Unit --</option>
+                        <option value="Rekam Medis">Rekam Medis</option>
+                        <option value="Dokter">Dokter</option>
+                        <option value="Perawat">Perawat / Bidan</option>
+                        <option value="Farmasi">Farmasi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tanggal Lahir</label>
+                    <input type="date" id="regTglLahir" class="form-control" required style="background: white;">
+                </div>
+
+                <div class="form-group">
+                    <label>Buat Kata Sandi (Password)</label>
+                    <input type="password" id="regPass" class="form-control" placeholder="Buat kata sandi aman..." required autocomplete="new-password">
+                </div>
+
+                <button type="submit" class="btn-main">Daftarkan Akun</button>
+            </form>
+
+            <div class="toggle-link">
+                Sudah punya akun? <a onclick="tukarForm('login')">Masuk di sini</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Bersihkan semua input ketikan saat halaman dimuat ulang
+        window.onload = function() {
+            document.getElementById('loginNip').value = '';
+            document.getElementById('loginPass').value = '';
+            document.getElementById('formRegister').reset();
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('registerSection').style.display = 'none';
+        };
+
+        function getDbPetugas() {
+            let data = localStorage.getItem('simrs_petugas');
+            return data ? JSON.parse(data) : {
+                "101": { nip: "101", nama: "Admin Rekam Medis", unit: "Rekam Medis", pass: "123" }
+            };
+        }
+
+        function tukarForm(target) {
+            if (target === 'daftar') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('registerSection').style.display = 'block';
+
+                let db = getDbPetugas();
+                let keys = Object.keys(db);
+                let nextNip = 101 + keys.length;
+                document.getElementById('regNip').value = nextNip;
+            } else {
+                document.getElementById('registerSection').style.display = 'none';
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('formRegister').reset();
+            }
+        }
+
+        function prosesDaftar(e) {
+            e.preventDefault();
+            let db = getDbPetugas();
+            let nip = document.getElementById('regNip').value;
+            
+            db[nip] = {
+                nip: nip,
+                nama: document.getElementById('regNama').value,
+                unit: document.getElementById('regUnit').value,
+                tglLahir: document.getElementById('regTglLahir').value,
+                pass: document.getElementById('regPass').value
+            };
+
+            localStorage.setItem('simrs_petugas', JSON.stringify(db));
+            alert("Pendaftaran berhasil! NIP Anda adalah: " + nip + ". Silakan gunakan untuk masuk.");
+            tukarForm('login');
+        }
+
+        function prosesLogin(e) {
+            e.preventDefault();
+            let nip = document.getElementById('loginNip').value.trim();
+            let pass = document.getElementById('loginPass').value.trim();
+            let db = getDbPetugas();
+
+            if (db[nip] && db[nip].pass === pass) {
+                localStorage.setItem('simrs_logged_nip', nip);
+                localStorage.setItem('simrs_logged_unit', db[nip].unit);
+                localStorage.setItem('simrs_logged_nama', db[nip].nama);
+
+                // Kosongkan form login sebelum pindah halaman
+                document.getElementById('loginNip').value = '';
+                document.getElementById('loginPass').value = '';
+
+                if (db[nip].unit === "Rekam Medis") {
+                    window.location.href = "index.html";
+                } else {
+                    window.location.href = "404.html";
+                }
+            } else {
+                alert("NIP atau Kata Sandi salah! Silakan periksa kembali.");
+            }
+        }
+    </script>
+
+</body>
+</html>

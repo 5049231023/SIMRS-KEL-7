@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pasien & Riwayat Kunjungan - SIM RS</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f0f3f5; color: #333; padding: 20px; }
+
+        /* Navigasi Atas */
+        .top-navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: white; border-radius: 50px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .nav-brand { font-weight: bold; color: #1e3c72; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .nav-menu { display: flex; gap: 10px; align-items: center; }
+        .nav-item { text-decoration: none; color: #555; font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border-radius: 20px; transition: 0.3s; }
+        .nav-item:hover, .nav-item.active { background: #e2e8f0; color: #1e3c72; }
+        
+        .nav-profile-group { display: flex; gap: 10px; align-items: center; margin-left: auto; }
+        .nav-profile { background: #1e3c72; color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-decoration: none; }
+        .btn-logout:hover { opacity: 0.85; }
+
+        /* Container Utama */
+        .container { max-width: 1100px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .header-title { margin-bottom: 20px; border-bottom: 2px solid #f0f3f5; padding-bottom: 15px; }
+        .header-title h2 { color: #1e3c72; font-size: 1.4rem; margin-bottom: 5px; }
+        .header-title p { color: #666; font-size: 0.85rem; }
+
+        /* Panel Filter / Pencarian Ganda */
+        .search-filter-box { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        @media(max-width: 700px) { .search-filter-box { grid-template-columns: 1fr; } }
+        .filter-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #444; margin-bottom: 5px; }
+        .filter-input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: white; }
+        .filter-input:focus { border-color: #2a5298; box-shadow: 0 0 0 3px rgba(42,82,152,0.1); }
+
+        /* Tabel Data */
+        .table-responsive { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left; font-size: 0.85rem; }
+        th, td { padding: 12px 10px; border-bottom: 1px solid #e2e8f0; }
+        th { background: #1e3c72; color: white; font-weight: 600; white-space: nowrap; }
+        tr:hover { background: #f8fafc; }
+        .empty-row { text-align: center; color: #777; padding: 25px; }
+
+        .badge-poli { background: #e0f2f1; color: #00796b; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 0.75rem; }
+        .btn-back { display: inline-block; margin-top: 20px; text-decoration: none; color: #666; font-weight: 600; font-size: 0.9rem; }
+        .btn-back:hover { color: #1e3c72; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasi Atas -->
+    <div class="top-navbar">
+        <a href="index.html" class="nav-brand">🏥 SIM RS</a>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-item">🏠 Beranda</a>
+            <a href="pendaftaran.html" class="nav-item">📝 Pendaftaran</a>
+            <a href="pasien.html" class="nav-item active">👥 Data Pasien</a>
+        </div>
+        <div class="nav-profile-group">
+            <div class="nav-profile" id="userBadge">👤 Petugas</div>
+            <a href="login.html" class="btn-logout" onclick="localStorage.clear()">Keluar</a>
+        </div>
+    </div>
+
+    <!-- Container Tabel -->
+    <div class="container">
+        <div class="header-title">
+            <h2>Rekapitulasi Data Pasien & Riwayat Kunjungan</h2>
+            <p>Daftar lengkap pasien yang terdaftar beserta catatan riwayat kunjungan, poli tujuan, dan keluhannya.</p>
+        </div>
+
+        <!-- Dua Kolom Pencarian (Berdasarkan NIK atau Nama) -->
+        <div class="search-filter-box">
+            <div class="filter-group">
+                <label>🔍 Cari Berdasarkan NIK</label>
+                <input type="text" id="filterNik" class="filter-input" placeholder="Ketik nomor NIK pasien..." onkeyup="filterDataPasien()" autocomplete="off">
+            </div>
+            <div class="filter-group">
+                <label>👤 Cari Berdasarkan Nama Pasien</label>
+                <input type="text" id="filterNama" class="filter-input" placeholder="Ketik nama lengkap pasien..." onkeyup="filterDataPasien()" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No. RM</th>
+                        <th>NIK</th>
+                        <th>Nama Pasien</th>
+                        <th>JK / Usia</th>
+                        <th>Alamat & Telp</th>
+                        <th>Tgl Kunjungan</th>
+                        <th>Poli Tujuan</th>
+                        <th>Keluhan Utama</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelRiwayatBody">
+                    <!-- Data akan dimasukkan secara otomatis lewat JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="pendaftaran.html" class="btn-back">&larr; Kembali ke Menu Pendaftaran</a>
+    </div>
+
+    <script>
+        // Validasi Hak Akses Khusus Rekam Medis
+        const roleAktif = localStorage.getItem('simrs_logged_unit');
+        if (!roleAktif) {
+            window.location.href = "login.html";
+        } else if (roleAktif !== "Rekam Medis") {
+            window.location.href = "404.html";
+        } else {
+            document.getElementById('userBadge').innerText = "👤 " + (localStorage.getItem('simrs_logged_nama') || "Petugas");
+        }
+
+        let globalKunjunganList = [];
+
+        function muatRiwayatKunjungan() {
+            let data = localStorage.getItem('simrs_kunjungan');
+            globalKunjunganList = data ? JSON.parse(data) : [
+                {
+                    norm: "RM-2025-5541",
+                    nik: "351501",
+                    nama: "Budi Santoso",
+                    jk: "Laki-laki",
+                    usia: "31 Tahun",
+                    alamat: "Jl. Ketintang No. 15, Surabaya",
+                    telp: "081234567890",
+                    tglKunjungan: "2026-06-09",
+                    poli: "Poli Umum",
+                    keluhan: "Demam tinggi dan sakit kepala."
+                }
+            ];
+            tampilkanTabel(globalKunjunganList);
+        }
+
+        function tampilkanTabel(dataList) {
+            const tbody = document.getElementById('tabelRiwayatBody');
+            tbody.innerHTML = "";
+
+            if (dataList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="empty-row">Tidak ada data pasien yang sesuai dengan pencarian.</td></tr>`;
+                return;
+            }
+
+            dataList.forEach(k => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: bold; color: #1e3c72;">${k.norm}</td>
+                    <td>${k.nik}</td>
+                    <td style="font-weight: 600;">${k.nama}</td>
+                    <td>${k.jk}<br><span style="color:#666; font-size:0.75rem;">${k.usia}</span></td>
+                    <td>${k.alamat}<br><span style="color:#666; font-size:0.75rem;">📞 ${k.telp}</span></td>
+                    <td>${k.tglKunjungan}</td>
+                    <td><span class="badge-poli">${k.poli}</span></td>
+                    <td>${k.keluhan}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Fungsi Filter Pencarian Ganda (NIK dan Nama)
+        function filterDataPasien() {
+            const keywordNik = document.getElementById('filterNik').value.toLowerCase().trim();
+            const keywordNama = document.getElementById('filterNama').value.toLowerCase().trim();
+
+            const filtered = globalKunjunganList.filter(k => {
+                const matchNik = k.nik.toLowerCase().includes(keywordNik);
+                const matchNama = k.nama.toLowerCase().includes(keywordNama);
+                return matchNik && matchNama;
+            });
+
+            tampilkanTabel(filtered);
+        }
+
+        muatRiwayatKunnjungan = muatRiwayatKunjungan();
+        muatRiwayatKunjungan();
+    </script>
+
+</body>
+</html>

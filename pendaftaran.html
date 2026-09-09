@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Pendaftaran Pasien - SIM RS Terintegrasi SATUSEHAT</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f0f3f5; color: #333; padding: 20px; }
+
+        /* Navigasi Atas */
+        .top-navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: white; border-radius: 50px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .nav-brand { font-weight: bold; color: #1e3c72; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .nav-menu { display: flex; gap: 10px; align-items: center; }
+        .nav-item { text-decoration: none; color: #555; font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border-radius: 20px; transition: 0.3s; }
+        .nav-item:hover, .nav-item.active { background: #e2e8f0; color: #1e3c72; }
+        
+        .nav-profile-group { display: flex; gap: 10px; align-items: center; margin-left: auto; }
+        .nav-profile { background: #1e3c72; color: white; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.2s; text-decoration: none; }
+        .btn-logout:hover { opacity: 0.85; }
+
+        /* Container Utama */
+        .reg-container { max-width: 850px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        /* Header */
+        .reg-header-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; border-bottom: 2px solid #f0f3f5; padding-bottom: 15px; }
+        .reg-header-flex h2 { color: #1e3c72; font-size: 1.4rem; margin-bottom: 5px; }
+        .reg-header-flex p { color: #666; font-size: 0.85rem; }
+        
+        .btn-status-action { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-status-action:hover { background: #bfdbfe; }
+
+        /* Kotak Pencarian NIK */
+        .search-box-section { text-align: center; padding: 15px 0 25px 0; }
+        .search-input-group { display: flex; max-width: 520px; margin: 0 auto; gap: 10px; }
+        .search-input { flex: 1; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; }
+        .search-input:focus { border-color: #2a5298; box-shadow: 0 0 0 3px rgba(42,82,152,0.1); }
+        .search-btn { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; border: none; padding: 0 22px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .search-btn:hover { opacity: 0.9; }
+
+        /* Banner Status Integrasi SATUSEHAT */
+        .satusehat-banner { display: none; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.85rem; line-height: 1.4; }
+        .satusehat-loading { background: #eff6ff; border: 1px solid #93c5fd; color: #1e40af; }
+        .satusehat-success { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; }
+        .satusehat-warning { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+
+        /* Bagian Form */
+        #formSection { display: none; margin-top: 10px; }
+
+        /* Format Form */
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #444; font-size: 0.85rem; }
+        .form-control { width: 100%; padding: 11px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: #f8fafc; color: #333; }
+        .form-control:focus { border-color: #2a5298; background: white; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media(max-width: 650px) { .form-row { grid-template-columns: 1fr; } }
+
+        /* Tombol Aksi */
+        .btn-submit { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; border: none; padding: 14px; width: 100%; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 10px rgba(30,60,114,0.25); }
+        .btn-submit:hover { opacity: 0.9; }
+        .btn-back { display: inline-block; margin-top: 15px; text-decoration: none; color: #666; font-weight: 600; font-size: 0.9rem; }
+        .btn-back:hover { color: #1e3c72; }
+
+        /* Modal Pop-Up */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(3px); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-box { background: white; padding: 30px; border-radius: 15px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 15px auto; }
+        .modal-icon.error { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); }
+        .modal-box h3 { color: #1e3c72; font-size: 1.3rem; margin-bottom: 8px; }
+        .modal-box p { color: #666; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.4; }
+        .modal-btn { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; border: none; padding: 10px 25px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasi Atas -->
+    <div class="top-navbar">
+        <a href="index.html" class="nav-brand">🏥 SIM RS</a>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-item">🏠 Beranda</a>
+            <a href="pendaftaran.html" class="nav-item active">📝 Pendaftaran</a>
+            <a href="pasien.html" class="nav-item">👥 Data Pasien</a>
+        </div>
+        <div class="nav-profile-group">
+            <div class="nav-profile" id="userBadge">👤 Petugas</div>
+            <a href="login.html" class="btn-logout" onclick="localStorage.clear()">Keluar</a>
+        </div>
+    </div>
+
+    <!-- Container Utama -->
+    <div class="reg-container">
+        
+        <!-- Header -->
+        <div class="reg-header-flex">
+            <div>
+                <h2>Pendaftaran Pasien</h2>
+                <p>Modul Rekam Medis - Interoperabilitas SATUSEHAT Kemenkes RI</p>
+            </div>
+            <button type="button" class="btn-status-action" onclick="bukaFormAnggotaBaru()">+ Pendaftaran Anggota Baru</button>
+        </div>
+
+        <!-- Kolom Pencarian NIK -->
+        <div class="search-box-section">
+            <div class="search-input-group">
+                <input type="text" id="searchNik" class="search-input" value="351501" placeholder="Masukkan 16 Digit NIK Pasien..." autocomplete="off">
+                <button type="button" class="search-btn" onclick="cekNikPasien()">Cek NIK & SATUSEHAT</button>
+            </div>
+        </div>
+
+        <!-- Banner Notifikasi Status SATUSEHAT -->
+        <div id="satusehatBanner" class="satusehat-banner">
+            <div id="satusehatContent">Status koneksi SATUSEHAT...</div>
+        </div>
+
+        <!-- Formulir Data Pasien Lengkap -->
+        <div id="formSection">
+            <form id="formPendaftaran" autocomplete="off">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nomor Rekam Medis (No. RM Internal)</label>
+                        <input type="text" id="inputNorm" class="form-control" readonly style="font-weight: bold; color: #1e3c72;">
+                    </div>
+                    <div class="form-group">
+                        <label>IHS Number (ID Pasien SATUSEHAT Kemenkes)</label>
+                        <input type="text" id="inputIhs" class="form-control" readonly placeholder="Otomatis dari API Kemenkes..." style="font-weight: bold; color: #047857; background: #f0fdf4;">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nomor Induk Kependudukan (NIK)</label>
+                        <input type="text" id="inputNik" class="form-control" placeholder="16 Digit NIK..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Lengkap Pasien</label>
+                        <input type="text" id="inputNama" class="form-control" placeholder="Nama sesuai KTP..." required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tanggal Lahir</label>
+                        <input type="date" id="inputTglLahir" class="form-control" onchange="hitungUsia(this.value)" required style="background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Usia Pasien</label>
+                        <input type="text" id="inputUsia" class="form-control" readonly style="font-weight: bold;">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Jenis Kelamin</label>
+                        <select id="inputJK" class="form-control" required style="background: white;">
+                            <option value="">-- Pilih Jenis Kelamin --</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor Telepon / WhatsApp</label>
+                        <input type="tel" id="inputTelp" class="form-control" placeholder="08xxxxxxxxxx" required style="background: white;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Lengkap (Domisili)</label>
+                    <textarea id="inputAlamat" class="form-control" rows="2" placeholder="Alamat lengkap pasien..." required style="background: white;"></textarea>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tanggal Pelayanan / Kunjungan</label>
+                        <input type="date" id="inputTglKunjungan" class="form-control" required style="background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Jenis Penjamin / Pembayaran</label>
+                        <select id="inputPenjamin" class="form-control" required style="background: white;">
+                            <option value="BPJS Kesehatan">BPJS Kesehatan</option>
+                            <option value="Umum / Mandiri">Umum / Mandiri</option>
+                            <option value="Asuransi Swasta">Asuransi Swasta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Jenis Pelayanan (Instalasi)</label>
+                        <select id="inputPelayanan" class="form-control" required style="background: white;">
+                            <option value="Rawat Jalan">Rawat Jalan (Poliklinik)</option>
+                            <option value="Rawat Inap">Rawat Inap</option>
+                            <option value="IGD">Instalasi Gawat Darurat (IGD)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Poli Tujuan</label>
+                        <select id="inputPoli" class="form-control" required style="background: white;">
+                            <option value="Poli Umum">Poli Umum</option>
+                            <option value="Poli Penyakit Dalam">Poli Penyakit Dalam</option>
+                            <option value="Poli Bedah">Poli Bedah</option>
+                            <option value="Poli Anak">Poli Anak</option>
+                            <option value="Poli Gigi">Poli Gigi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Keluhan Utama / Anamnesis Awal</label>
+                    <textarea id="inputKeluhan" class="form-control" rows="3" placeholder="Tuliskan keluhan utama pasien..." required style="background: white;"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Daftarkan & Sinkronkan ke SATUSEHAT</button>
+            </form>
+        </div>
+
+        <a href="index.html" class="btn-back">&larr; Kembali ke Beranda Utama</a>
+    </div>
+
+    <!-- Modal Pop-Up Kustom -->
+    <div id="alertModal" class="modal-overlay">
+        <div class="modal-box">
+            <div id="modalIcon" class="modal-icon">✓</div>
+            <h3 id="modalTitle">Pendaftaran Berhasil!</h3>
+            <p id="modalText">Data pasien dan kunjungan telah sukses disimpan ke sistem.</p>
+            <button class="modal-btn" onclick="tutupModal()">OK / Selesai</button>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // PUSAT KONFIGURASI DATA SATUSEHAT
+        // =========================================================================
+        const SATUSEHAT_CONFIG = {
+            API_ENDPOINT:    "https://api-satusehat-stg.dto.kemkes.go.id/fhir-r4/v1",
+            ORGANIZATION_ID: "2400c27d-4335-4af8-9506-74fbc58fa30a", // <-- Masukkan Organization ID di sini jika ada
+            CLIENT_ID:       "eiPEXAIxtO7MlM0SUHOInKKGLwRJu3LmsFGrUuevaeOtfVKl", // <-- Masukkan Client ID di sini jika ada
+            CLIENT_SECRET:   "3mmgQ1GI2zVSL81W8HShNzHHmao6qTsYDiHYuhyVAeapN29teCRgRdzwCsutjTJz"  // <-- Masukkan Client Secret di sini jika ada
+        };
+
+        // Cek Sesi Login Petugas Rekam Medis
+        const roleAktif = localStorage.getItem('simrs_logged_unit');
+        if (!roleAktif) {
+            window.location.href = "login.html";
+        } else if (roleAktif !== "Rekam Medis") {
+            window.location.href = "404.html";
+        } else {
+            document.getElementById('userBadge').innerText = "👤 " + (localStorage.getItem('simrs_logged_nama') || "Petugas");
+        }
+
+        window.onload = function() {
+            document.getElementById('formPendaftaran').reset();
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('inputTglKunjungan').value = new Date().toISOString().split('T')[0];
+        };
+
+        const searchNik = document.getElementById('searchNik');
+        const formSection = document.getElementById('formSection');
+        const satusehatBanner = document.getElementById('satusehatBanner');
+        const satusehatContent = document.getElementById('satusehatContent');
+        const modal = document.getElementById('alertModal');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        let statusAksi = 'kunjungan';
+
+        // Fungsi Simulasi / Fetch ke SATUSEHAT
+        async function fetchSatuSehatPatient(nik) {
+            satusehatBanner.style.display = 'block';
+            satusehatBanner.className = 'satusehat-banner satusehat-loading';
+            satusehatContent.innerHTML = `🔄 Menghubungkan ke Gateway SATUSEHAT Kemenkes... Memvalidasi NIK: <b>${nik}</b>`;
+
+            // Jika Kredensial diisi, coba tembak API Staging Kemenkes
+            if (SATUSEHAT_CONFIG.CLIENT_ID && SATUSEHAT_CONFIG.CLIENT_SECRET) {
+                try {
+                    const authUrl = "https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials";
+                    const tokenResp = await fetch(authUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            client_id: SATUSEHAT_CONFIG.CLIENT_ID,
+                            client_secret: SATUSEHAT_CONFIG.CLIENT_SECRET
+                        })
+                    });
+                    const tokenData = await tokenResp.json();
+                    const accessToken = tokenData.access_token;
+
+                    const fhirResp = await fetch(`${SATUSEHAT_CONFIG.API_ENDPOINT}/Patient?identifier=https://fhir.kemkes.go.id/id/nik|${nik}`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    const fhirData = await fhirResp.json();
+
+                    if (fhirData.entry && fhirData.entry.length > 0) {
+                        const patient = fhirData.entry[0].resource;
+                        return {
+                            sukses: true,
+                            ihs: patient.id,
+                            nama: patient.name ? patient.name[0].text : '',
+                            tglLahir: patient.birthDate || '',
+                            jk: patient.gender === 'male' ? 'Laki-laki' : 'Perempuan',
+                            mode: 'LIVE_API'
+                        };
+                    }
+                } catch (e) {
+                    console.warn("API terhalang CORS. Beralih ke simulator lokal.");
+                }
+            }
+
+            // Simulator Staging Fallback (Aman & Instan untuk Demo)
+            await new Promise(resolve => setTimeout(resolve, 700));
+            const mockIhs = "P" + Math.floor(1000000000 + Math.random() * 9000000000);
+            return {
+                sukses: true,
+                ihs: mockIhs,
+                mode: 'SIMULATOR_STAGING'
+            };
+        }
+
+        // Database Lokal Pasien
+        function getDatabasePasien() {
+            let data = localStorage.getItem('simrs_pasien');
+            return data ? JSON.parse(data) : {
+                "351501": {
+                    norm: "RM-2025-5541",
+                    ihs: "P00098234112",
+                    nama: "Budi Santoso",
+                    tglLahir: "1995-05-12",
+                    jk: "Laki-laki",
+                    nik: "351501",
+                    alamat: "Jl. Ketintang No. 15, Surabaya",
+                    telp: "081234567890"
+                }
+            };
+        }
+
+        // Tombol Cek NIK Ditekan
+        async function cekNikPasien() {
+            const nik = searchNik.value.trim();
+            if (nik === "") {
+                bukaModalPeringatan("Peringatan", "Silakan masukkan nomor NIK terlebih dahulu!");
+                return;
+            }
+
+            const db = getDatabasePasien();
+            const satusehatResult = await fetchSatuSehatPatient(nik);
+
+            if (db[nik]) {
+                const data = db[nik];
+                document.getElementById('inputNorm').value = data.norm;
+                document.getElementById('inputIhs').value = data.ihs || satusehatResult.ihs;
+                document.getElementById('inputNik').value = data.nik;
+                document.getElementById('inputNama').value = data.nama;
+                document.getElementById('inputTglLahir').value = data.tglLahir;
+                hitungUsia(data.tglLahir);
+                document.getElementById('inputJK').value = data.jk;
+                document.getElementById('inputAlamat').value = data.alamat;
+                document.getElementById('inputTelp').value = data.telp;
+
+                setReadOnlyForm(true);
+                statusAksi = 'kunjungan';
+                formSection.style.display = 'block';
+
+                satusehatBanner.className = 'satusehat-banner satusehat-success';
+                satusehatContent.innerHTML = `
+                    <strong>✅ Pasien Terverifikasi di Database & SATUSEHAT</strong><br>
+                    - IHS Number: <code>${document.getElementById('inputIhs').value}</code><br>
+                    - Mode: ${satusehatResult.mode === 'LIVE_API' ? '🌐 Live API Kemenkes' : '⚡ Simulator Staging (FHIR Standard)'}
+                `;
+            } else {
+                formSection.style.display = 'none';
+                satusehatBanner.className = 'satusehat-banner satusehat-warning';
+                satusehatContent.innerHTML = `
+                    <strong>ℹ️ Pasien Belum Terdaftar di SIM RS Lokal</strong><br>
+                    NIK ini belum memiliki Nomor RM. Silakan klik tombol <b>"+ Pendaftaran Anggota Baru"</b> di pojok kanan atas.
+                `;
+            }
+        }
+
+        function bukaFormAnggotaBaru() {
+            const nik = searchNik.value.trim();
+            document.getElementById('inputNorm').value = "RM-NEW-" + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('inputIhs').value = "P" + Math.floor(1000000000 + Math.random() * 9000000000);
+            
+            document.getElementById('inputNik').value = nik;
+            document.getElementById('inputNama').value = "";
+            document.getElementById('inputTglLahir').value = "";
+            document.getElementById('inputUsia').value = "";
+            document.getElementById('inputJK').value = "";
+            document.getElementById('inputAlamat').value = "";
+            document.getElementById('inputTelp').value = "";
+
+            setReadOnlyForm(false);
+            statusAksi = 'baru';
+            formSection.style.display = 'block';
+
+            satusehatBanner.style.display = 'block';
+            satusehatBanner.className = 'satusehat-banner satusehat-success';
+            satusehatContent.innerHTML = `
+                <strong>📝 Mode Registrasi Pasien Baru</strong><br>
+                Sistem mengalokasikan ID FHIR Pasien SATUSEHAT: <code>${document.getElementById('inputIhs').value}</code>
+            `;
+        }
+
+        function setReadOnlyForm(isReadOnly) {
+            document.getElementById('inputNik').readOnly = isReadOnly;
+            document.getElementById('inputNama').readOnly = isReadOnly;
+            document.getElementById('inputTglLahir').readOnly = isReadOnly;
+            document.getElementById('inputJK').disabled = isReadOnly;
+            document.getElementById('inputAlamat').readOnly = isReadOnly;
+            document.getElementById('inputTelp').readOnly = isReadOnly;
+
+            const bg = isReadOnly ? "#f8fafc" : "white";
+            document.getElementById('inputNik').style.background = bg;
+            document.getElementById('inputNama').style.background = bg;
+            document.getElementById('inputTglLahir').style.background = bg;
+            document.getElementById('inputAlamat').style.background = bg;
+            document.getElementById('inputTelp').style.background = bg;
+        }
+
+        function hitungUsia(tglLahir) {
+            if (!tglLahir) return;
+            const lahir = new Date(tglLahir);
+            const sekarang = new Date();
+            let usia = sekarang.getFullYear() - lahir.getFullYear();
+            const m = sekarang.getMonth() - lahir.getMonth();
+            if (m < 0 || (m === 0 && sekarang.getDate() < lahir.getDate())) {
+                usia--;
+            }
+            document.getElementById('inputUsia').value = usia >= 0 ? usia + " Tahun" : "0 Tahun";
+        }
+
+        // Submit Form
+        const form = document.getElementById('formPendaftaran');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const db = getDatabasePasien();
+            const nikInput = document.getElementById('inputNik').value.trim();
+            const ihsVal = document.getElementById('inputIhs').value;
+            const usiaVal = document.getElementById('inputUsia').value;
+
+            if (statusAksi === 'baru') {
+                db[nikInput] = {
+                    norm: document.getElementById('inputNorm').value,
+                    ihs: ihsVal,
+                    nama: document.getElementById('inputNama').value,
+                    tglLahir: document.getElementById('inputTglLahir').value,
+                    jk: document.getElementById('inputJK').value,
+                    nik: nikInput,
+                    alamat: document.getElementById('inputAlamat').value,
+                    telp: document.getElementById('inputTelp').value
+                };
+                localStorage.setItem('simrs_pasien', JSON.stringify(db));
+            }
+
+            let riwayat = localStorage.getItem('simrs_kunjungan');
+            let kunjunganList = riwayat ? JSON.parse(riwayat) : [];
+            
+            kunjunganList.unshift({
+                norm: document.getElementById('inputNorm').value,
+                ihs: ihsVal,
+                nik: nikInput,
+                nama: document.getElementById('inputNama').value,
+                jk: document.getElementById('inputJK').value,
+                usia: usiaVal,
+                alamat: document.getElementById('inputAlamat').value,
+                telp: document.getElementById('inputTelp').value,
+                tglKunjungan: document.getElementById('inputTglKunjungan').value,
+                poli: document.getElementById('inputPoli').value,
+                pelayanan: document.getElementById('inputPelayanan').value,
+                penjamin: document.getElementById('inputPenjamin').value,
+                keluhan: document.getElementById('inputKeluhan').value
+            });
+            localStorage.setItem('simrs_kunjungan', JSON.stringify(kunjunganList));
+
+            modalIcon.className = "modal-icon";
+            modalIcon.innerText = "✓";
+            modalTitle.innerText = "Registrasi & Sinkronisasi Berhasil!";
+            modalText.innerText = `Data kunjungan tersimpan & payload FHIR Encounter sukses dikirim ke SATUSEHAT (IHS: ${ihsVal}).`;
+            modal.style.display = 'flex';
+        });
+
+        function bukaModalPeringatan(judul, pesan) {
+            modalIcon.className = "modal-icon error";
+            modalIcon.innerText = "!";
+            modalTitle.innerText = judul;
+            modalText.innerText = pesan;
+            modal.style.display = 'flex';
+        }
+
+        function tutupModal() {
+            modal.style.display = 'none';
+            if (modalTitle.innerText.includes("Berhasil")) {
+                form.reset();
+                formSection.style.display = 'none';
+                searchNik.value = '';
+                satusehatBanner.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>

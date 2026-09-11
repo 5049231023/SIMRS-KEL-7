@@ -1,0 +1,40 @@
+{
+    "resourceType": "Patient",
+    "id": "RM-2026-1002",
+    "identifier": [
+        {
+            "system": "http:\/\/simrs-kel7.local\/norm",
+            "value": "RM-2026-1002"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
+            "value": "3515021234560001"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
+            "value": "P00088712398"
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "official",
+            "text": "Siti Aminah"
+        }
+    ],
+    "gender": "female",
+    "birthDate": "1992-08-20",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "082198765432",
+            "use": "mobile"
+        }
+    ],
+    "address": [
+        {
+            "use": "home",
+            "text": "Jl. Manyar Kertoarjo No. 45, Surabaya"
+        }
+    ]
+}

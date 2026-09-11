@@ -25,7 +25,7 @@
     },
     "reasonCode": [
         {
-            "text": "Demam tinggi dan sakit kepala."
+            "text": "Demam tinggi dan sakit kepala"
         }
     ],
     "extension": [
@@ -33,5 +33,27 @@
             "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
             "valueString": "BPJS Kesehatan"
         }
-    ]
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": {
+            "tekanan_darah": "120\/80 mmHg",
+            "suhu": "38.2 \u00b0C",
+            "nadi": "84 x\/mnt",
+            "pernapasan": "20 x\/mnt",
+            "berat_badan": "65 kg",
+            "tinggi_badan": "170 cm",
+            "catatan_perawat": "Pasien tampak lemas",
+            "perawat_nama": "Ns. Dewi Lestari, S.Kep",
+            "waktu_ttv": "2026-06-09 08:30:00"
+        },
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "Febris Akut e.c Susp. ISPA",
+            "diagnosa_sekunder": "Cephalgia",
+            "tindakan": "Edukasi istirahat dan terapi obat simptomatis",
+            "catatan_dokter": "Banyak minum air putih, kontrol ulang 3 hari jika belum turun",
+            "dokter_nama": "dr. Ahmad Santoso, Sp.PD",
+            "waktu_periksa": "2026-06-09 09:15:00"
+        }
+    }
 }

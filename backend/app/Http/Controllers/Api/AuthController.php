@@ -37,16 +37,32 @@ class AuthController extends Controller
         
         $this->fhir->save('practitioners', $practitioner['id'], $practitioner);
 
+        $unit = $practitioner['qualification'][0]['code']['coding'][0]['display'] ?? 'Admin';
+        $code = strtolower($practitioner['qualification'][0]['code']['coding'][0]['code'] ?? '');
+        $role = $practitioner['_auth']['role'] ?? $this->resolveRole($unit, $code);
+
         return response()->json([
             'token' => $token,
             'practitioner' => [
                 'id' => $practitioner['id'],
                 'nip' => $practitioner['identifier'][0]['value'] ?? null,
                 'nama' => $practitioner['name'][0]['text'] ?? null,
-                'unit' => $practitioner['qualification'][0]['code']['coding'][0]['display'] ?? null,
+                'unit' => $unit,
+                'role' => $role,
                 'active' => $practitioner['active'] ?? true,
             ]
         ]);
+    }
+
+    protected function resolveRole(string $unit, string $code): string
+    {
+        $text = strtolower($unit . ' ' . $code);
+        if (str_contains($text, 'dokter')) return 'dokter';
+        if (str_contains($text, 'perawat')) return 'perawat';
+        if (str_contains($text, 'farmasi')) return 'farmasi';
+        if (str_contains($text, 'lab')) return 'laboratorium';
+        if (str_contains($text, 'kasir')) return 'kasir';
+        return 'admin';
     }
 
     public function register(Request $request)
@@ -61,6 +77,7 @@ class AuthController extends Controller
         $practitioners = $this->fhir->all('practitioners');
         $nip = count($practitioners) + 101;
         $unit_slug = Str::slug($request->unit);
+        $role = $this->resolveRole($request->unit, $unit_slug);
 
         $id = "pract-{$nip}";
 
@@ -86,7 +103,8 @@ class AuthController extends Controller
             ],
             '_auth' => [
                 'password_hash' => bcrypt($request->password),
-                'api_token' => null
+                'api_token' => null,
+                'role' => $role
             ]
         ];
 
@@ -94,7 +112,8 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Registered successfully',
-            'nip' => $nip
+            'nip' => $nip,
+            'role' => $role
         ]);
     }
 
@@ -118,11 +137,16 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
+        $unit = $practitioner['qualification'][0]['code']['coding'][0]['display'] ?? 'Admin';
+        $code = strtolower($practitioner['qualification'][0]['code']['coding'][0]['code'] ?? '');
+        $role = $practitioner['_auth']['role'] ?? $this->resolveRole($unit, $code);
+
         return response()->json([
             'id' => $practitioner['id'],
             'nip' => $practitioner['identifier'][0]['value'] ?? null,
             'nama' => $practitioner['name'][0]['text'] ?? null,
-            'unit' => $practitioner['qualification'][0]['code']['coding'][0]['display'] ?? null,
+            'unit' => $unit,
+            'role' => $role,
             'active' => $practitioner['active'] ?? true,
         ]);
     }

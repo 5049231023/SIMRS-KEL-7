@@ -1,0 +1,12 @@
+{
+    "id": "lab-seed-002",
+    "encounter_id": "enc-20260609-001",
+    "patient_id": "RM-2025-5541",
+    "patient_nama": "Budi Santoso",
+    "jenis_pemeriksaan": "Gula Darah Puasa (GDP)",
+    "catatan_dokter": "Cek GDP rutin",
+    "status": "completed",
+    "created_at": "2026-09-11",
+    "hasil": "Hasil GDP: 95 mg\/dL (Nilai Rujukan: 70 - 100 mg\/dL). Status: Normal.",
+    "completed_at": "2026-09-11"
+}

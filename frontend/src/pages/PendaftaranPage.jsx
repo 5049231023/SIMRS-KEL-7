@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
+import MainLayout from '../components/MainLayout';
 import Modal from '../components/Modal';
 import api from '../api/axios';
 
@@ -151,8 +151,10 @@ export default function PendaftaranPage() {
   const isReadOnly = statusPasien === 'kunjungan';
 
   return (
-    <>
-      <Navbar />
+    <MainLayout
+      title="Pendaftaran Pasien & Kunjungan"
+      subtitle="Registrasi kunjungan pasien atau tambah pendaftaran anggota pasien baru"
+    >
       <div className="reg-container">
         <div className="reg-header-flex">
           <div>
@@ -171,17 +173,17 @@ export default function PendaftaranPage() {
 
         {satusehatStatus === 'loading' && (
           <div className="satusehat-banner satusehat-loading">
-            <strong>⏳ Menghubungkan ke SATUSEHAT...</strong><br/>Sedang memvalidasi NIK dan mengambil data IHS.
+            <strong>Menghubungkan ke SATUSEHAT...</strong><br/>Sedang memvalidasi NIK dan mengambil data IHS.
           </div>
         )}
         {satusehatStatus === 'success' && (
           <div className="satusehat-banner satusehat-success">
-            <strong>✅ Data SATUSEHAT Ditemukan</strong><br/>Pasien terdaftar dengan IHS Number: {formData.ihs_number}
+            <strong>Data SATUSEHAT Ditemukan</strong><br/>Pasien terdaftar dengan IHS Number: {formData.ihs_number}
           </div>
         )}
         {satusehatStatus === 'warning' && (
           <div className="satusehat-banner satusehat-warning">
-            <strong>⚠️ NIK Tidak Ditemukan</strong><br/>Data pasien tidak ditemukan di lokal maupun SATUSEHAT. Silakan daftarkan sebagai pasien baru.
+            <strong>NIK Tidak Ditemukan</strong><br/>Data pasien tidak ditemukan di lokal maupun SATUSEHAT. Silakan daftarkan sebagai pasien baru.
           </div>
         )}
 
@@ -292,6 +294,6 @@ export default function PendaftaranPage() {
         )}
       </div>
       <Modal show={modal.show} icon={modal.isError ? '!' : '✓'} isError={modal.isError} title={modal.title} text={modal.text} onClose={closeModal} />
-    </>
+    </MainLayout>
   );
 }

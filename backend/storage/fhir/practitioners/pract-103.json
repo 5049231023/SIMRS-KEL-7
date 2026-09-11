@@ -1,17 +1,17 @@
 {
     "resourceType": "Practitioner",
-    "id": "pract-101",
+    "id": "pract-103",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/nip",
-            "value": "101"
+            "value": "103"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Handoko, S.Kom (Admin SIMRS)"
+            "text": "dr. Ahmad Santoso, Sp.PD"
         }
     ],
     "qualification": [
@@ -20,16 +20,16 @@
                 "coding": [
                     {
                         "system": "http:\/\/simrs-kel7.local\/unit",
-                        "code": "admin",
-                        "display": "Admin Rekam Medis"
+                        "code": "dokter",
+                        "display": "Dokter Spesialis"
                     }
                 ]
             }
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$rB0lCEWhAPY6jiP48jdY5uRahRF3x8mse8FdTSGCV6dqwPN00ll8G",
-        "api_token": "50bea3d8141d28a48ee2889312433fbb3951c991088766ef338424c211ac72ab",
-        "role": "admin"
+        "password_hash": "$2y$12$Kl7uDDCjwpCmLs11h1.c4eb2jZowLy.oqKqZQ.WMxKMbwkatZLWOm",
+        "api_token": "3cb10d8dce9b75476a7d736287b2d6eaa2aa9ba201241dbfbf6ea968be81e031",
+        "role": "dokter"
     }
 }

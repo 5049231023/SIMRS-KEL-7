@@ -5,6 +5,5 @@ export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div style={{textAlign:'center',padding:'50px'}}>Memuat...</div>;
   if (!user) return <Navigate to="/login" replace />;
-  if (user.unit !== 'Rekam Medis') return <Navigate to="/404" replace />;
   return children;
 }

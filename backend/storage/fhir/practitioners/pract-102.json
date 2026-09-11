@@ -1,17 +1,17 @@
 {
     "resourceType": "Practitioner",
-    "id": "pract-101",
+    "id": "pract-102",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/nip",
-            "value": "101"
+            "value": "102"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Handoko, S.Kom (Admin SIMRS)"
+            "text": "Siti Rahma, S.Farm, Apt (Apoteker)"
         }
     ],
     "qualification": [
@@ -20,16 +20,16 @@
                 "coding": [
                     {
                         "system": "http:\/\/simrs-kel7.local\/unit",
-                        "code": "admin",
-                        "display": "Admin Rekam Medis"
+                        "code": "farmasi",
+                        "display": "Instalasi Farmasi"
                     }
                 ]
             }
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$rB0lCEWhAPY6jiP48jdY5uRahRF3x8mse8FdTSGCV6dqwPN00ll8G",
-        "api_token": "50bea3d8141d28a48ee2889312433fbb3951c991088766ef338424c211ac72ab",
-        "role": "admin"
+        "password_hash": "$2y$12$WJ8sswJRZy5a\/5ZQv4YT5ue7sbcrsJVkOsPttwqkHVvh7cOLjeqCW",
+        "api_token": "93c1f4d75e7f8fde75f721d9754920d0eb84e8315bb81e3f079df9eba1eb1e6c",
+        "role": "farmasi"
     }
 }

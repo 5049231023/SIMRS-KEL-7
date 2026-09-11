@@ -1,0 +1,40 @@
+{
+    "resourceType": "Patient",
+    "id": "RM-2026-1003",
+    "identifier": [
+        {
+            "system": "http:\/\/simrs-kel7.local\/norm",
+            "value": "RM-2026-1003"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
+            "value": "3515031234560002"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
+            "value": "P00077654321"
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "official",
+            "text": "Hendra Gunawan"
+        }
+    ],
+    "gender": "male",
+    "birthDate": "1980-03-14",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "085712344321",
+            "use": "mobile"
+        }
+    ],
+    "address": [
+        {
+            "use": "home",
+            "text": "Jl. Darmo Permai II No. 8, Surabaya"
+        }
+    ]
+}

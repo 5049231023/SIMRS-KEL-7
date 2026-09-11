@@ -1,0 +1,52 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260911-poli-002",
+    "status": "in-progress",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-1003",
+        "display": "Hendra Gunawan"
+    },
+    "period": {
+        "start": "2026-09-11"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-penyakit-dalam",
+                "display": "Poli Penyakit Dalam"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Pusing berputar, tengkuk terasa kaku dan sering haus"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "Umum"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "siap_dokter",
+        "tanda_vital": {
+            "tekanan_darah": "145\/90 mmHg",
+            "suhu": "36.7 \u00b0C",
+            "nadi": "88 x\/mnt",
+            "pernapasan": "19 x\/mnt",
+            "berat_badan": "74 kg",
+            "tinggi_badan": "168 cm",
+            "catatan_perawat": "Pasien riwayat hipertensi tidak rutin minum obat",
+            "perawat_nama": "Ns. Dewi Lestari, S.Kep",
+            "waktu_ttv": "2026-09-11 06:17:37"
+        },
+        "pemeriksaan_dokter": null
+    }
+}

@@ -1,17 +1,17 @@
 {
     "resourceType": "Practitioner",
-    "id": "pract-101",
+    "id": "pract-104",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/nip",
-            "value": "101"
+            "value": "104"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Handoko, S.Kom (Admin SIMRS)"
+            "text": "Ns. Dewi Lestari, S.Kep"
         }
     ],
     "qualification": [
@@ -20,16 +20,16 @@
                 "coding": [
                     {
                         "system": "http:\/\/simrs-kel7.local\/unit",
-                        "code": "admin",
-                        "display": "Admin Rekam Medis"
+                        "code": "perawat",
+                        "display": "Perawat Rawat Jalan & IGD"
                     }
                 ]
             }
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$rB0lCEWhAPY6jiP48jdY5uRahRF3x8mse8FdTSGCV6dqwPN00ll8G",
-        "api_token": "50bea3d8141d28a48ee2889312433fbb3951c991088766ef338424c211ac72ab",
-        "role": "admin"
+        "password_hash": "$2y$12$s7PoMd6nt5NxeKleghVd9ul1yrrkCzBPqTz2exYS5CXI9KX2LdTC.",
+        "api_token": "80c4f36580b54d9decb1d3794b09d4dd7f638a6d43b37d624b3e201a5864445f",
+        "role": "perawat"
     }
 }

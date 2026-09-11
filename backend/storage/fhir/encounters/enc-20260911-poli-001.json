@@ -1,0 +1,60 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260911-poli-001",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-1002",
+        "display": "Siti Aminah"
+    },
+    "period": {
+        "start": "2026-09-11"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-penyakit-dalam",
+                "display": "Poli Penyakit Dalam"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Demam menggigil sejak 3 hari, mual, dan nafsu makan turun"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "BPJS Kesehatan"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": {
+            "tekanan_darah": "-",
+            "suhu": "-",
+            "nadi": "-",
+            "pernapasan": "-",
+            "berat_badan": "-",
+            "tinggi_badan": "-",
+            "catatan_perawat": "",
+            "triage_level": "",
+            "perawat_nama": "Ns. Dewi Lestari, S.Kep",
+            "waktu_ttv": "2026-09-11 06:21:31"
+        },
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "Gastroenteritis Akut",
+            "diagnosa_sekunder": "Dehidrasi Ringan",
+            "tindakan": "Rehidrasi oral dan terapi antimuntah",
+            "catatan_dokter": "Kontrol ulang 3 hari jika demam menetap",
+            "dokter_nama": "dr. Ahmad Santoso, Sp.PD",
+            "waktu_periksa": "2026-09-11 06:21:31"
+        }
+    }
+}

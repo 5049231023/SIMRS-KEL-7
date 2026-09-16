@@ -11,13 +11,6 @@ export default function PendaftaranPage() {
   const [showForm, setShowForm] = useState(false);
   const [statusPasien, setStatusPasien] = useState(''); // 'baru', 'satusehat_baru', 'kunjungan'
   const [modal, setModal] = useState({ show: false, isError: false, title: '', text: '' });
-  const [satusehatInfo, setSatusehatInfo] = useState({
-    organization_id: '33771066-46d2-408b-a167-308ef64fca93',
-    environment: 'sandbox',
-    status_label: 'Sandbox Kemenkes',
-    dummy_patients: []
-  });
-
   const todayStr = new Date().toISOString().split('T')[0];
 
   const [formData, setFormData] = useState({
@@ -37,17 +30,6 @@ export default function PendaftaranPage() {
   });
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Ambil metadata status SATUSEHAT dan daftar pasien dummy resmi
-    api.get('/satusehat/status')
-      .then(res => {
-        if (res.data) {
-          setSatusehatInfo(res.data);
-        }
-      })
-      .catch(err => console.error('Error fetching SATUSEHAT info:', err));
-  }, []);
 
   const calculateAge = (dob) => {
     if (!dob) return '';
@@ -217,54 +199,6 @@ export default function PendaftaranPage() {
       subtitle="Registrasi kunjungan pasien dengan validasi data IHS SATUSEHAT Kemenkes RI"
     >
       <div className="reg-container">
-        
-        {/* PANEL STATUS SATUSEHAT KEMENKES */}
-        <div className="satusehat-info-card">
-          <div className="satusehat-info-header">
-            <div className="satusehat-title">
-              Integrasi SATUSEHAT Kemenkes (Environment: Sandbox)
-            </div>
-            <span className="satusehat-badge-active">
-              FASYANKES TERDAFTAR
-            </span>
-          </div>
-          <div className="satusehat-meta">
-            <span>Org ID: <strong>{satusehatInfo.organization_id}</strong></span>
-            <span>Status: <strong>{satusehatInfo.status_label}</strong></span>
-            <span>FHIR Version: <strong>R4 (Kemenkes Profile)</strong></span>
-          </div>
-
-          {/* DUMMY PATIENTS QUICK SELECT CHIPS */}
-          <div className="satusehat-chips-section">
-            <span className="satusehat-chips-label">
-              Klik 1-Kali untuk Uji Coba Data Dummy Resmi SATUSEHAT:
-            </span>
-            <div className="satusehat-chips-container">
-              {(satusehatInfo.dummy_patients && satusehatInfo.dummy_patients.length > 0
-                ? satusehatInfo.dummy_patients
-                : [
-                    { nama: 'Ardianto Putra', nik: '9271060312000001', ihs_number: 'P02478375538' },
-                    { nama: 'Claudia Sintia', nik: '9204014804000002', ihs_number: 'P03647103112' },
-                    { nama: 'Elizabeth Dior', nik: '9104224509000003', ihs_number: 'P00805884304' },
-                    { nama: 'Dr. Alan Bagus Prasetya', nik: '9104223107000004', ihs_number: 'P00912894463' },
-                    { nama: 'Budi Santoso', nik: '3515012345670001', ihs_number: 'P00098234112' }
-                  ]
-              ).map((dummy, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  className="btn-dummy-chip"
-                  onClick={() => handleCekNikWith(dummy.nik)}
-                  title={`Uji Coba Pasien Dummy ${dummy.nama}`}
-                >
-                  {dummy.nama}
-                  <small>NIK: {dummy.nik} • IHS: {dummy.ihs_number}</small>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
         <div className="reg-header-flex">
           <div>
             <h2>Pencarian Identitas Pasien</h2>
@@ -278,7 +212,7 @@ export default function PendaftaranPage() {
             <input
               type="text"
               className="search-input"
-              placeholder="Masukkan NIK Pasien (16 digit) atau pilih salah satu data dummy di atas..."
+              placeholder="Masukkan NIK Pasien (16 digit)..."
               value={searchNik}
               onChange={e => setSearchNik(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') handleCekNikWith(searchNik); }}

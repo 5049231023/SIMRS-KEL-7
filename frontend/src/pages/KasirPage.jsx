@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
+import { openPrintWindow } from '../utils/printHelper';
 import api from '../api/axios';
 
 export default function KasirPage() {
@@ -294,69 +295,71 @@ export default function KasirPage() {
       {selectedReceipt && (
         <div className="modal-overlay">
           <div className="modal-box print-document" style={{ maxWidth: '680px', textAlign: 'left', maxHeight: '90vh', overflowY: 'auto' }}>
-            {/* KOP RESMI RS */}
-            <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
-              <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
-              <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
-                BAGIAN KASIR & ADMINISTRASI KEUANGAN PASIEN
-              </p>
-              <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SIMRS</small>
-            </div>
+            <div id="printable-kuitansi-kasir">
+              {/* KOP RESMI RS */}
+              <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
+                <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
+                <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
+                  BAGIAN KASIR & ADMINISTRASI KEUANGAN PASIEN
+                </p>
+                <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SIMRS</small>
+              </div>
 
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
-                KUITANSI BUKTI PEMBAYARAN PELAYANAN
-              </h3>
-              <small style={{ color: '#64748b' }}>Nomor Kuitansi: <strong>{selectedReceipt.id}</strong></small>
-            </div>
+              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
+                  KUITANSI BUKTI PEMBAYARAN PELAYANAN
+                </h3>
+                <small style={{ color: '#64748b' }}>Nomor Kuitansi: <strong>{selectedReceipt.id}</strong></small>
+              </div>
 
-            {/* IDENTITAS TRANSAKSI & PASIEN */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '0.84rem', background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px' }}>
-              <div><span style={{ color: '#64748b' }}>Telah Diterima Dari:</span> <strong>{selectedReceipt.patient_nama}</strong></div>
-              <div><span style={{ color: '#64748b' }}>No. Rekam Medis:</span> <strong>{selectedReceipt.patient_id}</strong></div>
-              <div><span style={{ color: '#64748b' }}>Tanggal Pembayaran:</span> <strong>{selectedReceipt.paid_at || selectedReceipt.created_at}</strong></div>
-              <div><span style={{ color: '#64748b' }}>Metode Pembayaran:</span> <strong className="badge-poli">{selectedReceipt.metode_bayar || 'Tunai'}</strong></div>
-            </div>
+              {/* IDENTITAS TRANSAKSI & PASIEN */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '0.84rem', background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px' }}>
+                <div><span style={{ color: '#64748b' }}>Telah Diterima Dari:</span> <strong>{selectedReceipt.patient_nama}</strong></div>
+                <div><span style={{ color: '#64748b' }}>No. Rekam Medis:</span> <strong>{selectedReceipt.patient_id}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Tanggal Pembayaran:</span> <strong>{selectedReceipt.paid_at || selectedReceipt.created_at}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Metode Pembayaran:</span> <strong className="badge-poli">{selectedReceipt.metode_bayar || 'Tunai'}</strong></div>
+              </div>
 
-            {/* RINCIAN TAGIHAN */}
-            <div style={{ marginBottom: '16px' }}>
-              <h4 style={{ fontSize: '0.88rem', color: '#1e40af', marginBottom: '8px' }}>Rincian Layanan & Tindakan Medis:</h4>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.84rem' }}>
-                <thead>
-                  <tr style={{ background: '#f1f5f9', borderBottom: '1px solid #cbd5e1' }}>
-                    <th style={{ padding: '8px 10px', textAlign: 'left', width: '70%' }}>Deskripsi Layanan / Obat / Tindakan</th>
-                    <th style={{ padding: '8px 10px', textAlign: 'right', width: '30%' }}>Biaya (Rp)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(selectedReceipt.items || []).map((it, idx) => (
-                    <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                      <td style={{ padding: '8px 10px' }}>{it.deskripsi}</td>
-                      <td style={{ padding: '8px 10px', textAlign: 'right' }}>
-                        {(Number(it.jumlah) || 0).toLocaleString('id-ID')}
+              {/* RINCIAN TAGIHAN */}
+              <div style={{ marginBottom: '16px' }}>
+                <h4 style={{ fontSize: '0.88rem', color: '#1e40af', marginBottom: '8px' }}>Rincian Layanan & Tindakan Medis:</h4>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.84rem' }}>
+                  <thead>
+                    <tr style={{ background: '#f1f5f9', borderBottom: '1px solid #cbd5e1' }}>
+                      <th style={{ padding: '8px 10px', textAlign: 'left', width: '70%' }}>Deskripsi Layanan / Obat / Tindakan</th>
+                      <th style={{ padding: '8px 10px', textAlign: 'right', width: '30%' }}>Biaya (Rp)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(selectedReceipt.items || []).map((it, idx) => (
+                      <tr key={idx} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                        <td style={{ padding: '8px 10px' }}>{it.deskripsi}</td>
+                        <td style={{ padding: '8px 10px', textAlign: 'right' }}>
+                          {(Number(it.jumlah) || 0).toLocaleString('id-ID')}
+                        </td>
+                      </tr>
+                    ))}
+                    <tr style={{ borderTop: '2px solid #cbd5e1', background: '#f8fafc' }}>
+                      <td style={{ padding: '10px', fontWeight: 'bold' }}>TOTAL PEMBAYARAN</td>
+                      <td style={{ padding: '10px', textAlign: 'right', fontWeight: 'bold', fontSize: '1rem', color: '#1e40af' }}>
+                        Rp {(Number(selectedReceipt.total) || 0).toLocaleString('id-ID')}
                       </td>
                     </tr>
-                  ))}
-                  <tr style={{ borderTop: '2px solid #cbd5e1', background: '#f8fafc' }}>
-                    <td style={{ padding: '10px', fontWeight: 'bold' }}>TOTAL PEMBAYARAN</td>
-                    <td style={{ padding: '10px', textAlign: 'right', fontWeight: 'bold', fontSize: '1rem', color: '#1e40af' }}>
-                      Rp {(Number(selectedReceipt.total) || 0).toLocaleString('id-ID')}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            {/* STATUS CAP & TTD KASIR */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
-              <div style={{ textAlign: 'center', border: '2px solid #166534', padding: '8px 16px', borderRadius: '6px', color: '#166534', fontWeight: 'bold', letterSpacing: '1px' }}>
-                LUNAS / TELAH DIBAYAR
+                  </tbody>
+                </table>
               </div>
-              <div style={{ textAlign: 'center', minWidth: '180px' }}>
-                <span>Petugas Kasir Rumah Sakit,</span>
-                <div style={{ height: '48px' }}></div>
-                <strong style={{ textDecoration: 'underline' }}>Bagian Kasir & Billing</strong><br/>
-                <small style={{ color: '#64748b' }}>RS Kelompok 7</small>
+
+              {/* STATUS CAP & TTD KASIR */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
+                <div style={{ textAlign: 'center', border: '2px solid #166534', padding: '8px 16px', borderRadius: '6px', color: '#166534', fontWeight: 'bold', letterSpacing: '1px' }}>
+                  LUNAS / TELAH DIBAYAR
+                </div>
+                <div style={{ textAlign: 'center', minWidth: '180px' }}>
+                  <span>Petugas Kasir Rumah Sakit,</span>
+                  <div style={{ height: '48px' }}></div>
+                  <strong style={{ textDecoration: 'underline' }}>Bagian Kasir & Billing</strong><br/>
+                  <small style={{ color: '#64748b' }}>RS Kelompok 7</small>
+                </div>
               </div>
             </div>
 
@@ -366,9 +369,19 @@ export default function KasirPage() {
                 type="button" 
                 className="btn-action"
                 style={{ padding: '8px 18px', fontSize: '0.85rem' }}
-                onClick={() => window.print()}
+                onClick={() => {
+                  const el = document.getElementById('printable-kuitansi-kasir');
+                  if (el) {
+                    const clone = el.cloneNode(true);
+                    clone.querySelectorAll('.no-print').forEach(n => n.remove());
+                    openPrintWindow({
+                      title: `Kuitansi Pembayaran - ${selectedReceipt.patient_nama || 'Pasien'} (${selectedReceipt.id})`,
+                      htmlContent: clone.innerHTML
+                    });
+                  }
+                }}
               >
-                Cetak Kuitansi (Ctrl+P)
+                Cetak di Halaman Baru (Ctrl+P)
               </button>
               <button 
                 type="button" 

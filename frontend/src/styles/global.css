@@ -1289,6 +1289,23 @@ tr:hover td {
     display: none !important;
   }
 
+  /* Isolasi print: Sembunyikan background halaman saat modal detail dokumen terbuka */
+  body:has(.modal-overlay) .app-topbar,
+  body:has(.modal-overlay) .app-sidebar,
+  body:has(.modal-overlay) .header-title,
+  body:has(.modal-overlay) .table-responsive,
+  body:has(.modal-overlay) .search-filter-box,
+  body:has(.modal-overlay) .page-tabs,
+  body:has(.modal-overlay) .stats-grid,
+  body:has(.modal-overlay) .dashboard-hero,
+  body:has(.modal-overlay) .modules-grid,
+  body:has(.modal-overlay) .content-grid,
+  body:has(.modal-overlay) .dokter-exam-box,
+  body:has(.modal-overlay) .reg-container,
+  body:has(.modal-overlay) .summary-card {
+    display: none !important;
+  }
+
   html, body {
     background: #ffffff !important;
     color: #000000 !important;

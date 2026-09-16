@@ -1,15 +1,23 @@
 import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import Modal from '../components/Modal';
+import { useAuth } from '../context/AuthContext';
+import { openPrintWindow } from '../utils/printHelper';
 import api from '../api/axios';
 
 export default function RuangPeriksaDokterPage() {
+  const { user } = useAuth();
+  const role = user?.role || 'dokter';
+
   const [data, setData] = useState([]);
   const [activeTab, setActiveTab] = useState('antrean'); // 'antrean' | 'selesai'
   const [selectedEncounter, setSelectedEncounter] = useState(null);
   const [modal, setModal] = useState({ show: false, isError: false, title: '', text: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMedicalReport, setSelectedMedicalReport] = useState(null);
+
+  // Admin delete states
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, item: null, type: 'pemeriksaan', isDeleting: false });
 
   // Form states
   const [diagnosaUtama, setDiagnosaUtama] = useState('');
@@ -30,6 +38,48 @@ export default function RuangPeriksaDokterPage() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const confirmDeletePemeriksaan = (enc) => {
+    setDeleteConfirm({ show: true, item: enc, type: 'pemeriksaan', isDeleting: false });
+  };
+
+  const confirmDeleteKunjungan = (enc) => {
+    setDeleteConfirm({ show: true, item: enc, type: 'kunjungan', isDeleting: false });
+  };
+
+  const executeDelete = async () => {
+    if (!deleteConfirm.item) return;
+    try {
+      setDeleteConfirm(prev => ({ ...prev, isDeleting: true }));
+      if (deleteConfirm.type === 'pemeriksaan') {
+        await api.delete(`/kunjungan/${deleteConfirm.item.id}/pemeriksaan`);
+        setModal({
+          show: true,
+          isError: false,
+          title: 'Hasil Pemeriksaan Dihapus',
+          text: `Data hasil pemeriksaan pasien ${deleteConfirm.item.pasien?.nama} berhasil dihapus dan dikembalikan ke antrean periksa.`
+        });
+      } else {
+        await api.delete(`/kunjungan/${deleteConfirm.item.id}`);
+        setModal({
+          show: true,
+          isError: false,
+          title: 'Kunjungan Dihapus',
+          text: `Data kunjungan pasien ${deleteConfirm.item.pasien?.nama} berhasil dihapus permanen.`
+        });
+      }
+      setDeleteConfirm({ show: false, item: null, type: 'pemeriksaan', isDeleting: false });
+      loadData();
+    } catch (err) {
+      setDeleteConfirm({ show: false, item: null, type: 'pemeriksaan', isDeleting: false });
+      setModal({
+        show: true,
+        isError: true,
+        title: 'Gagal Menghapus',
+        text: err.response?.data?.message || 'Terjadi kendala saat menghapus data.'
+      });
+    }
+  };
 
   const handleOpenForm = (enc) => {
     setSelectedEncounter(enc);
@@ -371,9 +421,21 @@ export default function RuangPeriksaDokterPage() {
                     </td>
                     <td>{k.penjamin}</td>
                     <td>
-                      <button className="btn-hasil" onClick={() => handleOpenForm(k)}>
-                        Periksa Pasien
-                      </button>
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <button className="btn-hasil" onClick={() => handleOpenForm(k)}>
+                          Periksa Pasien
+                        </button>
+                        {role === 'admin' && (
+                          <button
+                            type="button"
+                            style={{ padding: '6px 10px', fontSize: '0.8rem', background: '#fee2e2', border: '1px solid #fecaca', color: '#dc2626', borderRadius: '6px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                            onClick={() => confirmDeleteKunjungan(k)}
+                            title="Hapus Kunjungan Pasien (Khusus Administrator)"
+                          >
+                            Hapus
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -396,7 +458,7 @@ export default function RuangPeriksaDokterPage() {
                 <th>Tindakan / Terapi</th>
                 <th>Dokter Pemeriksa</th>
                 <th>Status</th>
-                <th>Laporan Medis</th>
+                <th>Aksi & Laporan Medis</th>
               </tr>
             </thead>
             <tbody>
@@ -415,14 +477,26 @@ export default function RuangPeriksaDokterPage() {
                     <td>{k.pemeriksaan_dokter?.dokter_nama || 'Dokter'}</td>
                     <td><span className="badge-status-completed">Selesai</span></td>
                     <td>
-                      <button
-                        type="button"
-                        className="btn-action"
-                        style={{ padding: '6px 12px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
-                        onClick={() => setSelectedMedicalReport(k)}
-                      >
-                        Cetak Laporan Pasien
-                      </button>
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <button
+                          type="button"
+                          className="btn-action"
+                          style={{ padding: '6px 12px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
+                          onClick={() => setSelectedMedicalReport(k)}
+                        >
+                          Cetak Laporan Pasien
+                        </button>
+                        {role === 'admin' && (
+                          <button
+                            type="button"
+                            style={{ padding: '6px 10px', fontSize: '0.8rem', background: '#fee2e2', border: '1px solid #fecaca', color: '#dc2626', borderRadius: '6px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                            onClick={() => confirmDeletePemeriksaan(k)}
+                            title="Hapus hasil pemeriksaan dokter (Khusus Administrator)"
+                          >
+                            Hapus Pemeriksaan
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -436,91 +510,93 @@ export default function RuangPeriksaDokterPage() {
       {selectedMedicalReport && (
         <div className="modal-overlay">
           <div className="modal-box print-document" style={{ maxWidth: '750px', textAlign: 'left', maxHeight: '90vh', overflowY: 'auto' }}>
-            {/* KOP RESMI RS */}
-            <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
-              <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
-              <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
-                INSTALASI RAWAT JALAN & POLIKLINIK SPESIALIS TERPADU
-              </p>
-              <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SATUSEHAT</small>
-            </div>
-
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
-                SURAT KETERANGAN HASIL PEMERIKSAAN MEDIS / RESUME RAWAT JALAN
-              </h3>
-              <small style={{ color: '#64748b' }}>Nomor Rekam Medis: <strong>{selectedMedicalReport.pasien?.no_rm}</strong> &bull; No. Kunjungan: {selectedMedicalReport.id}</small>
-            </div>
-
-            {/* IDENTITAS PASIEN */}
-            <div style={{ background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px', fontSize: '0.84rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                <div><span style={{ color: '#64748b' }}>Nama Pasien:</span> <strong>{selectedMedicalReport.pasien?.nama}</strong></div>
-                <div><span style={{ color: '#64748b' }}>NIK:</span> <strong>{selectedMedicalReport.pasien?.nik}</strong></div>
-                <div><span style={{ color: '#64748b' }}>Jenis Kelamin:</span> <strong>{selectedMedicalReport.pasien?.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</strong></div>
-                <div><span style={{ color: '#64748b' }}>Tanggal Periksa:</span> <strong>{selectedMedicalReport.tgl_kunjungan}</strong></div>
-                <div><span style={{ color: '#64748b' }}>Poli Tujuan:</span> <strong>{selectedMedicalReport.poli}</strong></div>
-                <div><span style={{ color: '#64748b' }}>Penjamin:</span> <strong>{selectedMedicalReport.penjamin || 'Umum'}</strong></div>
-              </div>
-            </div>
-
-            {/* ASESMEN TANDA VITAL */}
-            {selectedMedicalReport.tanda_vital && (
-              <div style={{ marginBottom: '14px' }}>
-                <h4 style={{ fontSize: '0.86rem', color: '#1e40af', marginBottom: '6px' }}>Tanda-Tanda Vital (TTV):</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', fontSize: '0.8rem', background: '#fff', border: '1px solid #e2e8f0', padding: '10px', borderRadius: '6px' }}>
-                  <div><span>TD:</span> <strong>{selectedMedicalReport.tanda_vital.tekanan_darah}</strong></div>
-                  <div><span>Suhu:</span> <strong>{selectedMedicalReport.tanda_vital.suhu}</strong></div>
-                  <div><span>Nadi:</span> <strong>{selectedMedicalReport.tanda_vital.nadi}</strong></div>
-                  <div><span>RR:</span> <strong>{selectedMedicalReport.tanda_vital.pernapasan}</strong></div>
-                  <div><span>BB/TB:</span> <strong>{selectedMedicalReport.tanda_vital.berat_badan}/{selectedMedicalReport.tanda_vital.tinggi_badan}</strong></div>
-                </div>
-              </div>
-            )}
-
-            {/* KELUHAN & DIAGNOSA */}
-            <div style={{ marginBottom: '14px', fontSize: '0.84rem' }}>
-              <div style={{ marginBottom: '6px' }}>
-                <span style={{ color: '#64748b' }}>Keluhan Utama Pasien:</span>
-                <p style={{ margin: '2px 0', fontStyle: 'italic' }}>"{selectedMedicalReport.keluhan || '-'}"</p>
-              </div>
-              <div style={{ marginBottom: '6px' }}>
-                <span style={{ color: '#64748b' }}>Diagnosa Utama (ICD-10):</span>
-                <p style={{ margin: '2px 0', fontWeight: 'bold', color: '#0f172a', fontSize: '0.92rem' }}>
-                  {selectedMedicalReport.pemeriksaan_dokter?.diagnosa_utama || 'Pemeriksaan Rutin'}
+            <div id="printable-resume-dokter">
+              {/* KOP RESMI RS */}
+              <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
+                <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
+                <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
+                  INSTALASI RAWAT JALAN & POLIKLINIK SPESIALIS TERPADU
                 </p>
+                <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SATUSEHAT</small>
               </div>
-              {selectedMedicalReport.pemeriksaan_dokter?.diagnosa_sekunder && (
-                <div style={{ marginBottom: '6px' }}>
-                  <span style={{ color: '#64748b' }}>Diagnosa Sekunder:</span>
-                  <p style={{ margin: '2px 0' }}>{selectedMedicalReport.pemeriksaan_dokter.diagnosa_sekunder}</p>
-                </div>
-              )}
-              {selectedMedicalReport.pemeriksaan_dokter?.tindakan && (
-                <div style={{ marginBottom: '6px' }}>
-                  <span style={{ color: '#64748b' }}>Tindakan Medis yang Diberikan:</span>
-                  <p style={{ margin: '2px 0' }}>{selectedMedicalReport.pemeriksaan_dokter.tindakan}</p>
-                </div>
-              )}
-              {selectedMedicalReport.pemeriksaan_dokter?.catatan_dokter && (
-                <div style={{ background: '#f8fafc', padding: '8px 12px', borderRadius: '6px', border: '1px solid #e2e8f0', marginTop: '6px' }}>
-                  <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Anjuran & Edukasi Dokter:</span>
-                  <em>"{selectedMedicalReport.pemeriksaan_dokter.catatan_dokter}"</em>
-                </div>
-              )}
-            </div>
 
-            {/* TANDA TANGAN */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
-              <div style={{ color: '#64748b' }}>
-                Dokumen resmi rekam medis pasien.<br/>
-                Dicetak pada: {new Date().toLocaleString('id-ID')}
+              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
+                  SURAT KETERANGAN HASIL PEMERIKSAAN MEDIS / RESUME RAWAT JALAN
+                </h3>
+                <small style={{ color: '#64748b' }}>Nomor Rekam Medis: <strong>{selectedMedicalReport.pasien?.no_rm}</strong> &bull; No. Kunjungan: {selectedMedicalReport.id}</small>
               </div>
-              <div style={{ textAlign: 'center', minWidth: '180px' }}>
-                <span>Dokter Pemeriksa,</span>
-                <div style={{ height: '48px' }}></div>
-                <strong style={{ textDecoration: 'underline' }}>{selectedMedicalReport.pemeriksaan_dokter?.dokter_nama || 'Dokter Spesialis'}</strong><br/>
-                <small style={{ color: '#64748b' }}>SIP: 446/SIP-DS/2026</small>
+
+              {/* IDENTITAS PASIEN */}
+              <div style={{ background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px', fontSize: '0.84rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <div><span style={{ color: '#64748b' }}>Nama Pasien:</span> <strong>{selectedMedicalReport.pasien?.nama}</strong></div>
+                  <div><span style={{ color: '#64748b' }}>NIK:</span> <strong>{selectedMedicalReport.pasien?.nik}</strong></div>
+                  <div><span style={{ color: '#64748b' }}>Jenis Kelamin:</span> <strong>{selectedMedicalReport.pasien?.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</strong></div>
+                  <div><span style={{ color: '#64748b' }}>Tanggal Periksa:</span> <strong>{selectedMedicalReport.tgl_kunjungan}</strong></div>
+                  <div><span style={{ color: '#64748b' }}>Poli Tujuan:</span> <strong>{selectedMedicalReport.poli}</strong></div>
+                  <div><span style={{ color: '#64748b' }}>Penjamin:</span> <strong>{selectedMedicalReport.penjamin || 'Umum'}</strong></div>
+                </div>
+              </div>
+
+              {/* ASESMEN TANDA VITAL */}
+              {selectedMedicalReport.tanda_vital && (
+                <div style={{ marginBottom: '14px' }}>
+                  <h4 style={{ fontSize: '0.86rem', color: '#1e40af', marginBottom: '6px' }}>Tanda-Tanda Vital (TTV):</h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', fontSize: '0.8rem', background: '#fff', border: '1px solid #e2e8f0', padding: '10px', borderRadius: '6px' }}>
+                    <div><span>TD:</span> <strong>{selectedMedicalReport.tanda_vital.tekanan_darah}</strong></div>
+                    <div><span>Suhu:</span> <strong>{selectedMedicalReport.tanda_vital.suhu}</strong></div>
+                    <div><span>Nadi:</span> <strong>{selectedMedicalReport.tanda_vital.nadi}</strong></div>
+                    <div><span>RR:</span> <strong>{selectedMedicalReport.tanda_vital.pernapasan}</strong></div>
+                    <div><span>BB/TB:</span> <strong>{selectedMedicalReport.tanda_vital.berat_badan}/{selectedMedicalReport.tanda_vital.tinggi_badan}</strong></div>
+                  </div>
+                </div>
+              )}
+
+              {/* KELUHAN & DIAGNOSA */}
+              <div style={{ marginBottom: '14px', fontSize: '0.84rem' }}>
+                <div style={{ marginBottom: '6px' }}>
+                  <span style={{ color: '#64748b' }}>Keluhan Utama Pasien:</span>
+                  <p style={{ margin: '2px 0', fontStyle: 'italic' }}>"{selectedMedicalReport.keluhan || '-'}"</p>
+                </div>
+                <div style={{ marginBottom: '6px' }}>
+                  <span style={{ color: '#64748b' }}>Diagnosa Utama (ICD-10):</span>
+                  <p style={{ margin: '2px 0', fontWeight: 'bold', color: '#0f172a', fontSize: '0.92rem' }}>
+                    {selectedMedicalReport.pemeriksaan_dokter?.diagnosa_utama || 'Pemeriksaan Rutin'}
+                  </p>
+                </div>
+                {selectedMedicalReport.pemeriksaan_dokter?.diagnosa_sekunder && (
+                  <div style={{ marginBottom: '6px' }}>
+                    <span style={{ color: '#64748b' }}>Diagnosa Sekunder:</span>
+                    <p style={{ margin: '2px 0' }}>{selectedMedicalReport.pemeriksaan_dokter.diagnosa_sekunder}</p>
+                  </div>
+                )}
+                {selectedMedicalReport.pemeriksaan_dokter?.tindakan && (
+                  <div style={{ marginBottom: '6px' }}>
+                    <span style={{ color: '#64748b' }}>Tindakan Medis yang Diberikan:</span>
+                    <p style={{ margin: '2px 0' }}>{selectedMedicalReport.pemeriksaan_dokter.tindakan}</p>
+                  </div>
+                )}
+                {selectedMedicalReport.pemeriksaan_dokter?.catatan_dokter && (
+                  <div style={{ background: '#f8fafc', padding: '8px 12px', borderRadius: '6px', border: '1px solid #e2e8f0', marginTop: '6px' }}>
+                    <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Anjuran & Edukasi Dokter:</span>
+                    <em>"{selectedMedicalReport.pemeriksaan_dokter.catatan_dokter}"</em>
+                  </div>
+                )}
+              </div>
+
+              {/* TANDA TANGAN */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
+                <div style={{ color: '#64748b' }}>
+                  Dokumen resmi rekam medis pasien.<br/>
+                  Dicetak pada: {new Date().toLocaleString('id-ID')}
+                </div>
+                <div style={{ textAlign: 'center', minWidth: '180px' }}>
+                  <span>Dokter Pemeriksa,</span>
+                  <div style={{ height: '48px' }}></div>
+                  <strong style={{ textDecoration: 'underline' }}>{selectedMedicalReport.pemeriksaan_dokter?.dokter_nama || 'Dokter Spesialis'}</strong><br/>
+                  <small style={{ color: '#64748b' }}>SIP: 446/SIP-DS/2026</small>
+                </div>
               </div>
             </div>
 
@@ -530,9 +606,19 @@ export default function RuangPeriksaDokterPage() {
                 type="button" 
                 className="btn-action"
                 style={{ padding: '8px 18px', fontSize: '0.85rem' }}
-                onClick={() => window.print()}
+                onClick={() => {
+                  const el = document.getElementById('printable-resume-dokter');
+                  if (el) {
+                    const clone = el.cloneNode(true);
+                    clone.querySelectorAll('.no-print').forEach(n => n.remove());
+                    openPrintWindow({
+                      title: `Resume Medis Pasien - ${selectedMedicalReport.pasien?.nama || 'Pasien'} (${selectedMedicalReport.pasien?.no_rm})`,
+                      htmlContent: clone.innerHTML
+                    });
+                  }
+                }}
               >
-                Cetak / Simpan PDF (Ctrl+P)
+                Cetak di Halaman Baru (Ctrl+P)
               </button>
               <button 
                 type="button" 
@@ -541,6 +627,50 @@ export default function RuangPeriksaDokterPage() {
                 onClick={() => setSelectedMedicalReport(null)}
               >
                 Tutup Jendela
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL KONFIRMASI HAPUS OLEH ADMIN */}
+      {deleteConfirm.show && (
+        <div className="modal-overlay">
+          <div className="modal-box" style={{ maxWidth: '440px', textAlign: 'center' }}>
+            <div className="modal-icon error">!</div>
+            <h3 style={{ color: '#0f172a', marginBottom: '8px' }}>
+              {deleteConfirm.type === 'pemeriksaan' ? 'Konfirmasi Hapus Hasil Pemeriksaan' : 'Konfirmasi Hapus Kunjungan'}
+            </h3>
+            <p style={{ color: '#64748b', fontSize: '0.88rem', lineHeight: '1.5', marginBottom: '20px' }}>
+              {deleteConfirm.type === 'pemeriksaan' ? (
+                <>
+                  Apakah Anda yakin ingin menghapus hasil pemeriksaan dokter untuk pasien{' '}
+                  <strong>{deleteConfirm.item?.pasien?.nama}</strong>? Diagnosa medis akan dihapus dan status pasien akan dikembalikan ke antrean dokter.
+                </>
+              ) : (
+                <>
+                  Apakah Anda yakin ingin menghapus data kunjungan pasien{' '}
+                  <strong>{deleteConfirm.item?.pasien?.nama}</strong> secara permanen?
+                </>
+              )}
+            </p>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="button"
+                className="btn-back"
+                style={{ flex: 1 }}
+                onClick={() => setDeleteConfirm({ show: false, item: null, type: 'pemeriksaan', isDeleting: false })}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="btn-action"
+                style={{ flex: 1, background: '#dc2626' }}
+                disabled={deleteConfirm.isDeleting}
+                onClick={executeDelete}
+              >
+                {deleteConfirm.isDeleting ? 'Menghapus...' : 'Ya, Hapus Data'}
               </button>
             </div>
           </div>

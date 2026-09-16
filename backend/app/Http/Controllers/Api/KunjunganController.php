@@ -396,4 +396,93 @@ class KunjunganController extends Controller
             'inv_id' => $invId
         ]);
     }
+
+    public function destroy(Request $request, $id)
+    {
+        $practitioner = $request->attributes->get('practitioner');
+        $unit = $practitioner['qualification'][0]['code']['coding'][0]['display'] ?? '';
+        $code = strtolower($practitioner['qualification'][0]['code']['coding'][0]['code'] ?? '');
+        $role = $practitioner['_auth']['role'] ?? (str_contains(strtolower($unit . ' ' . $code), 'admin') ? 'admin' : '');
+
+        if (strtolower($role) !== 'admin') {
+            return response()->json([
+                'message' => 'Akses ditolak. Hanya administrator yang berhak menghapus data rekam medis kunjungan.'
+            ], 403);
+        }
+
+        $encounter = $this->fhir->find('encounters', $id);
+        if (!$encounter) {
+            return response()->json(['message' => 'Data kunjungan tidak ditemukan.'], 404);
+        }
+
+        // Hapus resep, lab order, tagihan terkait jika ada
+        $prescriptions = $this->fhir->query('prescriptions', fn($p) => ($p['encounter_id'] ?? '') === $id);
+        foreach ($prescriptions as $p) {
+            $this->fhir->delete('prescriptions', $p['id']);
+        }
+
+        $labOrders = $this->fhir->query('lab_orders', fn($l) => ($l['encounter_id'] ?? '') === $id);
+        foreach ($labOrders as $l) {
+            $this->fhir->delete('lab_orders', $l['id']);
+        }
+
+        $invoices = $this->fhir->query('invoices', fn($inv) => ($inv['encounter_id'] ?? '') === $id);
+        foreach ($invoices as $inv) {
+            $this->fhir->delete('invoices', $inv['id']);
+        }
+
+        $this->fhir->delete('encounters', $id);
+
+        return response()->json([
+            'message' => 'Data rekam medis kunjungan berhasil dihapus secara permanen.'
+        ]);
+    }
+
+    public function destroyPemeriksaan(Request $request, $id)
+    {
+        $practitioner = $request->attributes->get('practitioner');
+        $unit = $practitioner['qualification'][0]['code']['coding'][0]['display'] ?? '';
+        $code = strtolower($practitioner['qualification'][0]['code']['coding'][0]['code'] ?? '');
+        $role = $practitioner['_auth']['role'] ?? (str_contains(strtolower($unit . ' ' . $code), 'admin') ? 'admin' : '');
+
+        if (strtolower($role) !== 'admin') {
+            return response()->json([
+                'message' => 'Akses ditolak. Hanya administrator yang berhak menghapus data hasil pemeriksaan dokter.'
+            ], 403);
+        }
+
+        $encounter = $this->fhir->find('encounters', $id);
+        if (!$encounter) {
+            return response()->json(['message' => 'Data kunjungan tidak ditemukan.'], 404);
+        }
+
+        // Hapus resep, lab order, invoice terkait jika ada
+        $prescriptions = $this->fhir->query('prescriptions', fn($p) => ($p['encounter_id'] ?? '') === $id);
+        foreach ($prescriptions as $p) {
+            $this->fhir->delete('prescriptions', $p['id']);
+        }
+
+        $labOrders = $this->fhir->query('lab_orders', fn($l) => ($l['encounter_id'] ?? '') === $id);
+        foreach ($labOrders as $l) {
+            $this->fhir->delete('lab_orders', $l['id']);
+        }
+
+        $invoices = $this->fhir->query('invoices', fn($inv) => ($inv['encounter_id'] ?? '') === $id);
+        foreach ($invoices as $inv) {
+            $this->fhir->delete('invoices', $inv['id']);
+        }
+
+        // Reset pemeriksaan dokter di encounter
+        if (isset($encounter['_workflow'])) {
+            unset($encounter['_workflow']['pemeriksaan_dokter']);
+            $encounter['_workflow']['status_alur'] = isset($encounter['_workflow']['tanda_vital']) ? 'siap_dokter' : 'menunggu_perawat';
+        }
+        $encounter['status'] = 'in-progress';
+
+        $this->fhir->save('encounters', $id, $encounter);
+
+        return response()->json([
+            'message' => 'Data hasil pemeriksaan dokter berhasil dihapus. Status dikembalikan ke antrean periksa.'
+        ]);
+    }
 }

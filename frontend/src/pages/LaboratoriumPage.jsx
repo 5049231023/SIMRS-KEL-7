@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
+import { openPrintWindow } from '../utils/printHelper';
 import api from '../api/axios';
 
 const LAB_TEMPLATES = {
@@ -452,51 +453,53 @@ export default function LaboratoriumPage() {
       {selectedReport && (
         <div className="modal-overlay">
           <div className="modal-box print-document" style={{ maxWidth: '750px', textAlign: 'left', maxHeight: '90vh', overflowY: 'auto' }}>
-            {/* KOP RESMI RS */}
-            <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
-              <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
-              <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
-                INSTALASI LABORATORIUM PATOLOGI KLINIK & DIAGNOSTIK TERPADU
-              </p>
-              <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SATUSEHAT</small>
-            </div>
-
-            <div style={{ textAlign: 'center', marginBottom: '14px' }}>
-              <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
-                LEMBAR HASIL PEMERIKSAAN LABORATORIUM
-              </h3>
-              <small style={{ color: '#64748b' }}>No. Laboratorium: <strong>{selectedReport.id}</strong></small>
-            </div>
-
-            {/* IDENTITAS PASIEN */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.84rem', background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px' }}>
-              <div><span style={{ color: '#64748b' }}>Nama Pasien:</span> <strong>{selectedReport.patient_nama}</strong></div>
-              <div><span style={{ color: '#64748b' }}>No. Rekam Medis:</span> <strong>{selectedReport.patient_id}</strong></div>
-              <div><span style={{ color: '#64748b' }}>Jenis Pemeriksaan:</span> <strong>{selectedReport.jenis_pemeriksaan}</strong></div>
-              <div><span style={{ color: '#64748b' }}>Tanggal Order:</span> <strong>{selectedReport.created_at || '-'}</strong></div>
-              <div><span style={{ color: '#64748b' }}>Indikasi Klinis / Catatan:</span> <em>{selectedReport.catatan_dokter || '-'}</em></div>
-              <div><span style={{ color: '#64748b' }}>Tanggal Verifikasi:</span> <strong>{selectedReport.completed_at || selectedReport.created_at}</strong></div>
-            </div>
-
-            {/* RINCIAN HASIL ANALISIS */}
-            <div style={{ marginBottom: '16px' }}>
-              <h4 style={{ fontSize: '0.88rem', color: '#1e40af', marginBottom: '8px' }}>Rincian Nilai Parameter Uji:</h4>
-              <div style={{ background: '#ffffff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: '1.5' }}>
-                {selectedReport.hasil || 'Belum ada data hasil pengujian.'}
+            <div id="printable-hasil-lab">
+              {/* KOP RESMI RS */}
+              <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
+                <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
+                <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
+                  INSTALASI LABORATORIUM PATOLOGI KLINIK & DIAGNOSTIK TERPADU
+                </p>
+                <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SATUSEHAT</small>
               </div>
-            </div>
 
-            {/* TANDA TANGAN PETUGAS */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
-              <div style={{ color: '#64748b' }}>
-                Dokumen resmi rekam medis elektronik.<br/>
-                Dicetak pada: {new Date().toLocaleString('id-ID')}
+              <div style={{ textAlign: 'center', marginBottom: '14px' }}>
+                <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
+                  LEMBAR HASIL PEMERIKSAAN LABORATORIUM
+                </h3>
+                <small style={{ color: '#64748b' }}>No. Laboratorium: <strong>{selectedReport.id}</strong></small>
               </div>
-              <div style={{ textAlign: 'center', minWidth: '180px' }}>
-                <span>Penanggung Jawab Laboratorium,</span>
-                <div style={{ height: '48px' }}></div>
-                <strong style={{ textDecoration: 'underline' }}>Analis Patologi Klinik</strong><br/>
-                <small style={{ color: '#64748b' }}>RS Kelompok 7</small>
+
+              {/* IDENTITAS PASIEN */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.84rem', background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px' }}>
+                <div><span style={{ color: '#64748b' }}>Nama Pasien:</span> <strong>{selectedReport.patient_nama}</strong></div>
+                <div><span style={{ color: '#64748b' }}>No. Rekam Medis:</span> <strong>{selectedReport.patient_id}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Jenis Pemeriksaan:</span> <strong>{selectedReport.jenis_pemeriksaan}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Tanggal Order:</span> <strong>{selectedReport.created_at || '-'}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Indikasi Klinis / Catatan:</span> <em>{selectedReport.catatan_dokter || '-'}</em></div>
+                <div><span style={{ color: '#64748b' }}>Tanggal Verifikasi:</span> <strong>{selectedReport.completed_at || selectedReport.created_at}</strong></div>
+              </div>
+
+              {/* RINCIAN HASIL ANALISIS */}
+              <div style={{ marginBottom: '16px' }}>
+                <h4 style={{ fontSize: '0.88rem', color: '#1e40af', marginBottom: '8px' }}>Rincian Nilai Parameter Uji:</h4>
+                <div style={{ background: '#ffffff', padding: '12px', borderRadius: '6px', border: '1px solid #cbd5e1', whiteSpace: 'pre-wrap', fontFamily: 'monospace', fontSize: '0.85rem', lineHeight: '1.5' }}>
+                  {selectedReport.hasil || 'Belum ada data hasil pengujian.'}
+                </div>
+              </div>
+
+              {/* TANDA TANGAN PETUGAS */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
+                <div style={{ color: '#64748b' }}>
+                  Dokumen resmi rekam medis elektronik.<br/>
+                  Dicetak pada: {new Date().toLocaleString('id-ID')}
+                </div>
+                <div style={{ textAlign: 'center', minWidth: '180px' }}>
+                  <span>Penanggung Jawab Laboratorium,</span>
+                  <div style={{ height: '48px' }}></div>
+                  <strong style={{ textDecoration: 'underline' }}>Analis Patologi Klinik</strong><br/>
+                  <small style={{ color: '#64748b' }}>RS Kelompok 7</small>
+                </div>
               </div>
             </div>
 
@@ -506,9 +509,19 @@ export default function LaboratoriumPage() {
                 type="button" 
                 className="btn-action"
                 style={{ padding: '8px 18px', fontSize: '0.85rem' }}
-                onClick={() => window.print()}
+                onClick={() => {
+                  const el = document.getElementById('printable-hasil-lab');
+                  if (el) {
+                    const clone = el.cloneNode(true);
+                    clone.querySelectorAll('.no-print').forEach(n => n.remove());
+                    openPrintWindow({
+                      title: `Hasil Laboratorium - ${selectedReport.patient_nama || 'Pasien'} (${selectedReport.id})`,
+                      htmlContent: clone.innerHTML
+                    });
+                  }
+                }}
               >
-                Cetak / Simpan PDF (Ctrl+P)
+                Cetak di Halaman Baru (Ctrl+P)
               </button>
               <button 
                 type="button" 

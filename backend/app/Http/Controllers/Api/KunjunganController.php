@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\FhirRepository;
+use App\Services\SatuSehatService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class KunjunganController extends Controller
 {
     protected FhirRepository $fhir;
+    protected SatuSehatService $satusehat;
 
-    public function __construct(FhirRepository $fhir)
+    public function __construct(FhirRepository $fhir, SatuSehatService $satusehat)
     {
         $this->fhir = $fhir;
+        $this->satusehat = $satusehat;
     }
 
     public function index(Request $request)
@@ -202,9 +205,26 @@ class KunjunganController extends Controller
             '_workflow' => [
                 'status_alur' => $statusAlur,
                 'tanda_vital' => null,
-                'pemeriksaan_dokter' => null
+                'pemeriksaan_dokter' => null,
+                'satusehat_sync' => null
             ]
         ];
+
+        // Sinkronisasi otomatis ke SATUSEHAT (Sandbox / Live)
+        $patientIhs = '';
+        if ($patient && isset($patient['identifier'])) {
+            foreach ($patient['identifier'] as $idVal) {
+                if ($idVal['system'] === 'https://fhir.kemkes.go.id/id/ihs-number') {
+                    $patientIhs = $idVal['value'];
+                    break;
+                }
+            }
+        }
+
+        if (!empty($patientIhs)) {
+            $syncResult = $this->satusehat->syncEncounter($encounter, $patientIhs);
+            $encounter['_workflow']['satusehat_sync'] = $syncResult;
+        }
 
         $this->fhir->save('encounters', $id, $encounter);
 

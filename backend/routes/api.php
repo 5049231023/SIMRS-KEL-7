@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\FarmasiController;
 use App\Http\Controllers\Api\LaboratoriumController;
 use App\Http\Controllers\Api\KasirController;
 use App\Http\Controllers\Api\AdminUserController;
+use App\Http\Controllers\Api\SatuSehatController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -20,6 +21,10 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('fhir.auth')->group(function () {
+    // SATUSEHAT Hub
+    Route::get('/satusehat/status', [SatuSehatController::class, 'status']);
+    Route::get('/satusehat/dummy-patients', [SatuSehatController::class, 'dummyPatients']);
+
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
     Route::get('/pasien/cek-nik/{nik}', [PasienController::class, 'cekNik']);
     Route::post('/pasien', [PasienController::class, 'store']);

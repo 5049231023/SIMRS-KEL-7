@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 backend/vendor/
 frontend/node_modules/
 
@@ -35,3 +35,4 @@ backend/database/*.sqlite*
 .idea/
 .DS_Store
 Thumbs.db
+khanza/

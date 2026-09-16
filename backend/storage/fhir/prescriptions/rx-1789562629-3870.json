@@ -1,0 +1,17 @@
+{
+    "id": "rx-1789562629-3870",
+    "encounter_id": "enc-20260916124256-hYtlP",
+    "patient_id": "RM-2026-5773",
+    "patient_nama": "COALDYNO DIAS W",
+    "dokter": "Budi Handoko, S.Kom (Admin SIMRS)",
+    "items": [
+        {
+            "nama_obat": "Paracetamol 500mg",
+            "jumlah": 10,
+            "aturan": "3x1 tablet sesudah makan"
+        }
+    ],
+    "status": "dispensed",
+    "created_at": "2026-09-16",
+    "dispensed_at": "2026-09-16"
+}

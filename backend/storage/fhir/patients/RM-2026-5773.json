@@ -1,0 +1,40 @@
+{
+    "resourceType": "Patient",
+    "id": "RM-2026-5773",
+    "identifier": [
+        {
+            "system": "http:\/\/simrs-kel7.local\/norm",
+            "value": "RM-2026-5773"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
+            "value": "6474032702060001"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
+            "value": "P7138690331"
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "official",
+            "text": "COALDYNO DIAS W"
+        }
+    ],
+    "gender": "male",
+    "birthDate": "2000-02-02",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "081253108691",
+            "use": "mobile"
+        }
+    ],
+    "address": [
+        {
+            "use": "home",
+            "text": "KTT 2 40"
+        }
+    ]
+}

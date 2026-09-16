@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2025-5541",
+    "id": "RM-2026-0001",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2025-5541"
+            "value": "RM-2026-0001"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3515012345670001"
+            "value": "9271060312000001"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00098234112"
+            "value": "P02478375538"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Santoso"
+            "text": "Ardianto Putra"
         }
     ],
     "gender": "male",
-    "birthDate": "1995-05-12",
+    "birthDate": "1992-01-09",
     "telecom": [
         {
             "system": "phone",
-            "value": "081234567890",
+            "value": "081234567001",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Ketintang No. 15, Surabaya"
+            "text": "Jl. Cendrawasih No. 12, Jayapura"
         }
     ]
 }

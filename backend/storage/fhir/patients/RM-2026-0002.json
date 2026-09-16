@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2025-5541",
+    "id": "RM-2026-0002",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2025-5541"
+            "value": "RM-2026-0002"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3515012345670001"
+            "value": "9204014804000002"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00098234112"
+            "value": "P03647103112"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Santoso"
+            "text": "Claudia Sintia"
         }
     ],
-    "gender": "male",
-    "birthDate": "1995-05-12",
+    "gender": "female",
+    "birthDate": "1989-11-03",
     "telecom": [
         {
             "system": "phone",
-            "value": "081234567890",
+            "value": "081234567002",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Ketintang No. 15, Surabaya"
+            "text": "Jl. Sudirman No. 45, Sorong"
         }
     ]
 }

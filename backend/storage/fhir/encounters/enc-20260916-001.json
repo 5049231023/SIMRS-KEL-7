@@ -1,0 +1,238 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260916-001",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-0001",
+        "display": "Ardianto Putra"
+    },
+    "period": {
+        "start": "2026-09-16"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-umum",
+                "display": "Poli Umum"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Demam tinggi 38.8 C, sakit kepala dan nyeri persendian sejak 2 hari"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "BPJS Kesehatan"
+        },
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/triage",
+            "valueString": "P3"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": {
+            "tekanan_darah": "120\/80 mmHg",
+            "suhu": "38.8 \u00b0C",
+            "nadi": "86 x\/mnt",
+            "pernapasan": "20 x\/mnt",
+            "berat_badan": "65 kg",
+            "tinggi_badan": "172 cm",
+            "triage_level": "P3",
+            "catatan_perawat": "Pasien tampak lemah, akral hangat, demam mendadak tinggi",
+            "perawat_nama": "Ns. Dewi Lestari, S.Kep",
+            "waktu_ttv": "2026-09-16 08:30:00"
+        },
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "Febris Akut Suspect Dengue Fever (A90)",
+            "diagnosa_sekunder": "Cephalgia Tension Type (G44.2)",
+            "tindakan": "Pemberian antipiretik, edukasi hidrasi oral 2.5 liter\/hari & cek lab darah lengkap",
+            "catatan_dokter": "Pantau tanda bahaya (perdarahan gusi, nyeri perut hebat, muntah persisten)",
+            "dokter_nama": "dr. Ahmad Santoso, Sp.PD",
+            "waktu_periksa": "2026-09-16 09:15:00"
+        },
+        "satusehat_sync": {
+            "status": "synced_sandbox",
+            "satusehat_encounter_id": "enc-satusehat-6aaa96e2b55a2",
+            "synced_at": "2026-09-16T13:17:22+00:00",
+            "organization_id": "33771066-46d2-408b-a167-308ef64fca93",
+            "fhir_payload": {
+                "resourceType": "Encounter",
+                "status": "arrived",
+                "class": {
+                    "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+                    "code": "AMB",
+                    "display": "Rawat Jalan"
+                },
+                "subject": {
+                    "reference": "Patient\/P02478375538",
+                    "display": "Ardianto Putra"
+                },
+                "participant": [
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ParticipationType",
+                                        "code": "ATND",
+                                        "display": "attender"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner\/10009880728",
+                            "display": "Dokter Pemeriksa"
+                        }
+                    }
+                ],
+                "period": {
+                    "start": "2026-09-16T13:17:22+00:00"
+                },
+                "serviceProvider": {
+                    "reference": "Organization\/33771066-46d2-408b-a167-308ef64fca93"
+                },
+                "identifier": [
+                    {
+                        "system": "http:\/\/sys-ids.kemkes.go.id\/encounter\/33771066-46d2-408b-a167-308ef64fca93",
+                        "value": "enc-20260916-001"
+                    }
+                ]
+            }
+        },
+        "satusehat_observation": {
+            "status": "synced_sandbox",
+            "satusehat_observation_id": "obs-ttv-6aaa96e2cb453",
+            "synced_at": "2026-09-16T13:17:22+00:00",
+            "fhir_payload": {
+                "resourceType": "Observation",
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http:\/\/terminology.hl7.org\/CodeSystem\/observation-category",
+                                "code": "vital-signs",
+                                "display": "Vital Signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http:\/\/loinc.org",
+                            "code": "85354-9",
+                            "display": "Blood pressure panel with all children optional"
+                        }
+                    ],
+                    "text": "Pemeriksaan Tanda Vital"
+                },
+                "subject": {
+                    "reference": "Patient\/P02478375538"
+                },
+                "encounter": {
+                    "reference": "Encounter\/enc-satusehat-6aaa96e2b55a2"
+                },
+                "effectiveDateTime": "2026-09-16T13:17:22+00:00",
+                "issued": "2026-09-16T13:17:22+00:00",
+                "performer": [
+                    {
+                        "reference": "Practitioner\/10009880728"
+                    }
+                ],
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http:\/\/loinc.org",
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 120,
+                            "unit": "mmHg",
+                            "system": "http:\/\/unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http:\/\/loinc.org",
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 80,
+                            "unit": "mmHg",
+                            "system": "http:\/\/unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                        }
+                    }
+                ]
+            }
+        },
+        "satusehat_condition": {
+            "status": "synced_sandbox",
+            "satusehat_condition_id": "cond-diag-6aaa96e2def8c",
+            "synced_at": "2026-09-16T13:17:22+00:00",
+            "fhir_payload": {
+                "resourceType": "Condition",
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http:\/\/terminology.hl7.org\/CodeSystem\/condition-clinical",
+                            "code": "active",
+                            "display": "Active"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http:\/\/terminology.hl7.org\/CodeSystem\/condition-category",
+                                "code": "encounter-diagnosis",
+                                "display": "Encounter Diagnosis"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http:\/\/hl7.org\/fhir\/sid\/icd-10",
+                            "code": "Z00.0",
+                            "display": "Febris Akut Suspect Dengue Fever (A90)"
+                        }
+                    ],
+                    "text": "Febris Akut Suspect Dengue Fever (A90)"
+                },
+                "subject": {
+                    "reference": "Patient\/P02478375538"
+                },
+                "encounter": {
+                    "reference": "Encounter\/enc-satusehat-6aaa96e2b55a2"
+                },
+                "recordedDate": "2026-09-16T13:17:22+00:00"
+            }
+        }
+    }
+}

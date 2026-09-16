@@ -1,15 +1,15 @@
 {
     "resourceType": "Encounter",
-    "id": "enc-20260910-igd-001",
+    "id": "enc-20260916-003",
     "status": "in-progress",
     "class": {
         "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
-        "code": "EMER",
-        "display": "IGD"
+        "code": "AMB",
+        "display": "Rawat Jalan"
     },
     "subject": {
-        "reference": "Patient\/RM-2026-1004",
-        "display": "Ahmad Fauzi"
+        "reference": "Patient\/RM-2026-0003",
+        "display": "Elizabeth Dior"
     },
     "period": {
         "start": "2026-09-16"
@@ -18,45 +18,45 @@
         "coding": [
             {
                 "system": "http:\/\/simrs-kel7.local\/poli",
-                "code": "igd",
-                "display": "IGD"
+                "code": "poli-gigi",
+                "display": "Poli Gigi"
             }
         ]
     },
     "reasonCode": [
         {
-            "text": "Luka robek terbuka di lengan kanan bawah akibat pecahan kaca, perdarahan aktif"
+            "text": "Gigi geraham kanan bawah berlubang besar, nyeri spontan berdenyut menjalar ke pipi"
         }
     ],
     "extension": [
         {
             "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
-            "valueString": "Umum"
+            "valueString": "BPJS Kesehatan"
         },
         {
             "url": "http:\/\/simrs-kel7.local\/ext\/triage",
-            "valueString": "P2"
+            "valueString": "P4"
         }
     ],
     "_workflow": {
         "status_alur": "siap_dokter",
         "tanda_vital": {
-            "tekanan_darah": "125\/80 mmHg",
+            "tekanan_darah": "130\/85 mmHg",
             "suhu": "36.8 \u00b0C",
-            "nadi": "94 x\/mnt",
-            "pernapasan": "20 x\/mnt",
-            "berat_badan": "68 kg",
-            "tinggi_badan": "170 cm",
-            "triage_level": "P2",
-            "catatan_perawat": "Luka sayat sepanjang 6 cm, perdarahan aktif terkontrol dengan bebat tekan",
+            "nadi": "80 x\/mnt",
+            "pernapasan": "18 x\/mnt",
+            "berat_badan": "58 kg",
+            "tinggi_badan": "158 cm",
+            "triage_level": "P4",
+            "catatan_perawat": "Nyeri tekan lokal gigi 46, riwayat sakit gigi berulang",
             "perawat_nama": "Ns. Dewi Lestari, S.Kep",
-            "waktu_ttv": "2026-09-16 10:10:00"
+            "waktu_ttv": "2026-09-16 09:00:00"
         },
         "pemeriksaan_dokter": null,
         "satusehat_sync": {
             "status": "synced_sandbox",
-            "satusehat_encounter_id": "enc-satusehat-igd-001",
-            "synced_at": "2026-09-16T10:10:00+07:00",
+            "satusehat_encounter_id": "enc-satusehat-eli-003",
+            "synced_at": "2026-09-16T09:00:00+07:00",
             "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
         }
     }

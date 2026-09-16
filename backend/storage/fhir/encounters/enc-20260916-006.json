@@ -1,15 +1,15 @@
 {
     "resourceType": "Encounter",
-    "id": "enc-20260910-igd-001",
+    "id": "enc-20260916-006",
     "status": "in-progress",
     "class": {
         "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
-        "code": "EMER",
-        "display": "IGD"
+        "code": "AMB",
+        "display": "Rawat Jalan"
     },
     "subject": {
-        "reference": "Patient\/RM-2026-1004",
-        "display": "Ahmad Fauzi"
+        "reference": "Patient\/RM-2026-1003",
+        "display": "Hendra Gunawan"
     },
     "period": {
         "start": "2026-09-16"
@@ -18,14 +18,14 @@
         "coding": [
             {
                 "system": "http:\/\/simrs-kel7.local\/poli",
-                "code": "igd",
-                "display": "IGD"
+                "code": "poli-penyakit-dalam",
+                "display": "Poli Penyakit Dalam"
             }
         ]
     },
     "reasonCode": [
         {
-            "text": "Luka robek terbuka di lengan kanan bawah akibat pecahan kaca, perdarahan aktif"
+            "text": "Pusing berputar, tengkuk terasa berat kaku dan sering haus di malam hari"
         }
     ],
     "extension": [
@@ -35,28 +35,28 @@
         },
         {
             "url": "http:\/\/simrs-kel7.local\/ext\/triage",
-            "valueString": "P2"
+            "valueString": "P3"
         }
     ],
     "_workflow": {
         "status_alur": "siap_dokter",
         "tanda_vital": {
-            "tekanan_darah": "125\/80 mmHg",
-            "suhu": "36.8 \u00b0C",
-            "nadi": "94 x\/mnt",
-            "pernapasan": "20 x\/mnt",
-            "berat_badan": "68 kg",
-            "tinggi_badan": "170 cm",
-            "triage_level": "P2",
-            "catatan_perawat": "Luka sayat sepanjang 6 cm, perdarahan aktif terkontrol dengan bebat tekan",
+            "tekanan_darah": "150\/95 mmHg",
+            "suhu": "36.7 \u00b0C",
+            "nadi": "88 x\/mnt",
+            "pernapasan": "19 x\/mnt",
+            "berat_badan": "74 kg",
+            "tinggi_badan": "168 cm",
+            "triage_level": "P3",
+            "catatan_perawat": "Pasien riwayat hipertensi, lupa konsumsi obat antihipertensi 1 minggu terakhir",
             "perawat_nama": "Ns. Dewi Lestari, S.Kep",
-            "waktu_ttv": "2026-09-16 10:10:00"
+            "waktu_ttv": "2026-09-16 09:25:00"
         },
         "pemeriksaan_dokter": null,
         "satusehat_sync": {
             "status": "synced_sandbox",
-            "satusehat_encounter_id": "enc-satusehat-igd-001",
-            "synced_at": "2026-09-16T10:10:00+07:00",
+            "satusehat_encounter_id": "enc-satusehat-hen-006",
+            "synced_at": "2026-09-16T09:25:00+07:00",
             "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
         }
     }

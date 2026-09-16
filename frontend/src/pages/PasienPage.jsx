@@ -32,6 +32,7 @@ export default function PasienPage() {
   // Delete confirmation & Feedback modals
   const [deleteConfirm, setDeleteConfirm] = useState({ show: false, item: null, isDeleting: false });
   const [feedbackModal, setFeedbackModal] = useState({ show: false, isError: false, title: '', text: '' });
+  const [pushingId, setPushingId] = useState(null);
 
   const loadData = () => {
     api.get('/kunjungan')
@@ -42,6 +43,48 @@ export default function PasienPage() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const handlePushSatusehat = async (k) => {
+    if (!k?.id) return;
+    setPushingId(k.id);
+    try {
+      const res = await api.post(`/kunjungan/${k.id}/push-satusehat`);
+      setFeedbackModal({
+        show: true,
+        isError: false,
+        title: 'Push ke SATUSEHAT Berhasil',
+        text: `Seluruh rekam medis ${k.pasien?.nama || 'Pasien'} berhasil di-push ke SATUSEHAT Kemenkes RI.\n\n` +
+          `• Organization ID: ${res.data.organization_id}\n` +
+          `• IHS Pasien: ${res.data.patient_ihs}\n` +
+          `• Encounter ID: ${res.data.satusehat_encounter_id}\n` +
+          `• Observation TTV: ${res.data.satusehat_observation_id}\n` +
+          `• Condition Diagnosis: ${res.data.satusehat_condition_id}\n` +
+          `• Mode: ${res.data.mode}\n` +
+          `• Waktu Sinkronisasi: ${res.data.synced_at}`
+      });
+      loadData();
+      if (selectedDetail && selectedDetail.id === k.id) {
+        setSelectedDetail(prev => ({
+          ...prev,
+          _workflow: {
+            ...prev?._workflow,
+            satusehat_sync: { satusehat_encounter_id: res.data.satusehat_encounter_id, status: 'synced' },
+            satusehat_observation: { satusehat_observation_id: res.data.satusehat_observation_id },
+            satusehat_condition: { satusehat_condition_id: res.data.satusehat_condition_id }
+          }
+        }));
+      }
+    } catch (err) {
+      setFeedbackModal({
+        show: true,
+        isError: true,
+        title: 'Push SATUSEHAT Gagal',
+        text: err.response?.data?.message || 'Gagal mengirim data rekam medis ke server SATUSEHAT. Silakan periksa koneksi.'
+      });
+    } finally {
+      setPushingId(null);
+    }
+  };
 
   const calculateAge = (dob) => {
     if (!dob) return '';
@@ -336,6 +379,26 @@ export default function PasienPage() {
                         Detail
                       </button>
 
+                      <button
+                        type="button"
+                        style={{
+                          padding: '5px 8px',
+                          fontSize: '0.75rem',
+                          background: k._workflow?.satusehat_sync ? '#f0fdf4' : '#eff6ff',
+                          border: k._workflow?.satusehat_sync ? '1px solid #bbf7d0' : '1px solid #bfdbfe',
+                          color: k._workflow?.satusehat_sync ? '#166534' : '#1d4ed8',
+                          borderRadius: '4px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onClick={() => handlePushSatusehat(k)}
+                        disabled={pushingId === k.id}
+                        title="Kirim atau sinkronkan data kunjungan ke SATUSEHAT Kemenkes RI"
+                      >
+                        {pushingId === k.id ? 'Pushing...' : (k._workflow?.satusehat_sync ? 'Push Ulang' : 'Push SATUSEHAT')}
+                      </button>
+
                       {role === 'admin' && (
                         <button
                           type="button"
@@ -499,6 +562,24 @@ export default function PasienPage() {
                 )}
               </div>
 
+              {/* 5. STATUS INTEGRASI SATUSEHAT KEMENKES RI */}
+              <div style={{ background: '#f8fafc', padding: '14px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', borderLeft: '4px solid #0284c7', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <h4 style={{ color: '#0369a1', fontSize: '0.9rem', margin: 0 }}>5. Status Integrasi SATUSEHAT Kemenkes RI</h4>
+                  <span className={selectedDetail._workflow?.satusehat_sync ? 'badge-status-completed' : 'badge-status-pending'}>
+                    {selectedDetail._workflow?.satusehat_sync ? 'Tersinkronisasi' : 'Belum Sinkron'}
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#334155', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '8px' }}>
+                  <div>Fasyankes Org ID: <strong>33771066-46d2-408b-a167-308ef64fca93</strong></div>
+                  <div>Nomor IHS Pasien: <strong style={{ color: '#166534' }}>{selectedDetail.pasien?.ihs_number || '-'}</strong></div>
+                  <div>Encounter ID: <strong>{selectedDetail._workflow?.satusehat_sync?.satusehat_encounter_id || '-'}</strong></div>
+                  <div>Observation TTV: <strong>{selectedDetail._workflow?.satusehat_observation?.satusehat_observation_id || (selectedDetail.tanda_vital ? 'Siap di-push' : '-')}</strong></div>
+                  <div>Condition Diagnosis: <strong>{selectedDetail._workflow?.satusehat_condition?.satusehat_condition_id || (selectedDetail.pemeriksaan_dokter ? 'Siap di-push' : '-')}</strong></div>
+                  <div>Status Pengiriman: <strong>{selectedDetail._workflow?.satusehat_sync?.status === 'synced_live' ? 'Live API Kemenkes' : 'Sandbox (Simulasi Terverifikasi FHIR R4)'}</strong></div>
+                </div>
+              </div>
+
               {/* TANDA TANGAN */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
                 <div style={{ color: '#64748b' }}>
@@ -515,6 +596,15 @@ export default function PasienPage() {
             </div>
 
             <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
+              <button
+                type="button"
+                className="btn-status-action"
+                style={{ padding: '8px 18px', fontSize: '0.85rem', background: '#eff6ff', borderColor: '#3b82f6', color: '#1d4ed8' }}
+                onClick={() => handlePushSatusehat(selectedDetail)}
+                disabled={pushingId === selectedDetail.id}
+              >
+                {pushingId === selectedDetail.id ? 'Mengirim ke SATUSEHAT...' : 'Push ke SATUSEHAT Sekarang'}
+              </button>
               <button 
                 type="button" 
                 className="btn-action"

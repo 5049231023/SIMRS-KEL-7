@@ -28,8 +28,8 @@
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$Kl7uDDCjwpCmLs11h1.c4eb2jZowLy.oqKqZQ.WMxKMbwkatZLWOm",
-        "api_token": "3cb10d8dce9b75476a7d736287b2d6eaa2aa9ba201241dbfbf6ea968be81e031",
+        "password_hash": "$2y$12$uuZXoQO8Oy7c5KbIbjiWvOaDM0hL1MNBKrg1UpfUi99kHSBFaVAqW",
+        "api_token": null,
         "role": "dokter"
     }
 }

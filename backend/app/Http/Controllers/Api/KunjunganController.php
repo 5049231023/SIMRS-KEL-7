@@ -505,4 +505,17 @@ class KunjunganController extends Controller
             'message' => 'Data hasil pemeriksaan dokter berhasil dihapus. Status dikembalikan ke antrean periksa.'
         ]);
     }
+
+    /**
+     * Endpoint untuk melakukan PUSH data rekam medis lengkap (Encounter, TTV, Diagnosis) ke SATUSEHAT
+     */
+    public function pushSatusehat(Request $request, $id)
+    {
+        $result = $this->satusehat->pushFullMedicalRecord($id, $this->fhir);
+        if (!($result['success'] ?? false)) {
+            return response()->json($result, 404);
+        }
+
+        return response()->json($result);
+    }
 }

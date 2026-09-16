@@ -1,17 +1,17 @@
 {
     "resourceType": "Practitioner",
-    "id": "pract-101",
+    "id": "pract-106",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/nip",
-            "value": "101"
+            "value": "106"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Handoko, S.Kom (Admin SIMRS)"
+            "text": "Maya Anggraeni, S.E (Kasir & Billing)"
         }
     ],
     "qualification": [
@@ -20,16 +20,16 @@
                 "coding": [
                     {
                         "system": "http:\/\/simrs-kel7.local\/unit",
-                        "code": "admin",
-                        "display": "Admin Rekam Medis"
+                        "code": "kasir",
+                        "display": "Kasir"
                     }
                 ]
             }
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$.98744XOJB.3alNux5l8I.tysDDPXJNo\/COpmX.w25aMKggSoffbC",
+        "password_hash": "$2y$12$eivxwgw46XNBi11Cys4iNOLC3HamyzjIgvp9c3Ql7c.u3womKhzGi",
         "api_token": null,
-        "role": "admin"
+        "role": "kasir"
     }
 }

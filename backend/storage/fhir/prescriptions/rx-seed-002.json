@@ -1,17 +1,27 @@
 {
     "id": "rx-seed-002",
-    "encounter_id": "enc-20260609-001",
-    "patient_id": "RM-2025-5541",
-    "patient_nama": "Budi Santoso",
+    "encounter_id": "enc-20260916-002",
+    "patient_id": "RM-2026-0002",
+    "patient_nama": "Claudia Sintia",
     "dokter": "dr. Ahmad Santoso, Sp.PD",
     "items": [
         {
-            "nama_obat": "Omeprazole 20mg",
+            "nama_obat": "Omeprazole 20mg Kapsul",
             "jumlah": 14,
-            "aturan": "1x1 sebelum makan pagi"
+            "aturan": "1x1 kapsul 30 menit sebelum makan pagi"
+        },
+        {
+            "nama_obat": "Antasida Doen Suspensi",
+            "jumlah": 1,
+            "aturan": "3x1 sendok makan 1 jam sebelum makan"
+        },
+        {
+            "nama_obat": "Domperidone 10mg Tablet",
+            "jumlah": 10,
+            "aturan": "3x1 tablet 15 menit sebelum makan"
         }
     ],
     "status": "dispensed",
-    "created_at": "2026-09-11",
-    "dispensed_at": "2026-09-11"
+    "created_at": "2026-09-16",
+    "dispensed_at": "2026-09-16"
 }

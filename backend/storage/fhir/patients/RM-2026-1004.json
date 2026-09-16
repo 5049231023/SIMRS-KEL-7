@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2025-5541",
+    "id": "RM-2026-1004",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2025-5541"
+            "value": "RM-2026-1004"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3515012345670001"
+            "value": "3174021208940002"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00098234112"
+            "value": "P00066543210"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Santoso"
+            "text": "Ahmad Fauzi"
         }
     ],
     "gender": "male",
-    "birthDate": "1995-05-12",
+    "birthDate": "1994-08-12",
     "telecom": [
         {
             "system": "phone",
-            "value": "081234567890",
+            "value": "081344556677",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Ketintang No. 15, Surabaya"
+            "text": "Jl. Tebet Barat Dalam No. 18, Jakarta Selatan"
         }
     ]
 }

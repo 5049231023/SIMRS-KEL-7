@@ -1,0 +1,25 @@
+{
+    "id": "inv-seed-003",
+    "encounter_id": "enc-20260916-001",
+    "patient_id": "RM-2026-0001",
+    "patient_nama": "Ardianto Putra",
+    "items": [
+        {
+            "deskripsi": "Konsultasi Poli Umum (Klaim BPJS)",
+            "jumlah": 50000
+        },
+        {
+            "deskripsi": "Pemeriksaan Darah Lengkap Lab",
+            "jumlah": 85000
+        },
+        {
+            "deskripsi": "Paket Obat Terapi Suportif",
+            "jumlah": 50000
+        }
+    ],
+    "total": 185000,
+    "status": "paid",
+    "metode_bayar": "BPJS Kesehatan",
+    "created_at": "2026-09-16",
+    "paid_at": "2026-09-16"
+}

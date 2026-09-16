@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2025-5541",
+    "id": "RM-2026-0004",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2025-5541"
+            "value": "RM-2026-0004"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3515012345670001"
+            "value": "9104223107000004"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00098234112"
+            "value": "P00912894463"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Budi Santoso"
+            "text": "Dr. Alan Bagus Prasetya"
         }
     ],
     "gender": "male",
-    "birthDate": "1995-05-12",
+    "birthDate": "1977-09-03",
     "telecom": [
         {
             "system": "phone",
-            "value": "081234567890",
+            "value": "081234567004",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Ketintang No. 15, Surabaya"
+            "text": "Jl. Pahlawan No. 20, Nabire"
         }
     ]
 }

@@ -1,0 +1,48 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260916-005",
+    "status": "in-progress",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-1002",
+        "display": "Siti Aminah"
+    },
+    "period": {
+        "start": "2026-09-16"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-penyakit-dalam",
+                "display": "Poli Penyakit Dalam"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Demam menggigil naik turun sejak 3 hari, nafsu makan turun drastis"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "BPJS Kesehatan"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "menunggu_perawat",
+        "tanda_vital": null,
+        "pemeriksaan_dokter": null,
+        "satusehat_sync": {
+            "status": "synced_sandbox",
+            "satusehat_encounter_id": "enc-satusehat-sit-005",
+            "synced_at": "2026-09-16T09:10:00+07:00",
+            "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
+        }
+    }
+}

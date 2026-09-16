@@ -25,13 +25,17 @@
     },
     "reasonCode": [
         {
-            "text": "Demam tinggi dan sakit kepala"
+            "text": "Demam tinggi berulang dan batuk berdahak 4 hari"
         }
     ],
     "extension": [
         {
             "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
             "valueString": "BPJS Kesehatan"
+        },
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/triage",
+            "valueString": "P3"
         }
     ],
     "_workflow": {
@@ -43,17 +47,24 @@
             "pernapasan": "20 x\/mnt",
             "berat_badan": "65 kg",
             "tinggi_badan": "170 cm",
-            "catatan_perawat": "Pasien tampak lemas",
+            "triage_level": "P3",
+            "catatan_perawat": "Pasien batuk produktif, dahak kental kekuningan",
             "perawat_nama": "Ns. Dewi Lestari, S.Kep",
-            "waktu_ttv": "2026-06-09 08:30:00"
+            "waktu_ttv": "2026-06-09 09:00:00"
         },
         "pemeriksaan_dokter": {
-            "diagnosa_utama": "Febris Akut e.c Susp. ISPA",
-            "diagnosa_sekunder": "Cephalgia",
-            "tindakan": "Edukasi istirahat dan terapi obat simptomatis",
-            "catatan_dokter": "Banyak minum air putih, kontrol ulang 3 hari jika belum turun",
+            "diagnosa_utama": "Infeksi Saluran Pernapasan Akut \/ ISPA (J06.9)",
+            "diagnosa_sekunder": "Acute Pharyngitis (J02.9)",
+            "tindakan": "Pemberian antibiotik oral dan antitusif ekspektoran",
+            "catatan_dokter": "Banyak minum air hangat, istirahat cukup",
             "dokter_nama": "dr. Ahmad Santoso, Sp.PD",
-            "waktu_periksa": "2026-06-09 09:15:00"
+            "waktu_periksa": "2026-06-09 09:30:00"
+        },
+        "satusehat_sync": {
+            "status": "synced_sandbox",
+            "satusehat_encounter_id": "enc-satusehat-budi-001",
+            "synced_at": "2026-06-09T09:00:00+07:00",
+            "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
         }
     }
 }

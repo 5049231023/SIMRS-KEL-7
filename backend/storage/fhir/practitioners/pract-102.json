@@ -28,8 +28,8 @@
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$WJ8sswJRZy5a\/5ZQv4YT5ue7sbcrsJVkOsPttwqkHVvh7cOLjeqCW",
-        "api_token": "93c1f4d75e7f8fde75f721d9754920d0eb84e8315bb81e3f079df9eba1eb1e6c",
+        "password_hash": "$2y$12$\/a01Xlgi41qihvhpsivlueycdQgsiKL7JL\/.sV.ZcsqsfWheACsne",
+        "api_token": null,
         "role": "farmasi"
     }
 }

@@ -1,0 +1,70 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260916-004",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-0004",
+        "display": "Dr. Alan Bagus Prasetya"
+    },
+    "period": {
+        "start": "2026-09-16"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-bedah",
+                "display": "Poli Bedah"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Kontrol rutin luka operasi eksisi lipoma regio punggung hari ke-7"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "Asuransi Lain"
+        },
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/triage",
+            "valueString": "P4"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": {
+            "tekanan_darah": "125\/80 mmHg",
+            "suhu": "36.5 \u00b0C",
+            "nadi": "74 x\/mnt",
+            "pernapasan": "16 x\/mnt",
+            "berat_badan": "75 kg",
+            "tinggi_badan": "175 cm",
+            "triage_level": "P4",
+            "catatan_perawat": "Luka operasi bersih, tidak ada tanda pus\/infeksi",
+            "perawat_nama": "Ns. Dewi Lestari, S.Kep",
+            "waktu_ttv": "2026-09-16 09:20:00"
+        },
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "Post-operative follow-up examination (Z48.8)",
+            "diagnosa_sekunder": "Lipoma trunk (D17.1)",
+            "tindakan": "Pengangkatan jahitan (aff hecting 5 simpul) & penggantian balutan kasa steril",
+            "catatan_dokter": "Luka mengering sempurna (per primam intentionem). Pasien diperbolehkan mandi normal.",
+            "dokter_nama": "dr. Ahmad Santoso, Sp.PD",
+            "waktu_periksa": "2026-09-16 10:00:00"
+        },
+        "satusehat_sync": {
+            "status": "synced_sandbox",
+            "satusehat_encounter_id": "enc-satusehat-aln-004",
+            "synced_at": "2026-09-16T09:20:00+07:00",
+            "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
+        }
+    }
+}

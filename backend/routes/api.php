@@ -32,6 +32,7 @@ Route::middleware('fhir.auth')->group(function () {
     Route::post('/kunjungan', [KunjunganController::class, 'store']);
     Route::put('/kunjungan/{id}/ttv', [KunjunganController::class, 'updateTtv']);
     Route::put('/kunjungan/{id}/pemeriksaan', [KunjunganController::class, 'pemeriksaan']);
+    Route::post('/kunjungan/{id}/push-satusehat', [KunjunganController::class, 'pushSatusehat']);
     Route::delete('/kunjungan/{id}', [KunjunganController::class, 'destroy']);
     Route::delete('/kunjungan/{id}/pemeriksaan', [KunjunganController::class, 'destroyPemeriksaan']);
 

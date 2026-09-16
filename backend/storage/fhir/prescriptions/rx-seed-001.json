@@ -1,22 +1,27 @@
 {
     "id": "rx-seed-001",
-    "encounter_id": "enc-20260609-001",
-    "patient_id": "RM-2025-5541",
-    "patient_nama": "Budi Santoso",
+    "encounter_id": "enc-20260916-001",
+    "patient_id": "RM-2026-0001",
+    "patient_nama": "Ardianto Putra",
     "dokter": "dr. Ahmad Santoso, Sp.PD",
     "items": [
         {
-            "nama_obat": "Paracetamol 500mg",
-            "jumlah": 10,
-            "aturan": "3x1 sehari sesudah makan"
+            "nama_obat": "Paracetamol 500mg Tablet",
+            "jumlah": 15,
+            "aturan": "3x1 tablet sesudah makan (bila demam)"
         },
         {
-            "nama_obat": "Amoxicillin 500mg",
-            "jumlah": 15,
-            "aturan": "3x1 sehari dihabiskan"
+            "nama_obat": "Vitamin C 500mg Tablet",
+            "jumlah": 10,
+            "aturan": "1x1 tablet sesudah makan pagi"
+        },
+        {
+            "nama_obat": "Oralit Sachet",
+            "jumlah": 6,
+            "aturan": "Larutkan 1 sachet dalam 200ml air, minum bila lemas"
         }
     ],
     "status": "pending",
-    "created_at": "2026-09-11",
+    "created_at": "2026-09-16",
     "dispensed_at": null
 }

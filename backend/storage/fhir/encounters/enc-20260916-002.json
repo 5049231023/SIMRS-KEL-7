@@ -1,0 +1,70 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260916-002",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-0002",
+        "display": "Claudia Sintia"
+    },
+    "period": {
+        "start": "2026-09-16"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "poli-penyakit-dalam",
+                "display": "Poli Penyakit Dalam"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Nyeri ulu hati perih melilit, kembung dan mual hebat pasca konsumsi makanan asam"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "Umum"
+        },
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/triage",
+            "valueString": "P3"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": {
+            "tekanan_darah": "110\/70 mmHg",
+            "suhu": "36.6 \u00b0C",
+            "nadi": "78 x\/mnt",
+            "pernapasan": "18 x\/mnt",
+            "berat_badan": "52 kg",
+            "tinggi_badan": "160 cm",
+            "triage_level": "P3",
+            "catatan_perawat": "Nyeri tekan epigastrium (+), skala nyeri 5\/10",
+            "perawat_nama": "Ns. Dewi Lestari, S.Kep",
+            "waktu_ttv": "2026-09-16 08:45:00"
+        },
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "Gastritis Akut Erosif (K29.1)",
+            "diagnosa_sekunder": "Dispepsia Fungsional (K30)",
+            "tindakan": "Pemberian injeksi Omeprazole IV, edukasi pola makan teratur",
+            "catatan_dokter": "Hindari kopi, makanan pedas, dan obat pereda nyeri NSAID",
+            "dokter_nama": "dr. Ahmad Santoso, Sp.PD",
+            "waktu_periksa": "2026-09-16 09:30:00"
+        },
+        "satusehat_sync": {
+            "status": "synced_sandbox",
+            "satusehat_encounter_id": "enc-satusehat-cla-002",
+            "synced_at": "2026-09-16T08:45:00+07:00",
+            "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
+        }
+    }
+}

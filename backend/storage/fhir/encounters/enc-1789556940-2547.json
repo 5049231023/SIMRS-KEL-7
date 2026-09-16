@@ -1,0 +1,49 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-1789556940-2547",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-0669",
+        "display": "COALDYNO DIAS WIDODO"
+    },
+    "period": {
+        "start": "2026-09-16"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "umum",
+                "display": "Umum"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "Nyeri Gigi"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "BPJS Kesehatan"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": null,
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "K02.9",
+            "diagnosa_sekunder": "",
+            "tindakan": "PSA",
+            "catatan_dokter": "minum obat anti nyeri",
+            "dokter_nama": "Budi Handoko, S.Kom (Admin SIMRS)",
+            "waktu_periksa": "2026-09-16 11:11:01"
+        }
+    }
+}

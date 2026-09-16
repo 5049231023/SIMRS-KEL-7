@@ -24,41 +24,68 @@ a {
   color: inherit;
 }
 
-/* === 2. TATA LETAK UTAMA (APP LAYOUT & SIDEBAR) === */
+/* === 2. TATA LETAK UTAMA (APP LAYOUT, TOPBAR & SIDEBAR) === */
 .app-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   width: 100%;
+  background: #f8fafc;
 }
 
-/* Sidebar Putih Bersih Bergaya Sistem Enterprise Rumah Sakit */
-.app-sidebar {
-  width: 250px;
-  min-width: 250px;
-  background: #ffffff;
-  color: #1e293b;
+/* Header Topbar - Memuat Brand di Kiri dan Profil Petugas di Kanan */
+.app-topbar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
   position: sticky;
   top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  border-right: 1px solid #e2e8f0;
-  z-index: 50;
+  z-index: 100;
+  height: 64px;
+  box-sizing: border-box;
 }
 
-.sidebar-brand {
+.topbar-left {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 20px 18px;
-  border-bottom: 1px solid #e2e8f0;
+  gap: 14px;
+  min-width: 0;
+}
+
+.btn-toggle-sidebar {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn-toggle-sidebar:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .brand-badge {
   background: #1e40af;
   color: #ffffff;
-  padding: 5px 8px;
+  padding: 4px 8px;
   border-radius: 6px;
   font-weight: 700;
   font-size: 0.85rem;
@@ -78,40 +105,89 @@ a {
   font-weight: 500;
 }
 
-/* Card Profil Petugas di Sidebar */
-.sidebar-profile {
-  padding: 14px 16px;
-  background: #f8fafc;
-  margin: 14px 12px 6px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
+.topbar-divider {
+  width: 1px;
+  height: 28px;
+  background: #e2e8f0;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.topbar-title-block {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.topbar-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-subtitle {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin: 2px 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-right {
+  display: flex;
   align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.topbar-date {
+  font-size: 0.8rem;
+  color: #475569;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Card Profil Petugas di Topbar Kanan */
+.topbar-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
 }
 
 .profile-avatar {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: #eff6ff;
   color: #1e40af;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.88rem;
-  border: 1px solid #cbd5e1;
+  font-size: 0.82rem;
+  border: 1px solid #bfdbfe;
 }
 
 .profile-info {
-  min-width: 0;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 150px;
 }
 
 .profile-name {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: #0f172a;
   white-space: nowrap;
@@ -120,9 +196,12 @@ a {
 }
 
 .profile-nip {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #64748b;
-  margin: 1px 0 4px;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Badge Role Tenang & Natural */
@@ -133,6 +212,7 @@ a {
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.3px;
+  width: fit-content;
 }
 
 .role-badge.role-admin {
@@ -157,6 +237,85 @@ a {
   background: #fefce8;
   color: #854d0e;
   border: 1px solid #fef08a;
+}
+
+.role-badge.role-laboratorium {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.role-badge.role-kasir {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.btn-topbar-logout {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  margin-left: 4px;
+  background: #ffffff;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-topbar-logout:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+/* Area Kerja (Workspace: Sidebar + Main Content) */
+.app-workspace {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  position: relative;
+}
+
+/* Sidebar Navigasi Collapsible */
+.app-sidebar {
+  background: #ffffff;
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  border-right: 1px solid #e2e8f0;
+  z-index: 40;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, padding 0.2s ease;
+}
+
+.app-sidebar.open {
+  width: 250px;
+  min-width: 250px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.app-sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  border-right: none;
+  pointer-events: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.app-sidebar.collapsed * {
+  display: none !important;
 }
 
 .sidebar-section-title {
@@ -216,93 +375,14 @@ a {
   color: #1e40af;
 }
 
-.sidebar-footer {
-  padding: 14px 16px;
-  border-top: 1px solid #e2e8f0;
-  margin-top: auto;
-}
-
-.btn-sidebar-logout {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.btn-sidebar-logout:hover {
-  background: #fef2f2;
-}
-
-/* === 3. APP MAIN & TOPBAR === */
+/* Main Content Area */
 .app-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
   background: #f8fafc;
-}
-
-.app-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 28px;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.topbar-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-}
-
-.topbar-subtitle {
-  font-size: 0.82rem;
-  color: #64748b;
-  margin-top: 2px;
-}
-
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.topbar-date {
-  font-size: 0.82rem;
-  color: #475569;
-  font-weight: 500;
-}
-
-.topbar-status-chip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #f0fdf4;
-  color: #166534;
-  padding: 3px 9px;
-  border-radius: 16px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  border: 1px solid #bbf7d0;
-}
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #22c55e;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .app-content-body {
@@ -544,23 +624,33 @@ a {
   background: #f8fafc;
   padding: 16px 18px;
   border-radius: 8px;
-  min-width: 240px;
+  min-width: 260px;
+  max-width: 340px;
   border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
 }
 
 .row-info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 6px;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
   font-size: 0.82rem;
 }
 
 .row-info span {
   color: #64748b;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .row-info strong {
   color: #0f172a;
+  text-align: right;
+  word-break: break-word;
+  font-weight: 600;
 }
 
 .badge-status {
@@ -1166,4 +1256,83 @@ tr:hover td {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
+}
+
+/* === 17. PRINT & LAPORAN CETAK (OFFICIAL PDF / HARDCOPY) === */
+.print-document {
+  color: #0f172a;
+  background: #ffffff;
+}
+
+@media print {
+  /* Sembunyikan elemen navigasi, topbar, sidebar, aksi, dan filter */
+  .app-topbar,
+  .app-sidebar,
+  .no-print,
+  .btn-action,
+  .btn-submit,
+  .page-tabs,
+  .search-filter-box,
+  .btn-toggle-sidebar,
+  .sidebar-nav {
+    display: none !important;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .app-layout,
+  .app-workspace,
+  .app-main,
+  .app-content-body {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  .modal-overlay {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+    z-index: auto !important;
+  }
+
+  .modal-box.print-document {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 10mm 15mm !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+  }
+
+  /* Optimalisasi tabel dan border saat dicetak */
+  table {
+    page-break-inside: auto !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tfoot {
+    display: table-footer-group !important;
+  }
 }

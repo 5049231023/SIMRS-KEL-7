@@ -7,6 +7,8 @@ export default function FarmasiPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('pending');
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingResep, setEditingResep] = useState(null);
+  const [editItems, setEditItems] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -26,10 +28,44 @@ export default function FarmasiPage() {
 
   const handleDispense = async (id) => {
     try {
-      await api.put(`/farmasi/resep/${id}`);
+      await api.put(`/farmasi/resep/${id}/dispense`, { dispense: true });
       fetchData();
     } catch (error) {
       console.error('Error dispensing resep:', error);
+    }
+  };
+
+  const handleOpenEdit = (item) => {
+    setEditingResep(item);
+    setEditItems(item.items ? JSON.parse(JSON.stringify(item.items)) : []);
+  };
+
+  const handleAddMedicine = () => {
+    setEditItems(prev => [...prev, { nama_obat: '', jumlah: 1, aturan: '' }]);
+  };
+
+  const handleItemChange = (index, field, value) => {
+    setEditItems(prev => {
+      const copy = [...prev];
+      copy[index][field] = value;
+      return copy;
+    });
+  };
+
+  const handleRemoveMedicine = (index) => {
+    setEditItems(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSaveResep = async (e) => {
+    e.preventDefault();
+    if (!editingResep) return;
+    try {
+      const validItems = editItems.filter(i => i.nama_obat && i.nama_obat.trim());
+      await api.put(`/farmasi/resep/${editingResep.id}`, { items: validItems });
+      setEditingResep(null);
+      fetchData();
+    } catch (err) {
+      console.error('Error saving resep:', err);
     }
   };
 
@@ -155,12 +191,23 @@ export default function FarmasiPage() {
                   </td>
                   {activeTab === 'pending' && (
                     <td>
-                      <button 
-                        className="btn-dispense"
-                        onClick={() => handleDispense(item.id)}
-                      >
-                        Serahkan Obat
-                      </button>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button 
+                          type="button"
+                          className="btn-hasil"
+                          style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                          onClick={() => handleOpenEdit(item)}
+                        >
+                          Edit Resep
+                        </button>
+                        <button 
+                          type="button"
+                          className="btn-dispense"
+                          onClick={() => handleDispense(item.id)}
+                        >
+                          Serahkan Obat
+                        </button>
+                      </div>
                     </td>
                   )}
                 </tr>
@@ -169,6 +216,83 @@ export default function FarmasiPage() {
           </tbody>
         </table>
       </div>
+
+      {/* MODAL EDIT RESEP OBAT OLEH FARMASI */}
+      {editingResep && (
+        <div className="modal-overlay">
+          <div className="modal-box" style={{ maxWidth: '640px', textAlign: 'left', maxHeight: '90vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px', marginBottom: '16px' }}>
+              <div>
+                <h3 style={{ color: '#0f172a', margin: 0 }}>Edit Resep Obat Pasien</h3>
+                <p style={{ color: '#64748b', fontSize: '0.82rem', margin: '4px 0 0' }}>
+                  No. Resep: <strong>{editingResep.id}</strong> &bull; Pasien: <strong>{editingResep.patient_nama}</strong>
+                </p>
+              </div>
+              <button className="btn-back" style={{ padding: '4px 10px' }} onClick={() => setEditingResep(null)}>Tutup</button>
+            </div>
+
+            <form onSubmit={handleSaveResep}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                <label style={{ fontWeight: 'bold', fontSize: '0.88rem' }}>Daftar Obat & Aturan Pakai</label>
+                <button type="button" className="btn-triage" onClick={handleAddMedicine}>+ Tambah Obat</button>
+              </div>
+
+              {editItems.map((med, idx) => (
+                <div key={idx} style={{ display: 'flex', gap: '8px', marginBottom: '10px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Nama Obat & Sediaan (contoh: Paracetamol 500mg)"
+                    value={med.nama_obat}
+                    onChange={(e) => handleItemChange(idx, 'nama_obat', e.target.value)}
+                    style={{ flex: 2 }}
+                    required
+                  />
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Jml"
+                    min="1"
+                    value={med.jumlah}
+                    onChange={(e) => handleItemChange(idx, 'jumlah', parseInt(e.target.value) || 1)}
+                    style={{ width: '80px' }}
+                    required
+                  />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Aturan Pakai (contoh: 3x1 sesudah makan)"
+                    value={med.aturan}
+                    onChange={(e) => handleItemChange(idx, 'aturan', e.target.value)}
+                    style={{ flex: 2 }}
+                    required
+                  />
+                  {editItems.length > 1 && (
+                    <button
+                      type="button"
+                      className="btn-back"
+                      style={{ color: '#b91c1c', borderColor: '#fecaca', padding: '6px 10px' }}
+                      onClick={() => handleRemoveMedicine(idx)}
+                      title="Hapus obat ini"
+                    >
+                      X
+                    </button>
+                  )}
+                </div>
+              ))}
+
+              <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                <button type="submit" className="btn-submit" style={{ flex: 1 }}>
+                  Simpan Perubahan Resep
+                </button>
+                <button type="button" className="btn-back" onClick={() => setEditingResep(null)}>
+                  Batal
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </MainLayout>
   );
 }

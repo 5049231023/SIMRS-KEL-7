@@ -9,6 +9,7 @@ export default function RuangPeriksaDokterPage() {
   const [selectedEncounter, setSelectedEncounter] = useState(null);
   const [modal, setModal] = useState({ show: false, isError: false, title: '', text: '' });
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMedicalReport, setSelectedMedicalReport] = useState(null);
 
   // Form states
   const [diagnosaUtama, setDiagnosaUtama] = useState('');
@@ -395,12 +396,13 @@ export default function RuangPeriksaDokterPage() {
                 <th>Tindakan / Terapi</th>
                 <th>Dokter Pemeriksa</th>
                 <th>Status</th>
+                <th>Laporan Medis</th>
               </tr>
             </thead>
             <tbody>
               {riwayatSelesai.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="empty-row">Belum ada riwayat pemeriksaan selesai.</td>
+                  <td colSpan="8" className="empty-row">Belum ada riwayat pemeriksaan selesai.</td>
                 </tr>
               ) : (
                 riwayatSelesai.map(k => (
@@ -412,11 +414,136 @@ export default function RuangPeriksaDokterPage() {
                     <td>{k.pemeriksaan_dokter?.tindakan || '-'}</td>
                     <td>{k.pemeriksaan_dokter?.dokter_nama || 'Dokter'}</td>
                     <td><span className="badge-status-completed">Selesai</span></td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn-action"
+                        style={{ padding: '6px 12px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
+                        onClick={() => setSelectedMedicalReport(k)}
+                      >
+                        Cetak Laporan Pasien
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* MODAL SURAT HASIL PEMERIKSAAN MEDIS PASIEN (PRINT/PDF) */}
+      {selectedMedicalReport && (
+        <div className="modal-overlay">
+          <div className="modal-box print-document" style={{ maxWidth: '750px', textAlign: 'left', maxHeight: '90vh', overflowY: 'auto' }}>
+            {/* KOP RESMI RS */}
+            <div style={{ textAlign: 'center', borderBottom: '3px double #0f172a', paddingBottom: '12px', marginBottom: '16px' }}>
+              <h2 style={{ margin: 0, color: '#1e40af', fontSize: '1.25rem', letterSpacing: '0.5px' }}>RUMAH SAKIT KELOMPOK 7</h2>
+              <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569' }}>
+                INSTALASI RAWAT JALAN & POLIKLINIK SPESIALIS TERPADU
+              </p>
+              <small style={{ color: '#64748b' }}>Jl. Raya Kesehatan No. 7 &bull; Telp: (031) 555-7777 &bull; Layanan Terintegrasi SATUSEHAT</small>
+            </div>
+
+            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+              <h3 style={{ textDecoration: 'underline', margin: 0, fontSize: '1.05rem', color: '#0f172a' }}>
+                SURAT KETERANGAN HASIL PEMERIKSAAN MEDIS / RESUME RAWAT JALAN
+              </h3>
+              <small style={{ color: '#64748b' }}>Nomor Rekam Medis: <strong>{selectedMedicalReport.pasien?.no_rm}</strong> &bull; No. Kunjungan: {selectedMedicalReport.id}</small>
+            </div>
+
+            {/* IDENTITAS PASIEN */}
+            <div style={{ background: '#f8fafc', padding: '12px 14px', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '16px', fontSize: '0.84rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                <div><span style={{ color: '#64748b' }}>Nama Pasien:</span> <strong>{selectedMedicalReport.pasien?.nama}</strong></div>
+                <div><span style={{ color: '#64748b' }}>NIK:</span> <strong>{selectedMedicalReport.pasien?.nik}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Jenis Kelamin:</span> <strong>{selectedMedicalReport.pasien?.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Tanggal Periksa:</span> <strong>{selectedMedicalReport.tgl_kunjungan}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Poli Tujuan:</span> <strong>{selectedMedicalReport.poli}</strong></div>
+                <div><span style={{ color: '#64748b' }}>Penjamin:</span> <strong>{selectedMedicalReport.penjamin || 'Umum'}</strong></div>
+              </div>
+            </div>
+
+            {/* ASESMEN TANDA VITAL */}
+            {selectedMedicalReport.tanda_vital && (
+              <div style={{ marginBottom: '14px' }}>
+                <h4 style={{ fontSize: '0.86rem', color: '#1e40af', marginBottom: '6px' }}>Tanda-Tanda Vital (TTV):</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', fontSize: '0.8rem', background: '#fff', border: '1px solid #e2e8f0', padding: '10px', borderRadius: '6px' }}>
+                  <div><span>TD:</span> <strong>{selectedMedicalReport.tanda_vital.tekanan_darah}</strong></div>
+                  <div><span>Suhu:</span> <strong>{selectedMedicalReport.tanda_vital.suhu}</strong></div>
+                  <div><span>Nadi:</span> <strong>{selectedMedicalReport.tanda_vital.nadi}</strong></div>
+                  <div><span>RR:</span> <strong>{selectedMedicalReport.tanda_vital.pernapasan}</strong></div>
+                  <div><span>BB/TB:</span> <strong>{selectedMedicalReport.tanda_vital.berat_badan}/{selectedMedicalReport.tanda_vital.tinggi_badan}</strong></div>
+                </div>
+              </div>
+            )}
+
+            {/* KELUHAN & DIAGNOSA */}
+            <div style={{ marginBottom: '14px', fontSize: '0.84rem' }}>
+              <div style={{ marginBottom: '6px' }}>
+                <span style={{ color: '#64748b' }}>Keluhan Utama Pasien:</span>
+                <p style={{ margin: '2px 0', fontStyle: 'italic' }}>"{selectedMedicalReport.keluhan || '-'}"</p>
+              </div>
+              <div style={{ marginBottom: '6px' }}>
+                <span style={{ color: '#64748b' }}>Diagnosa Utama (ICD-10):</span>
+                <p style={{ margin: '2px 0', fontWeight: 'bold', color: '#0f172a', fontSize: '0.92rem' }}>
+                  {selectedMedicalReport.pemeriksaan_dokter?.diagnosa_utama || 'Pemeriksaan Rutin'}
+                </p>
+              </div>
+              {selectedMedicalReport.pemeriksaan_dokter?.diagnosa_sekunder && (
+                <div style={{ marginBottom: '6px' }}>
+                  <span style={{ color: '#64748b' }}>Diagnosa Sekunder:</span>
+                  <p style={{ margin: '2px 0' }}>{selectedMedicalReport.pemeriksaan_dokter.diagnosa_sekunder}</p>
+                </div>
+              )}
+              {selectedMedicalReport.pemeriksaan_dokter?.tindakan && (
+                <div style={{ marginBottom: '6px' }}>
+                  <span style={{ color: '#64748b' }}>Tindakan Medis yang Diberikan:</span>
+                  <p style={{ margin: '2px 0' }}>{selectedMedicalReport.pemeriksaan_dokter.tindakan}</p>
+                </div>
+              )}
+              {selectedMedicalReport.pemeriksaan_dokter?.catatan_dokter && (
+                <div style={{ background: '#f8fafc', padding: '8px 12px', borderRadius: '6px', border: '1px solid #e2e8f0', marginTop: '6px' }}>
+                  <span style={{ color: '#64748b', fontSize: '0.75rem', display: 'block' }}>Anjuran & Edukasi Dokter:</span>
+                  <em>"{selectedMedicalReport.pemeriksaan_dokter.catatan_dokter}"</em>
+                </div>
+              )}
+            </div>
+
+            {/* TANDA TANGAN */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: '24px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', fontSize: '0.82rem' }}>
+              <div style={{ color: '#64748b' }}>
+                Dokumen resmi rekam medis pasien.<br/>
+                Dicetak pada: {new Date().toLocaleString('id-ID')}
+              </div>
+              <div style={{ textAlign: 'center', minWidth: '180px' }}>
+                <span>Dokter Pemeriksa,</span>
+                <div style={{ height: '48px' }}></div>
+                <strong style={{ textDecoration: 'underline' }}>{selectedMedicalReport.pemeriksaan_dokter?.dokter_nama || 'Dokter Spesialis'}</strong><br/>
+                <small style={{ color: '#64748b' }}>SIP: 446/SIP-DS/2026</small>
+              </div>
+            </div>
+
+            {/* TOMBOL AKSI */}
+            <div className="no-print" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
+              <button 
+                type="button" 
+                className="btn-action"
+                style={{ padding: '8px 18px', fontSize: '0.85rem' }}
+                onClick={() => window.print()}
+              >
+                Cetak / Simpan PDF (Ctrl+P)
+              </button>
+              <button 
+                type="button" 
+                className="btn-back"
+                style={{ padding: '8px 18px', fontSize: '0.85rem' }}
+                onClick={() => setSelectedMedicalReport(null)}
+              >
+                Tutup Jendela
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

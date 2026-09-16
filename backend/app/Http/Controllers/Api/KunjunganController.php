@@ -135,14 +135,19 @@ class KunjunganController extends Controller
 
     public function store(Request $request)
     {
+        $patientId = $request->patient_id ?? $request->pasien_id;
+        if (!$patientId) {
+            return response()->json(['message' => 'ID Pasien (patient_id) wajib disertakan'], 422);
+        }
+
         $request->validate([
-            'patient_id' => 'required',
             'tgl_kunjungan' => 'required',
             'poli' => 'required',
-            'pelayanan' => 'required',
-            'penjamin' => 'required',
             'keluhan' => 'required',
         ]);
+
+        $pelayanan = $request->pelayanan ?: 'Rawat Jalan';
+        $penjamin = $request->penjamin ?: 'Umum';
 
         $classMap = [
             'Rawat Jalan' => 'AMB',
@@ -150,12 +155,12 @@ class KunjunganController extends Controller
             'IGD' => 'EMER'
         ];
         
-        $code = $classMap[$request->pelayanan] ?? 'AMB';
+        $code = $classMap[$pelayanan] ?? 'AMB';
         
-        $patient = $this->fhir->find('patients', $request->patient_id);
-        $patientName = $patient ? ($patient['name'][0]['text'] ?? 'Unknown') : 'Unknown';
+        $patient = $this->fhir->find('patients', $patientId);
+        $patientName = $patient ? ($patient['name'][0]['text'] ?? 'Pasien') : 'Pasien';
 
-        $id = 'enc-' . time() . '-' . rand(1000, 9999);
+        $id = 'enc-' . date('YmdHis') . '-' . Str::random(5);
         $poliSlug = Str::slug($request->poli);
 
         $statusAlur = 'menunggu_perawat';
@@ -167,10 +172,10 @@ class KunjunganController extends Controller
             'class' => [
                 'system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode',
                 'code' => $code,
-                'display' => $request->pelayanan
+                'display' => $pelayanan
             ],
             'subject' => [
-                'reference' => "Patient/{$request->patient_id}",
+                'reference' => "Patient/{$patientId}",
                 'display' => $patientName
             ],
             'period' => [

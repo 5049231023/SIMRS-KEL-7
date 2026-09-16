@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\IGDController;
 use App\Http\Controllers\Api\FarmasiController;
 use App\Http\Controllers\Api\LaboratoriumController;
 use App\Http\Controllers\Api\KasirController;
+use App\Http\Controllers\Api\AdminUserController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -35,7 +36,8 @@ Route::middleware('fhir.auth')->group(function () {
     // Farmasi
     Route::get('/farmasi/resep', [FarmasiController::class, 'index']);
     Route::post('/farmasi/resep', [FarmasiController::class, 'store']);
-    Route::put('/farmasi/resep/{id}', [FarmasiController::class, 'dispense']);
+    Route::put('/farmasi/resep/{id}', [FarmasiController::class, 'update']);
+    Route::put('/farmasi/resep/{id}/dispense', [FarmasiController::class, 'dispense']);
 
     // Laboratorium
     Route::get('/lab/permintaan', [LaboratoriumController::class, 'index']);
@@ -46,4 +48,10 @@ Route::middleware('fhir.auth')->group(function () {
     Route::get('/kasir/tagihan', [KasirController::class, 'index']);
     Route::post('/kasir/tagihan', [KasirController::class, 'store']);
     Route::put('/kasir/tagihan/{id}', [KasirController::class, 'bayar']);
+
+    // Admin Staf & Pengguna
+    Route::get('/admin/users', [AdminUserController::class, 'index']);
+    Route::post('/admin/users', [AdminUserController::class, 'store']);
+    Route::put('/admin/users/{id}', [AdminUserController::class, 'update']);
+    Route::delete('/admin/users/{id}', [AdminUserController::class, 'destroy']);
 });

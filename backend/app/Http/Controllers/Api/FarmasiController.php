@@ -66,6 +66,40 @@ class FarmasiController extends Controller
         return response()->json($prescription, 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $prescription = $this->fhir->find('prescriptions', $id);
+        if (!$prescription) {
+            return response()->json(['message' => 'Resep tidak ditemukan'], 404);
+        }
+
+        if ($request->has('dispense') && $request->dispense === true) {
+            $prescription['status'] = 'dispensed';
+            $prescription['dispensed_at'] = date('Y-m-d');
+            $this->fhir->save('prescriptions', $id, $prescription);
+            return response()->json($prescription);
+        }
+
+        $request->validate([
+            'items' => 'required|array',
+            'items.*.nama_obat' => 'required',
+            'items.*.jumlah' => 'required',
+            'items.*.aturan' => 'required',
+        ]);
+
+        $prescription['items'] = $request->items;
+        if ($request->filled('catatan_farmasi')) {
+            $prescription['catatan_farmasi'] = $request->catatan_farmasi;
+        }
+
+        $this->fhir->save('prescriptions', $id, $prescription);
+
+        return response()->json([
+            'message' => 'Resep berhasil diperbarui oleh Farmasi',
+            'prescription' => $prescription
+        ]);
+    }
+
     public function dispense($id)
     {
         $prescription = $this->fhir->find('prescriptions', $id);

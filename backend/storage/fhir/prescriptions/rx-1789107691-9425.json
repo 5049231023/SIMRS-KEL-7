@@ -16,7 +16,7 @@
             "aturan": "3x1 sebelum makan"
         }
     ],
-    "status": "pending",
+    "status": "dispensed",
     "created_at": "2026-09-11",
-    "dispensed_at": null
+    "dispensed_at": "2026-09-16"
 }

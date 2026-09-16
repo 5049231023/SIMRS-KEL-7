@@ -69,20 +69,51 @@ class PasienController extends Controller
         ]);
 
         $telepon = $request->telepon ?? $request->no_telp ?? '';
-        $norm = 'RM-' . date('Y') . '-' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+
+        // Cek apakah NIK sudah terdaftar sebelumnya
+        $existingPatients = $this->fhir->all('patients') ?? [];
+        foreach ($existingPatients as $ep) {
+            foreach ($ep['identifier'] ?? [] as $id) {
+                if ($id['system'] === 'https://fhir.kemkes.go.id/id/nik' && (string)$id['value'] === (string)$request->nik) {
+                    $ep['name'][0]['text'] = $request->nama;
+                    $ep['birthDate'] = $request->tgl_lahir;
+                    $ep['address'][0]['text'] = $request->alamat;
+                    if (!empty($telepon)) {
+                        $ep['telecom'][0]['value'] = $telepon;
+                    }
+                    $normVal = $ep['id'];
+                    $this->fhir->save('patients', $normVal, $ep);
+
+                    return response()->json([
+                        'pasien' => [
+                            'id' => $normVal,
+                            'no_rm' => $normVal,
+                            'ihs_number' => $ep['identifier'][2]['value'] ?? 'IHS-AUTO',
+                            'nama' => $request->nama,
+                        ],
+                        'fhir_resource' => $ep,
+                    ], 200);
+                }
+            }
+        }
+
+        // Generate nomor RM yang terjamin unik
+        do {
+            $norm = 'RM-' . date('Y') . '-' . str_pad(rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+        } while ($this->fhir->find('patients', $norm));
+
         $ihs = 'P' . str_pad(rand(0, 9999999999), 10, '0', STR_PAD_LEFT);
 
         // Map jenis_kelamin to FHIR gender
         $jk = $request->jenis_kelamin;
         $fhirGender = ($jk === 'L' || $jk === 'Laki-laki' || $jk === 'male') ? 'male' : 'female';
-        $displayJk = ($fhirGender === 'male') ? 'Laki-laki' : 'Perempuan';
 
         $patient = [
             'resourceType' => 'Patient',
             'id' => $norm,
             'identifier' => [
                 ['system' => 'http://simrs-kel7.local/norm', 'value' => $norm],
-                ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => $request->nik],
+                ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => (string)$request->nik],
                 ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => $ihs]
             ],
             'active' => true,

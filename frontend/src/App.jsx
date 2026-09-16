@@ -10,6 +10,7 @@ import FarmasiPage from './pages/FarmasiPage';
 import LaboratoriumPage from './pages/LaboratoriumPage';
 import KasirPage from './pages/KasirPage';
 import RuangPeriksaDokterPage from './pages/RuangPeriksaDokterPage';
+import AdminUserManagementPage from './pages/AdminUserManagementPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './styles/global.css';
 
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/farmasi" element={<ProtectedRoute><FarmasiPage /></ProtectedRoute>} />
           <Route path="/laboratorium" element={<ProtectedRoute><LaboratoriumPage /></ProtectedRoute>} />
           <Route path="/kasir" element={<ProtectedRoute><KasirPage /></ProtectedRoute>} />
+          <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['admin']}><AdminUserManagementPage /></ProtectedRoute>} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>

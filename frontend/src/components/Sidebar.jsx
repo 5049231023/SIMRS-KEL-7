@@ -1,27 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function Sidebar() {
-  const { user, logout } = useAuth();
+export default function Sidebar({ isOpen = true }) {
+  const { user } = useAuth();
   const role = user?.role || 'admin';
-
-  const getInitials = (name) => {
-    if (!name) return 'RS';
-    const parts = name.replace(/^(dr\.|drg\.|Ns\.|apt\.)\s*/i, '').trim().split(' ');
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-    return parts[0].substring(0, 2).toUpperCase();
-  };
-
-  const roleDisplay = {
-    admin: 'ADMINISTRATOR',
-    dokter: 'DOKTER SPESIALIS',
-    perawat: 'PERAWAT KLINIS',
-    farmasi: 'FARMASI',
-    laboratorium: 'LABORATORIUM',
-    kasir: 'KASIR & BILLING'
-  };
 
   // Helper render clean SVG icons
   const renderIcon = (type) => {
@@ -103,6 +85,15 @@ export default function Sidebar() {
             <line x1="6" y1="15" x2="10" y2="15"/>
           </svg>
         );
+      case 'users':
+        return (
+          <svg {...props}>
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        );
       default:
         return (
           <svg {...props}>
@@ -149,34 +140,14 @@ export default function Sidebar() {
       { to: '/farmasi', label: 'Farmasi & Apotek', icon: 'farmasi' },
       { to: '/laboratorium', label: 'Laboratorium', icon: 'lab' },
       { to: '/kasir', label: 'Kasir & Billing', icon: 'kasir' },
+      { to: '/admin/users', label: 'Manajemen Akun Staf', icon: 'users' },
     ];
   };
 
   const navLinks = getNavLinks();
 
   return (
-    <aside className="app-sidebar">
-      <div className="sidebar-brand">
-        <div className="brand-badge">SIMRS</div>
-        <div className="brand-text">
-          <h1>SIM RS TERPADU</h1>
-          <span>RS KELOMPOK 7</span>
-        </div>
-      </div>
-
-      <div className="sidebar-profile">
-        <div className="profile-avatar">
-          {getInitials(user?.nama)}
-        </div>
-        <div className="profile-info">
-          <div className="profile-name" title={user?.nama}>{user?.nama || 'Petugas Medis'}</div>
-          <div className="profile-nip">NIP: {user?.nip || '-'}</div>
-          <span className={`role-badge role-${role}`}>
-            {roleDisplay[role] || role.toUpperCase()}
-          </span>
-        </div>
-      </div>
-
+    <aside className={`app-sidebar ${isOpen ? 'open' : 'collapsed'}`}>
       <div className="sidebar-section-title">MENU PELAYANAN</div>
       <nav className="sidebar-nav">
         {navLinks.map((item) => (
@@ -191,17 +162,6 @@ export default function Sidebar() {
           </NavLink>
         ))}
       </nav>
-
-      <div className="sidebar-footer">
-        <button className="btn-sidebar-logout" onClick={logout}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '6px' }}>
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/>
-            <line x1="21" y1="12" x2="9" y2="12"/>
-          </svg>
-          Keluar dari Sistem
-        </button>
-      </div>
     </aside>
   );
 }

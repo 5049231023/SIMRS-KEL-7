@@ -122,22 +122,27 @@ export default function PendaftaranPage() {
         });
       } else {
         const pRes = await api.get(`/pasien/cek-nik/${formData.nik}`);
+        const patientId = pRes.data?.data?.id || formData.no_rm;
+        
         await api.post('/kunjungan', {
-          pasien_id: pRes.data.data.id,
+          patient_id: patientId,
           tgl_kunjungan: formData.tgl_kunjungan,
           poli: formData.poli,
+          pelayanan: formData.pelayanan || 'Rawat Jalan',
+          penjamin: formData.penjamin || 'Umum',
           keluhan: formData.keluhan
         });
         
         setModal({
           show: true, isError: false, title: 'Kunjungan Berhasil',
-          text: `Kunjungan pasien ${formData.nama} berhasil dicatat.`
+          text: `Kunjungan pasien ${formData.nama} berhasil dicatat ke antrean.`
         });
       }
     } catch (error) {
+      const errMsg = error.response?.data?.message || 'Gagal memproses data pendaftaran. Periksa kembali koneksi atau data input.';
       setModal({
         show: true, isError: true, title: 'Terjadi Kesalahan',
-        text: 'Gagal memproses data pendaftaran. Periksa kembali koneksi atau data input.'
+        text: errMsg
       });
     }
   };

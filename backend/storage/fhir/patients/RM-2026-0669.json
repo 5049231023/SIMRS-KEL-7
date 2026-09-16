@@ -1,0 +1,40 @@
+{
+    "resourceType": "Patient",
+    "id": "RM-2026-0669",
+    "identifier": [
+        {
+            "system": "http:\/\/simrs-kel7.local\/norm",
+            "value": "RM-2026-0669"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
+            "value": "6474"
+        },
+        {
+            "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
+            "value": "P6697373642"
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "official",
+            "text": "COALDYNO DIAS WIDODO"
+        }
+    ],
+    "gender": "male",
+    "birthDate": "2005-02-22",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "081253108691",
+            "use": "mobile"
+        }
+    ],
+    "address": [
+        {
+            "use": "home",
+            "text": "Keputih Tegal Timur 2 No 40"
+        }
+    ]
+}

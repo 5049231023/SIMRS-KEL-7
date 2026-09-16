@@ -68,24 +68,32 @@ export default function MainLayout({ children, title, subtitle }) {
         <div className="topbar-right">
           <div className="topbar-date">{today}</div>
 
-          <div className="topbar-profile-card">
+          <div className="topbar-divider"></div>
+
+          <div className="topbar-user">
             <div className="profile-avatar">{getInitials(user?.nama)}</div>
             <div className="profile-info">
               <div className="profile-name" title={user?.nama}>{user?.nama || 'Petugas Medis'}</div>
-              <div className="profile-nip">NIP: {user?.nip || '-'}</div>
-              <span className={`role-badge role-${role}`}>
-                {roleDisplay[role] || role.toUpperCase()}
-              </span>
+              <div className="profile-meta">
+                <span className="profile-nip">NIP: {user?.nip || '-'}</span>
+                <span className="profile-meta-dot">&bull;</span>
+                <span className={`role-badge role-${role}`}>
+                  {roleDisplay[role] || role.toUpperCase()}
+                </span>
+              </div>
             </div>
-            <button className="btn-topbar-logout" onClick={logout} title="Keluar dari Sistem">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
-              <span>Keluar</span>
-            </button>
           </div>
+
+          <div className="topbar-divider"></div>
+
+          <button className="btn-topbar-logout" onClick={logout} title="Keluar dari Sistem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            <span>Keluar</span>
+          </button>
         </div>
       </header>
 

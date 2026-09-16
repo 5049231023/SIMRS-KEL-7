@@ -28,7 +28,7 @@
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$uuZXoQO8Oy7c5KbIbjiWvOaDM0hL1MNBKrg1UpfUi99kHSBFaVAqW",
+        "password_hash": "$2y$12$nHz53CmEeF\/N7KZBQtgua.0nbAgILHATv3JADIQJ25yzUX9jj4vfO",
         "api_token": null,
         "role": "dokter"
     }

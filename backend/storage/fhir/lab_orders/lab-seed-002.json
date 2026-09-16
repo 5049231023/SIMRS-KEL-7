@@ -1,8 +1,8 @@
 {
     "id": "lab-seed-002",
     "encounter_id": "enc-20260916-006",
-    "patient_id": "RM-2026-1003",
-    "patient_nama": "Hendra Gunawan",
+    "patient_id": "RM-2026-0006",
+    "patient_nama": "Salsabilla Anjani Rizki",
     "jenis_pemeriksaan": "Profil Lipid & Glukosa Darah Sewaktu",
     "catatan_dokter": "Skrining faktor risiko kardiovaskular & sindrom metabolik",
     "status": "ordered",

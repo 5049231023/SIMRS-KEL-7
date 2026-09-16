@@ -28,7 +28,7 @@
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$6lDSvwA0uuKxc7D\/0iVGnuvINO0L.6grsOzshDVgUUXhtBzzFG1ua",
+        "password_hash": "$2y$12$ngtPjy8nK7PjSPaD9PW64u4ksbiPycfXig2AIJh5BumR0E28dPrhy",
         "api_token": null,
         "role": "lab"
     }

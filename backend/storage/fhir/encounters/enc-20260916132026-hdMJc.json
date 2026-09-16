@@ -1,0 +1,99 @@
+{
+    "resourceType": "Encounter",
+    "id": "enc-20260916132026-hdMJc",
+    "status": "finished",
+    "class": {
+        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+        "code": "AMB",
+        "display": "Rawat Jalan"
+    },
+    "subject": {
+        "reference": "Patient\/RM-2026-0001",
+        "display": "Ardianto Putra"
+    },
+    "period": {
+        "start": "2026-09-16"
+    },
+    "serviceType": {
+        "coding": [
+            {
+                "system": "http:\/\/simrs-kel7.local\/poli",
+                "code": "umum",
+                "display": "Umum"
+            }
+        ]
+    },
+    "reasonCode": [
+        {
+            "text": "SAKIT DEMAM"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
+            "valueString": "Umum"
+        }
+    ],
+    "_workflow": {
+        "status_alur": "selesai",
+        "tanda_vital": null,
+        "pemeriksaan_dokter": {
+            "diagnosa_utama": "K-01",
+            "diagnosa_sekunder": "",
+            "tindakan": "SUNTIK MATI",
+            "catatan_dokter": "SUNTIK MATI",
+            "dokter_nama": "Budi Handoko, S.Kom (Admin SIMRS)",
+            "waktu_periksa": "2026-09-16 13:26:36"
+        },
+        "satusehat_sync": {
+            "status": "synced_sandbox",
+            "satusehat_encounter_id": "enc-satusehat-6aaa979b4c953",
+            "synced_at": "2026-09-16T13:20:26+00:00",
+            "organization_id": "33771066-46d2-408b-a167-308ef64fca93",
+            "fhir_payload": {
+                "resourceType": "Encounter",
+                "status": "arrived",
+                "class": {
+                    "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
+                    "code": "AMB",
+                    "display": "Rawat Jalan"
+                },
+                "subject": {
+                    "reference": "Patient\/P02478375538",
+                    "display": "Ardianto Putra"
+                },
+                "participant": [
+                    {
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ParticipationType",
+                                        "code": "ATND",
+                                        "display": "attender"
+                                    }
+                                ]
+                            }
+                        ],
+                        "individual": {
+                            "reference": "Practitioner\/10009880728",
+                            "display": "Dokter Pemeriksa"
+                        }
+                    }
+                ],
+                "period": {
+                    "start": "2026-09-16T13:20:26+00:00"
+                },
+                "serviceProvider": {
+                    "reference": "Organization\/33771066-46d2-408b-a167-308ef64fca93"
+                },
+                "identifier": [
+                    {
+                        "system": "http:\/\/sys-ids.kemkes.go.id\/encounter\/33771066-46d2-408b-a167-308ef64fca93",
+                        "value": "enc-20260916132026-hdMJc"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -28,7 +28,7 @@
         }
     ],
     "_auth": {
-        "password_hash": "$2y$12$.98744XOJB.3alNux5l8I.tysDDPXJNo\/COpmX.w25aMKggSoffbC",
+        "password_hash": "$2y$12$Fuc4XEyZFd8ZFu.38NUUZeT5VERA2bNlfLYZPCIG3DgYZXXlZeSWK",
         "api_token": null,
         "role": "admin"
     }

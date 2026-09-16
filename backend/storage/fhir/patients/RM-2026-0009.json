@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2026-1002",
+    "id": "RM-2026-0009",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2026-1002"
+            "value": "RM-2026-0009"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3515021234560001"
+            "value": "9201076407000009"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00088712398"
+            "value": "P01058987035"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Siti Aminah"
+            "text": "Nancy Wang"
         }
     ],
     "gender": "female",
-    "birthDate": "1992-08-20",
+    "birthDate": "1955-10-10",
     "telecom": [
         {
             "system": "phone",
-            "value": "082198765432",
+            "value": "081234567009",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Manyar Kertoarjo No. 45, Surabaya"
+            "text": "Jl. Yos Sudarso No. 4, Merauke"
         }
     ]
 }

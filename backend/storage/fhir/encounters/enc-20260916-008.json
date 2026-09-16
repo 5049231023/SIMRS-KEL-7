@@ -1,6 +1,6 @@
 {
     "resourceType": "Encounter",
-    "id": "enc-20260916-005",
+    "id": "enc-20260916-008",
     "status": "in-progress",
     "class": {
         "system": "http:\/\/terminology.hl7.org\/CodeSystem\/v3-ActCode",
@@ -8,8 +8,8 @@
         "display": "Rawat Jalan"
     },
     "subject": {
-        "reference": "Patient\/RM-2026-0005",
-        "display": "Ghina Assyifa"
+        "reference": "Patient\/RM-2026-0010",
+        "display": "Syarif Muhammad"
     },
     "period": {
         "start": "2026-09-16"
@@ -18,20 +18,24 @@
         "coding": [
             {
                 "system": "http:\/\/simrs-kel7.local\/poli",
-                "code": "poli-penyakit-dalam",
-                "display": "Poli Penyakit Dalam"
+                "code": "poli-mata",
+                "display": "Poli Mata"
             }
         ]
     },
     "reasonCode": [
         {
-            "text": "Demam menggigil naik turun sejak 3 hari, nafsu makan turun drastis"
+            "text": "Pandangan mata kanan kabur mendadak, silau berlebih dan berair sejak 2 hari"
         }
     ],
     "extension": [
         {
             "url": "http:\/\/simrs-kel7.local\/ext\/penjamin",
             "valueString": "BPJS Kesehatan"
+        },
+        {
+            "url": "http:\/\/simrs-kel7.local\/ext\/triage",
+            "valueString": "P4"
         }
     ],
     "_workflow": {
@@ -40,8 +44,8 @@
         "pemeriksaan_dokter": null,
         "satusehat_sync": {
             "status": "synced_sandbox",
-            "satusehat_encounter_id": "enc-satusehat-ghi-005",
-            "synced_at": "2026-09-16T09:10:00+07:00",
+            "satusehat_encounter_id": "enc-satusehat-sya-008",
+            "synced_at": "2026-09-16T10:45:00+07:00",
             "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
         }
     }

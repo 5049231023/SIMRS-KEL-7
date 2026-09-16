@@ -8,8 +8,8 @@
         "display": "Rawat Jalan"
     },
     "subject": {
-        "reference": "Patient\/RM-2026-1003",
-        "display": "Hendra Gunawan"
+        "reference": "Patient\/RM-2026-0006",
+        "display": "Salsabilla Anjani Rizki"
     },
     "period": {
         "start": "2026-09-16"
@@ -55,7 +55,7 @@
         "pemeriksaan_dokter": null,
         "satusehat_sync": {
             "status": "synced_sandbox",
-            "satusehat_encounter_id": "enc-satusehat-hen-006",
+            "satusehat_encounter_id": "enc-satusehat-sal-006",
             "synced_at": "2026-09-16T09:25:00+07:00",
             "organization_id": "33771066-46d2-408b-a167-308ef64fca93"
         }

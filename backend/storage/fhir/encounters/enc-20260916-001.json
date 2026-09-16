@@ -62,8 +62,8 @@
         },
         "satusehat_sync": {
             "status": "synced_sandbox",
-            "satusehat_encounter_id": "enc-satusehat-6aaa96e2b55a2",
-            "synced_at": "2026-09-16T13:17:22+00:00",
+            "satusehat_encounter_id": "enc-satusehat-6aaa9a10a0d30",
+            "synced_at": "2026-09-16T13:30:55+00:00",
             "organization_id": "33771066-46d2-408b-a167-308ef64fca93",
             "fhir_payload": {
                 "resourceType": "Encounter",
@@ -97,7 +97,7 @@
                     }
                 ],
                 "period": {
-                    "start": "2026-09-16T13:17:22+00:00"
+                    "start": "2026-09-16T13:30:55+00:00"
                 },
                 "serviceProvider": {
                     "reference": "Organization\/33771066-46d2-408b-a167-308ef64fca93"
@@ -112,8 +112,8 @@
         },
         "satusehat_observation": {
             "status": "synced_sandbox",
-            "satusehat_observation_id": "obs-ttv-6aaa96e2cb453",
-            "synced_at": "2026-09-16T13:17:22+00:00",
+            "satusehat_observation_id": "obs-ttv-6aaa9a1123656",
+            "synced_at": "2026-09-16T13:30:56+00:00",
             "fhir_payload": {
                 "resourceType": "Observation",
                 "status": "final",
@@ -142,10 +142,10 @@
                     "reference": "Patient\/P02478375538"
                 },
                 "encounter": {
-                    "reference": "Encounter\/enc-satusehat-6aaa96e2b55a2"
+                    "reference": "Encounter\/enc-satusehat-6aaa9a10a0d30"
                 },
-                "effectiveDateTime": "2026-09-16T13:17:22+00:00",
-                "issued": "2026-09-16T13:17:22+00:00",
+                "effectiveDateTime": "2026-09-16T13:30:56+00:00",
+                "issued": "2026-09-16T13:30:56+00:00",
                 "performer": [
                     {
                         "reference": "Practitioner\/10009880728"
@@ -191,8 +191,8 @@
         },
         "satusehat_condition": {
             "status": "synced_sandbox",
-            "satusehat_condition_id": "cond-diag-6aaa96e2def8c",
-            "synced_at": "2026-09-16T13:17:22+00:00",
+            "satusehat_condition_id": "cond-diag-6aaa9a118ae67",
+            "synced_at": "2026-09-16T13:30:57+00:00",
             "fhir_payload": {
                 "resourceType": "Condition",
                 "clinicalStatus": {
@@ -229,9 +229,9 @@
                     "reference": "Patient\/P02478375538"
                 },
                 "encounter": {
-                    "reference": "Encounter\/enc-satusehat-6aaa96e2b55a2"
+                    "reference": "Encounter\/enc-satusehat-6aaa9a10a0d30"
                 },
-                "recordedDate": "2026-09-16T13:17:22+00:00"
+                "recordedDate": "2026-09-16T13:30:57+00:00"
             }
         }
     }

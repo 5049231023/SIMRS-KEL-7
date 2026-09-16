@@ -137,6 +137,96 @@ class FhirSeeder extends Seeder
                 'telecom' => [['system' => 'phone', 'value' => '081234567004', 'use' => 'mobile']],
                 'address' => [['use' => 'home', 'text' => 'Jl. Pahlawan No. 20, Nabire']]
             ],
+            'RM-2026-0005' => [
+                'resourceType' => 'Patient',
+                'id' => 'RM-2026-0005',
+                'identifier' => [
+                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-0005'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '9104224608000005'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P01654557057']
+                ],
+                'active' => true,
+                'name' => [['use' => 'official', 'text' => 'Ghina Assyifa']],
+                'gender' => 'female',
+                'birthDate' => '2004-08-21',
+                'telecom' => [['system' => 'phone', 'value' => '081234567005', 'use' => 'mobile']],
+                'address' => [['use' => 'home', 'text' => 'Jl. Sam Ratulangi No. 15, Jayapura']]
+            ],
+            'RM-2026-0006' => [
+                'resourceType' => 'Patient',
+                'id' => 'RM-2026-0006',
+                'identifier' => [
+                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-0006'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '9104025209000006'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P02280547535']
+                ],
+                'active' => true,
+                'name' => [['use' => 'official', 'text' => 'Salsabilla Anjani Rizki']],
+                'gender' => 'female',
+                'birthDate' => '2001-04-16',
+                'telecom' => [['system' => 'phone', 'value' => '081234567006', 'use' => 'mobile']],
+                'address' => [['use' => 'home', 'text' => 'Jl. Diponegoro No. 88, Biak']]
+            ],
+            'RM-2026-0007' => [
+                'resourceType' => 'Patient',
+                'id' => 'RM-2026-0007',
+                'identifier' => [
+                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-0007'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '9201076001000007'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P01836748436']
+                ],
+                'active' => true,
+                'name' => [['use' => 'official', 'text' => 'Theodore Elisjah']],
+                'gender' => 'female',
+                'birthDate' => '1985-09-18',
+                'telecom' => [['system' => 'phone', 'value' => '081234567007', 'use' => 'mobile']],
+                'address' => [['use' => 'home', 'text' => 'Jl. Trikora No. 25, Manokwari']]
+            ],
+            'RM-2026-0008' => [
+                'resourceType' => 'Patient',
+                'id' => 'RM-2026-0008',
+                'identifier' => [
+                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-0008'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '9201394901000008'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00883356749']
+                ],
+                'active' => true,
+                'name' => [['use' => 'official', 'text' => 'Sonia Herdianti']],
+                'gender' => 'female',
+                'birthDate' => '1996-06-08',
+                'telecom' => [['system' => 'phone', 'value' => '081234567008', 'use' => 'mobile']],
+                'address' => [['use' => 'home', 'text' => 'Jl. Ahmad Yani No. 10, Sorong']]
+            ],
+            'RM-2026-0009' => [
+                'resourceType' => 'Patient',
+                'id' => 'RM-2026-0009',
+                'identifier' => [
+                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-0009'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '9201076407000009'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P01058987035']
+                ],
+                'active' => true,
+                'name' => [['use' => 'official', 'text' => 'Nancy Wang']],
+                'gender' => 'female',
+                'birthDate' => '1955-10-10',
+                'telecom' => [['system' => 'phone', 'value' => '081234567009', 'use' => 'mobile']],
+                'address' => [['use' => 'home', 'text' => 'Jl. Yos Sudarso No. 4, Merauke']]
+            ],
+            'RM-2026-0010' => [
+                'resourceType' => 'Patient',
+                'id' => 'RM-2026-0010',
+                'identifier' => [
+                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-0010'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '9210080207000010'],
+                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P02428473601']
+                ],
+                'active' => true,
+                'name' => [['use' => 'official', 'text' => 'Syarif Muhammad']],
+                'gender' => 'male',
+                'birthDate' => '1988-11-02',
+                'telecom' => [['system' => 'phone', 'value' => '081234567010', 'use' => 'mobile']],
+                'address' => [['use' => 'home', 'text' => 'Jl. Hasanuddin No. 31, Fakfak']]
+            ],
             'RM-2025-5541' => [
                 'resourceType' => 'Patient',
                 'id' => 'RM-2025-5541',
@@ -151,111 +241,6 @@ class FhirSeeder extends Seeder
                 'birthDate' => '1995-05-12',
                 'telecom' => [['system' => 'phone', 'value' => '081234567890', 'use' => 'mobile']],
                 'address' => [['use' => 'home', 'text' => 'Jl. Ketintang No. 15, Surabaya']]
-            ],
-            'RM-2026-1002' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1002',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1002'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '3515021234560001'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00088712398']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Siti Aminah']],
-                'gender' => 'female',
-                'birthDate' => '1992-08-20',
-                'telecom' => [['system' => 'phone', 'value' => '082198765432', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Manyar Kertoarjo No. 45, Surabaya']]
-            ],
-            'RM-2026-1003' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1003',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1003'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '3515031234560002'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00077654321']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Hendra Gunawan']],
-                'gender' => 'male',
-                'birthDate' => '1980-03-14',
-                'telecom' => [['system' => 'phone', 'value' => '085712344321', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Darmo Permai II No. 8, Surabaya']]
-            ],
-            'RM-2026-1004' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1004',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1004'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '3174021208940002'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00066543210']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Ahmad Fauzi']],
-                'gender' => 'male',
-                'birthDate' => '1994-08-12',
-                'telecom' => [['system' => 'phone', 'value' => '081344556677', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Tebet Barat Dalam No. 18, Jakarta Selatan']]
-            ],
-            'RM-2026-1005' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1005',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1005'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '3273014405900005'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00055432109']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Dewi Anggraini']],
-                'gender' => 'female',
-                'birthDate' => '1990-05-14',
-                'telecom' => [['system' => 'phone', 'value' => '087811223344', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Dago No. 112, Bandung']]
-            ],
-            'RM-2026-1006' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1006',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1006'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '3578011203750008'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00044321098']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Bambang Susilo']],
-                'gender' => 'male',
-                'birthDate' => '1975-03-12',
-                'telecom' => [['system' => 'phone', 'value' => '081122334455', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Raya Gubeng No. 64, Surabaya']]
-            ],
-            'RM-2026-1007' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1007',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1007'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '5171036009980009'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00033210987']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Nurul Fadillah']],
-                'gender' => 'female',
-                'birthDate' => '1998-09-20',
-                'telecom' => [['system' => 'phone', 'value' => '085678901234', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Sunset Road No. 88, Denpasar']]
-            ],
-            'RM-2026-1008' => [
-                'resourceType' => 'Patient',
-                'id' => 'RM-2026-1008',
-                'identifier' => [
-                    ['system' => 'http://simrs-kel7.local/norm', 'value' => 'RM-2026-1008'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/nik', 'value' => '3174051008950006'],
-                    ['system' => 'https://fhir.kemkes.go.id/id/ihs-number', 'value' => 'P00022109876']
-                ],
-                'active' => true,
-                'name' => [['use' => 'official', 'text' => 'Rian Pratama']],
-                'gender' => 'male',
-                'birthDate' => '1995-08-10',
-                'telecom' => [['system' => 'phone', 'value' => '089912345678', 'use' => 'mobile']],
-                'address' => [['use' => 'home', 'text' => 'Jl. Kemang Raya No. 30, Jakarta Selatan']]
             ]
         ];
 
@@ -455,13 +440,13 @@ class FhirSeeder extends Seeder
                 ]
             ],
 
-            // 6. Siti Aminah - Menunggu Perawat
+            // 6. Ghina Assyifa - Menunggu Perawat
             'enc-20260916-005' => [
                 'resourceType' => 'Encounter',
                 'id' => 'enc-20260916-005',
                 'status' => 'in-progress',
                 'class' => ['system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode', 'code' => 'AMB', 'display' => 'Rawat Jalan'],
-                'subject' => ['reference' => 'Patient/RM-2026-1002', 'display' => 'Siti Aminah'],
+                'subject' => ['reference' => 'Patient/RM-2026-0005', 'display' => 'Ghina Assyifa'],
                 'period' => ['start' => $today],
                 'serviceType' => ['coding' => [['system' => 'http://simrs-kel7.local/poli', 'code' => 'poli-penyakit-dalam', 'display' => 'Poli Penyakit Dalam']]],
                 'reasonCode' => [['text' => 'Demam menggigil naik turun sejak 3 hari, nafsu makan turun drastis']],
@@ -474,20 +459,20 @@ class FhirSeeder extends Seeder
                     'pemeriksaan_dokter' => null,
                     'satusehat_sync' => [
                         'status' => 'synced_sandbox',
-                        'satusehat_encounter_id' => 'enc-satusehat-sit-005',
+                        'satusehat_encounter_id' => 'enc-satusehat-ghi-005',
                         'synced_at' => "{$today}T09:10:00+07:00",
                         'organization_id' => '33771066-46d2-408b-a167-308ef64fca93'
                     ]
                 ]
             ],
 
-            // 7. Hendra Gunawan - Siap Dokter
+            // 7. Salsabilla Anjani Rizki - Siap Dokter
             'enc-20260916-006' => [
                 'resourceType' => 'Encounter',
                 'id' => 'enc-20260916-006',
                 'status' => 'in-progress',
                 'class' => ['system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode', 'code' => 'AMB', 'display' => 'Rawat Jalan'],
-                'subject' => ['reference' => 'Patient/RM-2026-1003', 'display' => 'Hendra Gunawan'],
+                'subject' => ['reference' => 'Patient/RM-2026-0006', 'display' => 'Salsabilla Anjani Rizki'],
                 'period' => ['start' => $today],
                 'serviceType' => ['coding' => [['system' => 'http://simrs-kel7.local/poli', 'code' => 'poli-penyakit-dalam', 'display' => 'Poli Penyakit Dalam']]],
                 'reasonCode' => [['text' => 'Pusing berputar, tengkuk terasa berat kaku dan sering haus di malam hari']],
@@ -506,20 +491,20 @@ class FhirSeeder extends Seeder
                     'pemeriksaan_dokter' => null,
                     'satusehat_sync' => [
                         'status' => 'synced_sandbox',
-                        'satusehat_encounter_id' => 'enc-satusehat-hen-006',
+                        'satusehat_encounter_id' => 'enc-satusehat-sal-006',
                         'synced_at' => "{$today}T09:25:00+07:00",
                         'organization_id' => '33771066-46d2-408b-a167-308ef64fca93'
                     ]
                 ]
             ],
 
-            // 8. Ahmad Fauzi - IGD Pasien Darurat P2
+            // 8. Theodore Elisjah - IGD Pasien Darurat P2
             'enc-20260910-igd-001' => [
                 'resourceType' => 'Encounter',
                 'id' => 'enc-20260910-igd-001',
                 'status' => 'in-progress',
                 'class' => ['system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode', 'code' => 'EMER', 'display' => 'IGD'],
-                'subject' => ['reference' => 'Patient/RM-2026-1004', 'display' => 'Ahmad Fauzi'],
+                'subject' => ['reference' => 'Patient/RM-2026-0007', 'display' => 'Theodore Elisjah'],
                 'period' => ['start' => $today],
                 'serviceType' => ['coding' => [['system' => 'http://simrs-kel7.local/poli', 'code' => 'igd', 'display' => 'IGD']]],
                 'reasonCode' => [['text' => 'Luka robek terbuka di lengan kanan bawah akibat pecahan kaca, perdarahan aktif']],
@@ -545,13 +530,13 @@ class FhirSeeder extends Seeder
                 ]
             ],
 
-            // 9. Dewi Anggraini - Siap Dokter Anak
+            // 9. Sonia Herdianti - Siap Dokter Anak
             'enc-20260916-007' => [
                 'resourceType' => 'Encounter',
                 'id' => 'enc-20260916-007',
                 'status' => 'in-progress',
                 'class' => ['system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode', 'code' => 'AMB', 'display' => 'Rawat Jalan'],
-                'subject' => ['reference' => 'Patient/RM-2026-1005', 'display' => 'Dewi Anggraini'],
+                'subject' => ['reference' => 'Patient/RM-2026-0008', 'display' => 'Sonia Herdianti'],
                 'period' => ['start' => $today],
                 'serviceType' => ['coding' => [['system' => 'http://simrs-kel7.local/poli', 'code' => 'poli-anak', 'display' => 'Poli Anak']]],
                 'reasonCode' => [['text' => 'Anak usia 3 tahun batuk berdahak 3 hari, hidung tersumbat dan demam ringan']],
@@ -571,13 +556,13 @@ class FhirSeeder extends Seeder
                 ]
             ],
 
-            // 10. Bambang Susilo - Rawat Inap
+            // 10. Nancy Wang - Rawat Inap
             'enc-20260916-inap-001' => [
                 'resourceType' => 'Encounter',
                 'id' => 'enc-20260916-inap-001',
                 'status' => 'in-progress',
                 'class' => ['system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode', 'code' => 'IMP', 'display' => 'Rawat Inap'],
-                'subject' => ['reference' => 'Patient/RM-2026-1006', 'display' => 'Bambang Susilo'],
+                'subject' => ['reference' => 'Patient/RM-2026-0009', 'display' => 'Nancy Wang'],
                 'period' => ['start' => $today],
                 'serviceType' => ['coding' => [['system' => 'http://simrs-kel7.local/poli', 'code' => 'rawat-inap', 'display' => 'Rawat Inap']]],
                 'reasonCode' => [['text' => 'Demam Tifoid hari ke-4 dengan dehidrasi sedang, nyeri perut dan lidah kotor (typhoid tongue)']],
@@ -594,6 +579,33 @@ class FhirSeeder extends Seeder
                         'perawat_nama' => 'Ns. Dewi Lestari, S.Kep', 'waktu_ttv' => "{$today} 10:30:00"
                     ],
                     'pemeriksaan_dokter' => null
+                ]
+            ],
+
+            // 11. Syarif Muhammad - Poli Mata
+            'enc-20260916-008' => [
+                'resourceType' => 'Encounter',
+                'id' => 'enc-20260916-008',
+                'status' => 'in-progress',
+                'class' => ['system' => 'http://terminology.hl7.org/CodeSystem/v3-ActCode', 'code' => 'AMB', 'display' => 'Rawat Jalan'],
+                'subject' => ['reference' => 'Patient/RM-2026-0010', 'display' => 'Syarif Muhammad'],
+                'period' => ['start' => $today],
+                'serviceType' => ['coding' => [['system' => 'http://simrs-kel7.local/poli', 'code' => 'poli-mata', 'display' => 'Poli Mata']]],
+                'reasonCode' => [['text' => 'Pandangan mata kanan kabur mendadak, silau berlebih dan berair sejak 2 hari']],
+                'extension' => [
+                    ['url' => 'http://simrs-kel7.local/ext/penjamin', 'valueString' => 'BPJS Kesehatan'],
+                    ['url' => 'http://simrs-kel7.local/ext/triage', 'valueString' => 'P4']
+                ],
+                '_workflow' => [
+                    'status_alur' => 'menunggu_perawat',
+                    'tanda_vital' => null,
+                    'pemeriksaan_dokter' => null,
+                    'satusehat_sync' => [
+                        'status' => 'synced_sandbox',
+                        'satusehat_encounter_id' => 'enc-satusehat-sya-008',
+                        'synced_at' => "{$today}T10:45:00+07:00",
+                        'organization_id' => '33771066-46d2-408b-a167-308ef64fca93'
+                    ]
                 ]
             ]
         ];
@@ -675,8 +687,8 @@ class FhirSeeder extends Seeder
             'lab-seed-002' => [
                 'id' => 'lab-seed-002',
                 'encounter_id' => 'enc-20260916-006',
-                'patient_id' => 'RM-2026-1003',
-                'patient_nama' => 'Hendra Gunawan',
+                'patient_id' => 'RM-2026-0006',
+                'patient_nama' => 'Salsabilla Anjani Rizki',
                 'jenis_pemeriksaan' => 'Profil Lipid & Glukosa Darah Sewaktu',
                 'catatan_dokter' => 'Skrining faktor risiko kardiovaskular & sindrom metabolik',
                 'status' => 'ordered',

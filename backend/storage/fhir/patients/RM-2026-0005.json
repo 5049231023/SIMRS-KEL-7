@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2026-1006",
+    "id": "RM-2026-0005",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2026-1006"
+            "value": "RM-2026-0005"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3578011203750008"
+            "value": "9104224608000005"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00044321098"
+            "value": "P01654557057"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Bambang Susilo"
+            "text": "Ghina Assyifa"
         }
     ],
-    "gender": "male",
-    "birthDate": "1975-03-12",
+    "gender": "female",
+    "birthDate": "2004-08-21",
     "telecom": [
         {
             "system": "phone",
-            "value": "081122334455",
+            "value": "081234567005",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Raya Gubeng No. 64, Surabaya"
+            "text": "Jl. Sam Ratulangi No. 15, Jayapura"
         }
     ]
 }

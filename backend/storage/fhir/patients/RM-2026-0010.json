@@ -1,40 +1,40 @@
 {
     "resourceType": "Patient",
-    "id": "RM-2026-1008",
+    "id": "RM-2026-0010",
     "identifier": [
         {
             "system": "http:\/\/simrs-kel7.local\/norm",
-            "value": "RM-2026-1008"
+            "value": "RM-2026-0010"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/nik",
-            "value": "3174051008950006"
+            "value": "9210080207000010"
         },
         {
             "system": "https:\/\/fhir.kemkes.go.id\/id\/ihs-number",
-            "value": "P00022109876"
+            "value": "P02428473601"
         }
     ],
     "active": true,
     "name": [
         {
             "use": "official",
-            "text": "Rian Pratama"
+            "text": "Syarif Muhammad"
         }
     ],
     "gender": "male",
-    "birthDate": "1995-08-10",
+    "birthDate": "1988-11-02",
     "telecom": [
         {
             "system": "phone",
-            "value": "089912345678",
+            "value": "081234567010",
             "use": "mobile"
         }
     ],
     "address": [
         {
             "use": "home",
-            "text": "Jl. Kemang Raya No. 30, Jakarta Selatan"
+            "text": "Jl. Hasanuddin No. 31, Fakfak"
         }
     ]
 }

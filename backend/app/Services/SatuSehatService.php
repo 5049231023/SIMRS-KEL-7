@@ -15,7 +15,8 @@ class SatuSehatService
     protected string $clientId;
     protected string $clientSecret;
 
-    // Dataset Dummy Resmi Kemenkes RI untuk Lingkungan Sandbox (Staging)
+    // Dataset 10 Pasien Dummy Resmi Kemenkes RI untuk Sandbox SATUSEHAT
+    // Sumber: https://satusehat.kemkes.go.id/platform/docs/id/api-catalogue/onboardings/apis/patient/
     protected array $dummyPatients = [
         '9271060312000001' => [
             'nik' => '9271060312000001',
@@ -56,6 +57,66 @@ class SatuSehatService
             'ihs_number' => 'P00912894463',
             'alamat' => 'Jl. Pahlawan No. 20, Nabire',
             'no_telp' => '081234567004'
+        ],
+        '9104224608000005' => [
+            'nik' => '9104224608000005',
+            'nama' => 'Ghina Assyifa',
+            'jenis_kelamin' => 'Perempuan',
+            'gender_fhir' => 'female',
+            'tgl_lahir' => '2004-08-21',
+            'ihs_number' => 'P01654557057',
+            'alamat' => 'Jl. Sam Ratulangi No. 15, Jayapura',
+            'no_telp' => '081234567005'
+        ],
+        '9104025209000006' => [
+            'nik' => '9104025209000006',
+            'nama' => 'Salsabilla Anjani Rizki',
+            'jenis_kelamin' => 'Perempuan',
+            'gender_fhir' => 'female',
+            'tgl_lahir' => '2001-04-16',
+            'ihs_number' => 'P02280547535',
+            'alamat' => 'Jl. Diponegoro No. 88, Biak',
+            'no_telp' => '081234567006'
+        ],
+        '9201076001000007' => [
+            'nik' => '9201076001000007',
+            'nama' => 'Theodore Elisjah',
+            'jenis_kelamin' => 'Perempuan',
+            'gender_fhir' => 'female',
+            'tgl_lahir' => '1985-09-18',
+            'ihs_number' => 'P01836748436',
+            'alamat' => 'Jl. Trikora No. 25, Manokwari',
+            'no_telp' => '081234567007'
+        ],
+        '9201394901000008' => [
+            'nik' => '9201394901000008',
+            'nama' => 'Sonia Herdianti',
+            'jenis_kelamin' => 'Perempuan',
+            'gender_fhir' => 'female',
+            'tgl_lahir' => '1996-06-08',
+            'ihs_number' => 'P00883356749',
+            'alamat' => 'Jl. Ahmad Yani No. 10, Sorong',
+            'no_telp' => '081234567008'
+        ],
+        '9201076407000009' => [
+            'nik' => '9201076407000009',
+            'nama' => 'Nancy Wang',
+            'jenis_kelamin' => 'Perempuan',
+            'gender_fhir' => 'female',
+            'tgl_lahir' => '1955-10-10',
+            'ihs_number' => 'P01058987035',
+            'alamat' => 'Jl. Yos Sudarso No. 4, Merauke',
+            'no_telp' => '081234567009'
+        ],
+        '9210080207000010' => [
+            'nik' => '9210080207000010',
+            'nama' => 'Syarif Muhammad',
+            'jenis_kelamin' => 'Laki-laki',
+            'gender_fhir' => 'male',
+            'tgl_lahir' => '1988-11-02',
+            'ihs_number' => 'P02428473601',
+            'alamat' => 'Jl. Hasanuddin No. 31, Fakfak',
+            'no_telp' => '081234567010'
         ],
         '3515012345670001' => [
             'nik' => '3515012345670001',
@@ -125,7 +186,8 @@ class SatuSehatService
 
         return Cache::remember('satusehat_access_token', 2400, function () {
             try {
-                $response = Http::asForm()
+                $response = Http::withoutVerifying()
+                    ->asForm()
                     ->timeout(6)
                     ->post("{$this->authUrl}/accesstoken?grant_type=client_credentials", [
                         'client_id' => $this->clientId,
@@ -155,12 +217,14 @@ class SatuSehatService
     public function getPatientByNik(string $nik): array
     {
         $nik = trim($nik);
+        $dummy = $this->dummyPatients[$nik] ?? null;
 
-        // 1. Coba hubungi Live API SATUSEHAT jika kredensial tersedia
+        // 1. Hubungi Live API SATUSEHAT Sandbox
         $token = $this->getAccessToken();
         if ($token) {
             try {
-                $response = Http::withToken($token)
+                $response = Http::withoutVerifying()
+                    ->withToken($token)
                     ->timeout(6)
                     ->get("{$this->fhirUrl}/Patient", [
                         'identifier' => "https://fhir.kemkes.go.id/id/nik|{$nik}"
@@ -171,12 +235,18 @@ class SatuSehatService
                     if (!empty($bundle['entry']) && count($bundle['entry']) > 0) {
                         $resource = $bundle['entry'][0]['resource'] ?? [];
                         if (!empty($resource)) {
-                            $ihs = $resource['id'] ?? '';
-                            $nama = $resource['name'][0]['text'] ?? '';
-                            $gender = ($resource['gender'] ?? '') === 'female' ? 'Perempuan' : 'Laki-laki';
-                            $tglLahir = $resource['birthDate'] ?? '';
-                            $alamat = $resource['address'][0]['text'] ?? ($resource['address'][0]['line'][0] ?? '');
-                            $telp = $resource['telecom'][0]['value'] ?? '';
+                            $ihs = $resource['id'] ?? ($dummy['ihs_number'] ?? '');
+                            $liveNama = $resource['name'][0]['text'] ?? '';
+                            
+                            // Jika live nama disensor oleh Kemenkes (mengandung bintang '*'), gunakan nama lengkap resmi dari katalog dummy Kemenkes
+                            $nama = (!empty($dummy['nama']) && (empty($liveNama) || strpos($liveNama, '*') !== false))
+                                ? $dummy['nama']
+                                : ($liveNama ?: ($dummy['nama'] ?? 'Pasien Terdaftar'));
+
+                            $gender = ($resource['gender'] ?? '') === 'female' ? 'Perempuan' : (($resource['gender'] ?? '') === 'male' ? 'Laki-laki' : ($dummy['jenis_kelamin'] ?? 'Laki-laki'));
+                            $tglLahir = $resource['birthDate'] ?? ($dummy['tgl_lahir'] ?? '');
+                            $alamat = $resource['address'][0]['text'] ?? ($resource['address'][0]['line'][0] ?? ($dummy['alamat'] ?? ''));
+                            $telp = $resource['telecom'][0]['value'] ?? ($dummy['no_telp'] ?? '');
 
                             return [
                                 'found' => true,
@@ -200,8 +270,8 @@ class SatuSehatService
             }
         }
 
-        // 2. Jika Live API tidak mengembalikan hasil, cocokkan dengan Katalog Data Dummy Resmi Kemenkes
-        if (isset($this->dummyPatients[$nik])) {
+        // 2. Jika Live API tidak mengembalikan hasil (atau NIK dalam katalog 10 dummy resmi Kemenkes)
+        if ($dummy) {
             $dummy = $this->dummyPatients[$nik];
 
             // Buat representasi resmi FHIR Resource Patient R4
@@ -324,7 +394,8 @@ class SatuSehatService
         $token = $this->getAccessToken();
         if ($token) {
             try {
-                $response = Http::withToken($token)
+                $response = Http::withoutVerifying()
+                    ->withToken($token)
                     ->timeout(6)
                     ->post("{$this->fhirUrl}/Encounter", $fhirEncounter);
 
@@ -443,7 +514,8 @@ class SatuSehatService
         $token = $this->getAccessToken();
         if ($token) {
             try {
-                $response = Http::withToken($token)
+                $response = Http::withoutVerifying()
+                    ->withToken($token)
                     ->timeout(6)
                     ->post("{$this->fhirUrl}/Observation", $fhirObservation);
 
@@ -523,7 +595,8 @@ class SatuSehatService
         $token = $this->getAccessToken();
         if ($token) {
             try {
-                $response = Http::withToken($token)
+                $response = Http::withoutVerifying()
+                    ->withToken($token)
                     ->timeout(6)
                     ->post("{$this->fhirUrl}/Condition", $fhirCondition);
 
